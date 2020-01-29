@@ -40,7 +40,7 @@ const SubMenu = {
     openKeys: PropTypes.array.def([]),
     openChange: PropTypes.func.def(noop),
     rootPrefixCls: PropTypes.string,
-    eventKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    eventKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
     multiple: PropTypes.bool,
     active: PropTypes.bool, // TODO: remove
     isRootMenu: PropTypes.bool.def(false),

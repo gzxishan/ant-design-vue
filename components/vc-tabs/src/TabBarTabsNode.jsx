@@ -8,7 +8,7 @@ export default {
   name: 'TabBarTabsNode',
   mixins: [BaseMixin],
   props: {
-    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    activeKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
     panels: PropTypes.any.def([]),
     prefixCls: PropTypes.string.def(''),
     tabBarGutter: PropTypes.any.def(null),

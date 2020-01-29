@@ -9,7 +9,7 @@ import { getComponentFromProp } from '../_util/props-util';
 const props = {
   attribute: PropTypes.object,
   rootPrefixCls: PropTypes.string,
-  eventKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  eventKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
   active: PropTypes.bool,
   selectedKeys: PropTypes.array,
   disabled: PropTypes.bool,

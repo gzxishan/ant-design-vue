@@ -84,7 +84,7 @@ export default {
     saveRef: PropTypes.func.def(() => {}),
     getRef: PropTypes.func.def(() => {}),
     panels: PropTypes.array,
-    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    activeKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
   },
   updated() {
     this.$nextTick(function() {

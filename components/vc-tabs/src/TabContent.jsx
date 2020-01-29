@@ -15,7 +15,7 @@ export default {
       default: 'ant-tabs',
       type: String,
     },
-    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    activeKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
     tabBarPosition: String,
   },
   computed: {

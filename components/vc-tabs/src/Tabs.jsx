@@ -39,8 +39,8 @@ export default {
     children: PropTypes.any.def([]),
     prefixCls: PropTypes.string.def('ant-tabs'),
     tabBarPosition: PropTypes.string.def('top'),
-    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    defaultActiveKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    activeKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
+    defaultActiveKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
     __propsSymbol__: PropTypes.any,
   },
   data() {

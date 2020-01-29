@@ -17,8 +17,8 @@ export default {
   },
   props: {
     prefixCls: PropTypes.string,
-    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    defaultActiveKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    activeKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
+    defaultActiveKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
     hideAdd: PropTypes.bool.def(false),
     tabBarStyle: PropTypes.object,
     tabBarExtraContent: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.func]),
