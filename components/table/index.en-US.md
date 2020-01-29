@@ -1,3 +1,40 @@
+```jsx
+const dataSource = [
+  {
+    key: '1',
+    name: 'Mike',
+    age: 32,
+    address: '10 Downing Street',
+  },
+  {
+    key: '2',
+    name: 'John',
+    age: 42,
+    address: '10 Downing Street',
+  },
+];
+
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Age',
+    dataIndex: 'age',
+    key: 'age',
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
+  },
+];
+
+<Table dataSource={dataSource} columns={columns} />;
+```
+
 ## API
 
 ### Table
@@ -17,9 +54,9 @@
 | expandRowByClick | Whether to expand row by clicking anywhere in the whole row | boolean | `false` |
 | footer | Table footer renderer | Function(currentPageData)\|slot-scope |  |
 | indentSize | Indent size in pixels of tree data | number | 15 |
-| loading | Loading status of table | boolean\|[object](/components/spin) | `false` |
+| loading | Loading status of table | boolean\|[object](#/components/spin) | `false` |
 | locale | i18n text including filter, sort, empty text, etc | object | filterConfirm: 'Ok' <br> filterReset: 'Reset' <br> emptyText: 'No Data' |
-| pagination | Config of pagination. You can ref table pagination [config](#pagination) or full [`pagination`](/components/pagination/) document, hide it by setting it to `false` | object |  |
+| pagination | Config of pagination. You can ref table pagination [config](#pagination) or full [`pagination`](#/components/pagination/) document, hide it by setting it to `false` | object |  |
 | rowClassName | Row's className | Function(record, index):string | - |
 | rowKey | Row's unique key, could be a string or function that returns a string | string\|Function(record, index):string | `key` |
 | rowSelection | Row selection [config](#rowSelection) | object | null |
@@ -114,7 +151,7 @@ Properties for pagination.
 | -------- | ------------------------------------ | --------------------------- | -------- |
 | position | specify the position of `Pagination` | 'top' \| 'bottom' \| 'both' | 'bottom' |
 
-More about pagination, please check [`Pagination`](/components/pagination/).
+More about pagination, please check [`Pagination`](#/components/pagination/).
 
 ### rowSelection
 

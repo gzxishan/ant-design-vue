@@ -7,9 +7,9 @@
 | form | 经 `Form.create()` 包装过的组件会自带 `this.form` 属性，如果使用 template 语法，可以使用 this.\$form.createForm(this, options) | object | 无 |
 | hideRequiredMark | 隐藏所有表单项的必选标记 | Boolean | false |
 | layout | 表单布局 | 'horizontal'\|'vertical'\|'inline' | 'horizontal' |
-| labelCol | label 标签布局，同 `<Col>` 组件，设置 `span` `offset` 值，如 `{span: 3, offset: 12}` 或 `sm: {span: 3, offset: 12}` | [object](/components/grid-cn/#Col) |  |
-| wrapperCol | 需要为输入控件设置布局样式时，使用该属性，用法同 labelCol | [object](/components/grid-cn/#Col) |  |
-| selfUpdate | 自定义字段更新逻辑，说明[见下](/components/form-cn/#selfUpdate)，需 1.3.17 版本以上 | boolean | false |
+| labelCol | label 标签布局，同 `<Col>` 组件，设置 `span` `offset` 值，如 `{span: 3, offset: 12}` 或 `sm: {span: 3, offset: 12}` | [object](#/components/grid-cn/#Col) |  |
+| wrapperCol | 需要为输入控件设置布局样式时，使用该属性，用法同 labelCol | [object](#/components/grid-cn/#Col) |  |
+| selfUpdate | 自定义字段更新逻辑，说明[见下](#/components/form-cn/#selfUpdate)，需 1.3.17 版本以上 | boolean | false |
 
 ### 事件
 
@@ -178,11 +178,11 @@ validateFields(['field1', 'field2'], options, (errors, values) => {
 | hasFeedback | 配合 validateStatus 属性使用，展示校验状态图标，建议只配合 Input 组件使用 | boolean | false |
 | help | 提示信息，如不设置，则会根据校验规则自动生成 | string\|slot |  |
 | label | label 标签的文本 | string\|slot |  |
-| labelCol | label 标签布局，同 `<Col>` 组件，设置 `span` `offset` 值，如 `{span: 3, offset: 12}` 或 `sm: {span: 3, offset: 12}` | [object](/components/grid-cn/#Col) |  |
+| labelCol | label 标签布局，同 `<Col>` 组件，设置 `span` `offset` 值，如 `{span: 3, offset: 12}` 或 `sm: {span: 3, offset: 12}` | [object](#/components/grid-cn/#Col) |  |
 | required | 是否必填，如不设置，则会根据校验规则自动生成 | boolean | false |
 | validateStatus | 校验状态，如不设置，则会根据校验规则自动生成，可选：'success' 'warning' 'error' 'validating' | string |  |
-| wrapperCol | 需要为输入控件设置布局样式时，使用该属性，用法同 labelCol | [object](/components/grid-cn/#Col) |  |
-| selfUpdate | 自定义字段更新逻辑，你可以通过 Form 的 selfUpdate 进行统一设置。当和 Form 同时设置时，以 Item 为准。 说明[见下](/components/form-cn/#selfUpdate) 需 1.3.17 版本以上 | boolean | false |
+| wrapperCol | 需要为输入控件设置布局样式时，使用该属性，用法同 labelCol | [object](#/components/grid-cn/#Col) |  |
+| selfUpdate | 自定义字段更新逻辑，你可以通过 Form 的 selfUpdate 进行统一设置。当和 Form 同时设置时，以 Item 为准。 说明[见下](#/components/form-cn/#selfUpdate) 需 1.3.17 版本以上 | boolean | false |
 
 ### 校验规则
 

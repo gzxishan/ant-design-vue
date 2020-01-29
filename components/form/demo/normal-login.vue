@@ -69,6 +69,11 @@ export default {
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: 'normal_login' });
   },
+  mounted(){
+  	this.form.setFieldsValue({
+  		remember:false
+  	});
+  },
   methods: {
     handleSubmit(e) {
       e.preventDefault();

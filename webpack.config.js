@@ -1,13 +1,17 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base.config');
+const pkgConfig = require('./package');
+
+const VERSION=pkgConfig.version;
 
 module.exports = merge(baseWebpackConfig, {
   mode: 'development',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/',
+    publicPath: `/ant-design-vue/${VERSION}/`,
     filename: 'build.js',
   },
   module: {
@@ -31,7 +35,9 @@ module.exports = merge(baseWebpackConfig, {
   },
   devServer: {
     port: 3000,
-    host: '0.0.0.0',
+    host: '127.0.0.1',
+    publicPath:`/ant-design-vue/${VERSION}/`,
+    openPage:`ant-design-vue/${VERSION}/`,
     historyApiFallback: {
       rewrites: [{ from: /./, to: '/index.html' }],
     },
@@ -43,6 +49,11 @@ module.exports = merge(baseWebpackConfig, {
   },
   devtool: '#source-map',
   plugins: [
+  	new webpack.DefinePlugin({
+      'process.env': {
+        VERSION:`"${VERSION}"`
+      },
+    }),
     new HtmlWebpackPlugin({
       template: 'site/index.html',
       filename: 'index.html',

@@ -51,6 +51,7 @@
 
 | 参数     | 说明       | 类型         | 默认值 |
 | -------- | ---------- | ------------ | ------ |
+| forceMenuItemRender | 在菜单项展示之前就渲染进 DOM | boolean | false |
 | disabled | 是否禁用   | boolean      | false  |
 | key      | 唯一标志   | string       |        |
 | title    | 子菜单项值 | string\|slot |        |

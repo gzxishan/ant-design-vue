@@ -52,6 +52,7 @@
 
 | Param    | Description                         | Type         | Default value |
 | -------- | ----------------------------------- | ------------ | ------------- |
+| forceMenuItemRender | render menuitem into DOM before it shows | boolean | false |
 | disabled | whether sub menu is disabled or not | boolean      | false         |
 | key      | unique id of the sub menu           | string       |               |
 | title    | title of the sub menu               | string\|slot |               |

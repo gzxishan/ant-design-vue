@@ -49,6 +49,7 @@ const SubMenu = {
     popupClassName: PropTypes.string,
     getPopupContainer: PropTypes.func,
     forceSubMenuRender: PropTypes.bool,
+    forceMenuItemRender:PropTypes.bool,
     openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     disabled: PropTypes.bool,
     subMenuOpenDelay: PropTypes.number.def(0.1),
@@ -331,9 +332,12 @@ const SubMenu = {
       popupMenu.style.minWidth = `${this.$refs.subMenuTitle.offsetWidth}px`;
     },
 
-    renderChildren(children) {
+    renderChildren(children,forceSubMenuRender) {
       const props = this.$props;
+      
       const { select, deselect, openChange } = this.$listeners;
+      //const forceSubMenuRender=props.forceSubMenuRender===undefined?this.forceSubMenuRender:props.forceSubMenuRender;
+      //console.log("forceSubMenuRender 1:",this.forceSubMenuRender,forceSubMenuRender);
       const subPopupMenuProps = {
         props: {
           mode: props.mode === 'horizontal' ? 'vertical' : props.mode,
@@ -349,7 +353,7 @@ const SubMenu = {
           subMenuOpenDelay: props.subMenuOpenDelay,
           parentMenu: this,
           subMenuCloseDelay: props.subMenuCloseDelay,
-          forceSubMenuRender: props.forceSubMenuRender,
+          forceSubMenuRender,
           triggerSubMenuAction: props.triggerSubMenuAction,
           builtinPlacements: props.builtinPlacements,
           defaultActiveFirst: props.store.getState().defaultActiveFirst[
@@ -495,7 +499,18 @@ const SubMenu = {
         {icon || <i class={`${prefixCls}-arrow`} />}
       </div>
     );
-    const children = this.renderChildren(filterEmpty(this.$slots.default));
+    let forceSubMenuRender=false;
+    if(this.forceMenuItemRender!==undefined){
+    	forceSubMenuRender=this.forceMenuItemRender;
+    }else if(this.forceSubMenuRender!==undefined){
+    	forceSubMenuRender=this.forceSubMenuRender;
+    }else if(props.forceSubMenuRender!==undefined){
+    	forceSubMenuRender=props.forceSubMenuRender;
+    }else if(this.parentMenu.forceSubMenuRender!==undefined){
+    	forceSubMenuRender=this.parentMenu.forceSubMenuRender;
+    }
+    
+    const children = this.renderChildren(filterEmpty(this.$slots.default),forceSubMenuRender);
 
     const getPopupContainer = this.parentMenu.isRootMenu
       ? this.parentMenu.getPopupContainer
@@ -507,7 +522,8 @@ const SubMenu = {
       on: { ...omit($listeners, ['click']), ...mouseEvents },
       class: className,
     };
-
+   
+    //console.log("forceSubMenuRender 2:",this.forceSubMenuRender,forceSubMenuRender);
     return (
       <li {...liProps} role="menuitem">
         {isInlineMode && title}
@@ -528,7 +544,7 @@ const SubMenu = {
             mouseEnterDelay={props.subMenuOpenDelay}
             mouseLeaveDelay={props.subMenuCloseDelay}
             onPopupVisibleChange={this.onPopupVisibleChange}
-            forceRender={props.forceSubMenuRender}
+            forceRender={true}
             // popupTransitionName='rc-menu-open-slide-up'
             // popupAnimation={transitionProps}
           >

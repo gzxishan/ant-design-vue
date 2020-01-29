@@ -4,11 +4,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base.config');
+const pkgConfig = require('./package');
+
+const VERSION=pkgConfig.version;
 
 module.exports = merge(baseWebpackConfig, {
   output: {
     path: path.resolve(__dirname, './_site'),
-    publicPath: '/',
+    publicPath: `/ant-design-vue/${VERSION}/`,
     filename: '[name].[contenthash:8].js',
     chunkFilename: '[contenthash:8].async.js',
   },
@@ -52,6 +55,7 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"',
+        VERSION:`"${VERSION}"`
       },
     }),
     new HtmlWebpackPlugin({

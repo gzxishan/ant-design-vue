@@ -14,6 +14,7 @@
 | size | width of input box | string | - |
 | step | The number to which the current value is increased or decreased. It can be an integer or decimal. | number\|string | 1 |
 | value(v-model) | current value | number |  |
+| maxlength | max count of chars | string\|number |  |
 
 ### events
 

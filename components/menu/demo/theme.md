@@ -22,7 +22,7 @@ There are two built-in themes: 'light' and 'dark'. The default value is 'light'.
     <a-menu
       style="width: 256px"
       :defaultSelectedKeys="['1']"
-      :defaultOpenKeys="['sub1']"
+      :xdefaultOpenKeys="['sub1']"
       mode="inline"
       :theme="theme"
       :selectedKeys="[current]"
@@ -36,11 +36,11 @@ There are two built-in themes: 'light' and 'dark'. The default value is 'light'.
         <a-icon type="calendar" />
         Navigation Two
       </a-menu-item>
-      <a-sub-menu key="sub1">
+      <a-sub-menu :forceMenuItemRender="true" key="sub1">
         <span slot="title"><a-icon type="appstore" /><span>Navigation Three</span></span>
         <a-menu-item key="3">Option 3</a-menu-item>
         <a-menu-item key="4">Option 4</a-menu-item>
-        <a-sub-menu key="sub1-2" title="Submenu">
+        <a-sub-menu  key="sub1-2" title="Submenu">
           <a-menu-item key="5">Option 5</a-menu-item>
           <a-menu-item key="6">Option 6</a-menu-item>
         </a-sub-menu>

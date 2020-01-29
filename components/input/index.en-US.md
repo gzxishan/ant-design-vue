@@ -15,6 +15,7 @@
 | type | The type of input, see: [MDN](https://developer.mozilla.org/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)(use `Input.TextArea` instead of `type="textarea"`) | string | `text` |
 | value(v-model) | The input content value | string |  |
 | allowClear | allow to remove input content with clear icon | boolean |  |
+| maxlength | max count of chars | string\|number |  |
 
 ### Input Events
 

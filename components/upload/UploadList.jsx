@@ -82,10 +82,10 @@ export default {
         file.thumbUrl = '';
         /*eslint -enable */
         previewFile(file.originFileObj, previewDataUrl => {
-          // Need append '' to avoid dead loop
-          file.thumbUrl = previewDataUrl || '';
-          /*eslint -enable */
-          this.$forceUpdate();
+          /*eslint-disable */
+          file.thumbUrl = previewDataUrl;
+          /*eslint -enable todo */
+          // this.forceUpdate()
         });
       });
     });

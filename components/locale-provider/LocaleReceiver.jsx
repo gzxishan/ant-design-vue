@@ -13,8 +13,10 @@ export default {
   methods: {
     getLocale() {
       const { componentName, defaultLocale } = this;
-      const locale = defaultLocale || defaultLocaleData[componentName || 'global'];
+      ////const locale = defaultLocale || defaultLocaleData[componentName || 'global'];
+      ////const { antLocale } = this.localeData;
       const { antLocale } = this.localeData;
+      const locale =antLocale ? defaultLocale || defaultLocaleData[componentName || 'global']:defaultLocaleData[componentName || 'global'] || defaultLocale;
 
       const localeFromContext = componentName && antLocale ? antLocale[componentName] : {};
       return {
@@ -27,8 +29,11 @@ export default {
       const { antLocale } = this.localeData;
       const localeCode = antLocale && antLocale.locale;
       // Had use LocaleProvide but didn't set locale
-      if (antLocale && antLocale.exist && !localeCode) {
-        return defaultLocaleData.locale;
+      ////if (antLocale && antLocale.exist && !localeCode) {
+      ////  return defaultLocaleData.locale;
+      ////}
+      if (antLocale && antLocale.exist && !localeCode||!antLocale) {
+	  		return defaultLocaleData.locale;
       }
       return localeCode;
     },

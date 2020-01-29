@@ -16,6 +16,7 @@
 | size | 输入框大小 | string | 无 |
 | step | 每次改变步数，可以为小数 | number\|string | 1 |
 | value(v-model) | 当前值 | number |  |
+| maxlength | 最多输入的字符数量 | string\|number |  |
 
 ### 事件
 

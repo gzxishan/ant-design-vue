@@ -40,10 +40,7 @@ describe('CheckboxGroup', () => {
   it('does not trigger onChange callback of both Checkbox and CheckboxGroup when CheckboxGroup is disabled', () => {
     const onChangeGroup = jest.fn();
 
-    const options = [
-      { label: 'Apple', value: 'Apple' },
-      { label: 'Pear', value: 'Pear' },
-    ];
+    const options = [{ label: 'Apple', value: 'Apple' }, { label: 'Pear', value: 'Pear' }];
 
     const groupWrapper = mount(
       {
@@ -98,10 +95,7 @@ describe('CheckboxGroup', () => {
   });
 
   it('passes prefixCls down to checkbox', () => {
-    const options = [
-      { label: 'Apple', value: 'Apple' },
-      { label: 'Orange', value: 'Orange' },
-    ];
+    const options = [{ label: 'Apple', value: 'Apple' }, { label: 'Orange', value: 'Orange' }];
 
     const wrapper = mount({
       render() {
@@ -112,10 +106,7 @@ describe('CheckboxGroup', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
   it('should be controlled by value', async () => {
-    const options = [
-      { label: 'Apple', value: 'Apple' },
-      { label: 'Orange', value: 'Orange' },
-    ];
+    const options = [{ label: 'Apple', value: 'Apple' }, { label: 'Orange', value: 'Orange' }];
 
     const wrapper = mount(Checkbox.Group, {
       propsData: { options },

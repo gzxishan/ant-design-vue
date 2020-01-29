@@ -78,6 +78,7 @@ export default {
       popupClassName: '',
       popupStyle: {},
       align: {},
+      id: '',
       allowEmpty: true,
       showHour: true,
       showMinute: true,

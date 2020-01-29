@@ -10,6 +10,6 @@ Basic usage example.
 
 ```tpl
 <template>
-  <a-input placeholder="Basic usage" />
+  <a-input placeholder="Basic usage" :maxlength="10" />
 </template>
 ```

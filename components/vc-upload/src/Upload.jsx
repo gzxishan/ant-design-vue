@@ -58,6 +58,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       if (this.supportServerRender) {
+        /* eslint react/no-did-mount-set-state:0 */
         this.setState(
           {
             Component: this.getComponent(),

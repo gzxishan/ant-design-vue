@@ -5,6 +5,7 @@ export default {
   defaultValue: [String, Number],
   value: [String, Number],
   placeholder: [String, Number],
+  maxlength:[String,Number],
   type: {
     default: 'text',
     type: String,

@@ -26,4 +26,4 @@ To get a customized button, just set `type`/`shape`/`size`/`loading`/`disabled`.
 
 ### How to remove space between 2 chinese characters
 
-Use [ConfigProvider](/components/config-provider/#API) to set `autoInsertSpaceInButton` as `false`.
+Use [ConfigProvider](#/components/config-provider/#API) to set `autoInsertSpaceInButton` as `false`.

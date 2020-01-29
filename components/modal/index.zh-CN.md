@@ -18,8 +18,8 @@
 | maskStyle | 遮罩样式 | object | {} |
 | okText | 确认按钮文字 | string\|slot | 确定 |
 | okType | 确认按钮类型 | string | primary |
-| okButtonProps | ok 按钮 props, 遵循 jsx[规范](https://github.com/vuejs/babel-plugin-transform-vue-jsx#difference-from-react-jsx) | {props: [ButtonProps](/components/button/#API), on: {}} | - |
-| cancelButtonProps | cancel 按钮 props, 遵循 jsx[规范](https://github.com/vuejs/babel-plugin-transform-vue-jsx#difference-from-react-jsx) | {props: [ButtonProps](/components/button/#API), on: {}} | - |
+| okButtonProps | ok 按钮 props, 遵循 jsx[规范](https://github.com/vuejs/babel-plugin-transform-vue-jsx#difference-from-react-jsx) | {props: [ButtonProps](#/components/button/#API), on: {}} | - |
+| cancelButtonProps | cancel 按钮 props, 遵循 jsx[规范](https://github.com/vuejs/babel-plugin-transform-vue-jsx#difference-from-react-jsx) | {props: [ButtonProps](#/components/button/#API), on: {}} | - |
 | title | 标题 | string\|slot | 无 |
 | visible(v-model) | 对话框是否可见 | boolean | 无 |
 | width | 宽度 | string\|number | 520 |
@@ -64,8 +64,8 @@
 | keyboard | 是否支持键盘 esc 关闭 | boolean | true |
 | okText | 确认按钮文字 | string | 确定 |
 | okType | 确认按钮类型 | string | primary |
-| okButtonProps | ok 按钮 props | [ButtonProps](/components/button) | - |
-| cancelButtonProps | cancel 按钮 props | [ButtonProps](/components/button) | - |
+| okButtonProps | ok 按钮 props | [ButtonProps](#/components/button) | - |
+| cancelButtonProps | cancel 按钮 props | [ButtonProps](#/components/button) | - |
 | title | 标题 | string\|vNode \|function(h) | 无 |
 | width | 宽度 | string\|number | 416 |
 | zIndex | 设置 Modal 的 `z-index` | Number | 1000 |

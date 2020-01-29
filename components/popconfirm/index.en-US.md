@@ -16,7 +16,7 @@
 | confirm | callback of confirmation | function(e) | - |
 | visibleChange | Callback executed when visibility of the tooltip card is changed | function(visible) | - |
 
-Consult [Tooltip's documentation](/components/tooltip/#API) to find more APIs.
+Consult [Tooltip's documentation](#/components/tooltip/#API) to find more APIs.
 
 ## Note
 

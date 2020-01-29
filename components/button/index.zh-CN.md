@@ -28,4 +28,4 @@
 
 ### 如何移除 2 个汉字之间的空格
 
-设置 [ConfigProvider](/components/config-provider/#API) 的 `autoInsertSpaceInButton` 为 `false`。
+设置 [ConfigProvider](#/components/config-provider/#API) 的 `autoInsertSpaceInButton` 为 `false`。

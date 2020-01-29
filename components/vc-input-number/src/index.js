@@ -37,6 +37,7 @@ const isValidProps = value => value !== undefined && value !== null;
 
 const inputNumberProps = {
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  maxlength:PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   defaultValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   focusOnUpDown: PropTypes.bool,
   autoFocus: PropTypes.bool,
@@ -599,7 +600,9 @@ export default {
       autoComplete,
       upHandler,
       downHandler,
+      maxlength,
     } = this.$props;
+    
     const classes = classNames({
       [prefixCls]: true,
       [`${prefixCls}-disabled`]: disabled,
@@ -710,6 +713,7 @@ export default {
       on: downEvents,
       ref: 'down',
     };
+
     // ref for test
     return (
       <div {...contentProps}>
@@ -752,7 +756,7 @@ export default {
             onBlur={this.onBlur}
             onKeydown={editable ? this.onKeyDown : noop}
             onKeyup={editable ? this.onKeyUp : noop}
-            maxLength={this.maxLength}
+            maxlength={maxlength}
             readOnly={this.readOnly}
             disabled={this.disabled}
             max={this.max}

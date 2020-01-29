@@ -61,7 +61,7 @@ The following APIs are shared by DatePicker, MonthPicker, RangePicker, WeekPicke
 | disabledTime | to specify the time that cannot be selected | function(date) | - |
 | format | to set the date format, refer to [moment.js](http://momentjs.com/) | string | "YYYY-MM-DD" |
 | renderExtraFooter | render extra footer in panel by setting a scoped slot | slot="renderExtraFooter" slot-scope="mode" | - |
-| showTime | to provide an additional time selection | object\|boolean | [TimePicker Options](/components/time-picker/#API) |
+| showTime | to provide an additional time selection | object\|boolean | [TimePicker Options](#/components/time-picker/#API) |
 | showTime.defaultValue | to set default time of selected date | [moment](http://momentjs.com/) | moment() |
 | showToday | whether to show "Today" button | boolean | true |
 | value(v-model) | to set date | [moment](http://momentjs.com/) | - |
@@ -117,7 +117,7 @@ The following APIs are shared by DatePicker, MonthPicker, RangePicker, WeekPicke
 | format | to set the date format | string | "YYYY-MM-DD HH:mm:ss" |
 | ranges | preseted ranges for quick selection | { \[range: string]: [moment](http://momentjs.com/)\[] } \| { \[range: string]: () => [moment](http://momentjs.com/)\[] } | - |
 | renderExtraFooter | render extra footer in panel by setting a scoped slot | slot="renderExtraFooter" slot-scope="mode" | - |
-| showTime | to provide an additional time selection | object\|boolean | [TimePicker Options](/components/time-picker/#API) |
+| showTime | to provide an additional time selection | object\|boolean | [TimePicker Options](#/components/time-picker/#API) |
 | showTime.defaultValue | to set default time of selected date, [demo](https://antdv.com/components/date-picker/#components-date-picker-demo-disabled-date) | [moment](http://momentjs.com/)\[] | \[moment(), moment()] |
 | value(v-model) | to set date | \[[moment](http://momentjs.com/), [moment](http://momentjs.com/)] | - |
 

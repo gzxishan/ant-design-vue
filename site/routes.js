@@ -103,8 +103,8 @@ export default [
         path: 'docs/vue/changelog-cn',
         component: () => import('../CHANGELOG.zh-CN.md'),
       },
-      { path: '', redirect: '/vue/docs/introduce/' },
+      { path: '', redirect: 'docs/vue/introduce-cn/' },
     ],
   },
-  { path: '/*', redirect: '/docs/vue/introduce/' },
+  { path: '/*', redirect: 'docs/vue/introduce-cn/' },
 ];

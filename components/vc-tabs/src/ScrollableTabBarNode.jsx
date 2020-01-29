@@ -72,6 +72,7 @@ export default {
         return;
       }
       // wait next, prev show hide
+      /* eslint react/no-did-update-set-state:0 */
       if (this.isNextPrevShown(this.$data) !== this.isNextPrevShown(this.setNextPrev())) {
         this.$forceUpdate();
         this.$nextTick(() => {

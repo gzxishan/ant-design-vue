@@ -129,13 +129,13 @@ export default {
       const lis = [];
       currentSubMenu.forEach(({ cnTitle, usTitle, id }) => {
         const title = isCN ? cnTitle : usTitle;
-        lis.push(<a-anchor-link key={id} href={`#${id}`} title={title} />);
+        lis.push(<a-anchor-link key={id} href={`#${this.$route.path}#${id}`} title={title} />);
       });
       const showApi = this.$route.path.indexOf('/components/') !== -1;
       return (
         <a-anchor offsetTop={100} class="demo-anchor">
           {lis}
-          {showApi ? <a-anchor-link key="API" title="API" href="#api" /> : ''}
+          {showApi ? <a-anchor-link key="API" title="API" href={`#${this.$route.path}#API`} /> : ''}
         </a-anchor>
       );
     },
@@ -296,7 +296,6 @@ export default {
               )}
               <a-col xxl={20} xl={19} lg={19} md={18} sm={24} xs={24}>
                 <section class="main-container main-container-component">
-                  <GoogleAdsTop key={`GoogleAdsTop_${$route.path}`} />
                   {!isMobile ? <CarbonAds /> : null}
                   <GeektimeAds isMobile={isMobile} />
                   {!isMobile ? (

@@ -11,6 +11,7 @@ export const InputNumberProps = {
   min: PropTypes.number,
   max: PropTypes.number,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  maxlength:PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   step: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   defaultValue: PropTypes.number,
   tabIndex: PropTypes.number,

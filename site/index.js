@@ -48,7 +48,8 @@ const i18n = new VueI18n({
 });
 
 const router = new VueRouter({
-  mode: 'history',
+  base:`/ant-design-vue/${process.env.VERSION}/`,
+  mode: 'hash',
   fallback: false,
   routes,
 });
