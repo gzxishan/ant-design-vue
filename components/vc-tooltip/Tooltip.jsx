@@ -25,6 +25,7 @@ export default {
     arrowContent: PropTypes.any.def(null),
     tipId: PropTypes.string,
     builtinPlacements: PropTypes.object,
+    tipClass:PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   },
   methods: {
     getPopupElement() {
@@ -50,6 +51,7 @@ export default {
   render(h) {
     const {
       overlayClassName,
+      tipClass,
       trigger,
       mouseEnterDelay,
       mouseLeaveDelay,
@@ -69,9 +71,11 @@ export default {
     if (hasProp(this, 'visible')) {
       extraProps.popupVisible = this.$props.visible;
     }
+    
     const triggerProps = {
       props: {
         popupClassName: overlayClassName,
+        containerClass:tipClass,
         prefixCls: prefixCls,
         action: trigger,
         builtinPlacements: placements,

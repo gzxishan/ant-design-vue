@@ -394,6 +394,7 @@ const Drawer = {
       // const defaultValue = !this.contentDom || !level ? '100%' : `${value}px`;
       const placementPos = placement === 'left' || placement === 'top' ? '-100%' : '100%';
       const transform = open ? '' : `${placementName}(${placementPos})`;
+      
       if (isOpenChange === undefined || isOpenChange) {
         const contentValue = this.contentDom
           ? this.contentDom.getBoundingClientRect()[isHorizontal ? 'width' : 'height']

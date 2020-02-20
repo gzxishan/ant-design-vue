@@ -31,4 +31,5 @@ export default () => ({
   destroyTooltipOnHide: PropTypes.bool.def(false),
   align: PropTypes.object.def({}),
   builtinPlacements: PropTypes.object,
+  tipClass:PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 });

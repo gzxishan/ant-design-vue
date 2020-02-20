@@ -53,6 +53,18 @@ $ npm install ant-design-vue --save
 $ yarn add ant-design-vue
 ```
 
+### build dist
+
+```bash
+$ npm run dist
+```
+
+### build site
+
+```bash
+$ npm run site
+```
+
 If you are in a bad network environment，you can try other registries and tools like [cnpm](https://github.com/cnpm/cnpm).
 
 ## Links

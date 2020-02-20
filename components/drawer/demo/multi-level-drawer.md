@@ -20,9 +20,10 @@ Open a new drawer on top of an existing drawer to handle multi branch tasks
       :closable="false"
       @close="onClose"
       :visible="visible"
+      placement="left"
     >
       <a-button type="primary" @click="showChildrenDrawer">
-        Two-level drawer
+       open two-level drawer
       </a-button>
       <a-drawer
         title="Two-level Drawer"
@@ -31,9 +32,20 @@ Open a new drawer on top of an existing drawer to handle multi branch tasks
         @close="onChildrenDrawerClose"
         :visible="childrenDrawer"
       >
-        <a-button type="primary" @click="showChildrenDrawer">
-          This is two-level drawer
+        <a-button type="primary" @click="showChildren2Drawer">
+          open three-level drawer
         </a-button>
+         <a-drawer
+	        title="Three-level Drawer"
+	        width="320"
+	        :closable="false"
+	        @close="onChildren2DrawerClose"
+	        :visible="children2Drawer"
+	      >
+	        <a-button type="primary">
+	          This is three-level drawer
+	        </a-button>
+	      </a-drawer>
       </a-drawer>
       <div
         :style="{
@@ -64,6 +76,7 @@ Open a new drawer on top of an existing drawer to handle multi branch tasks
       return {
         visible: false,
         childrenDrawer: false,
+        children2Drawer:false,
       };
     },
     methods: {
@@ -79,6 +92,12 @@ Open a new drawer on top of an existing drawer to handle multi branch tasks
       onChildrenDrawerClose() {
         this.childrenDrawer = false;
       },
+      showChildren2Drawer(){
+      	this.children2Drawer = true;
+      },
+      onChildren2DrawerClose(){
+      	this.children2Drawer = false;
+      }
     },
   };
 </script>

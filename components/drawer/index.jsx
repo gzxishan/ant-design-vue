@@ -50,7 +50,7 @@ const Drawer = {
   },
   updated() {
     this.$nextTick(() => {
-      if (this.preVisible !== this.visible && this.parentDrawer) {
+      if (this.preVisible !== this.visible && this.parentDrawer && this.parentDrawer.placement==this.placement) {
         if (this.visible) {
           this.parentDrawer.push();
         } else {
@@ -99,12 +99,15 @@ const Drawer = {
     },
     // get drawar push width or height
     getPushTransform(placement) {
+    	let translate;
       if (placement === 'left' || placement === 'right') {
-        return `translateX(${placement === 'left' ? 180 : -180}px)`;
+        translate = `translateX(${placement === 'left' ? 180 : -180}px)`;
       }
+      
       if (placement === 'top' || placement === 'bottom') {
-        return `translateY(${placement === 'top' ? 180 : -180}px)`;
+        translate = `translateY(${placement === 'top' ? 180 : -180}px)`;
       }
+      return translate;
     },
     getRcDrawerStyle() {
       const { zIndex, placement } = this.$props;

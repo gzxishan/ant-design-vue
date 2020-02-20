@@ -46,6 +46,7 @@ export default {
     popupStyle: PropTypes.object.def({}),
     prefixCls: PropTypes.string.def('rc-trigger-popup'),
     popupClassName: PropTypes.string.def(''),
+    containerClass:PropTypes.any,
     popupPlacement: PropTypes.string,
     builtinPlacements: PropTypes.object,
     popupTransitionName: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -638,6 +639,7 @@ export default {
         forceRender={forceRender}
         getComponent={this.getComponent}
         getContainer={this.getContainer}
+        containerClass={this.containerClass}
         children={({ renderComponent }) => {
           this.renderComponent = renderComponent;
           return this.trigger;

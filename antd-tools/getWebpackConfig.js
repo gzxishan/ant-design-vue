@@ -156,7 +156,7 @@ function getWebpackConfig(modules) {
       new CaseSensitivePathsPlugin(),
       new webpack.BannerPlugin(`
 ${pkg.name} v${pkg.version}
-
+build time:${new Date().toString()}
 Copyright 2017-present, ant-design-vue.
 All rights reserved.
       `),

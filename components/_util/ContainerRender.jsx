@@ -9,6 +9,7 @@ export default {
     parent: PropTypes.any,
     getComponent: PropTypes.func.isRequired,
     getContainer: PropTypes.func.isRequired,
+    containerClass:PropTypes.any,
     children: PropTypes.func.isRequired,
   },
 
@@ -40,7 +41,7 @@ export default {
     },
 
     renderComponent(props = {}, ready) {
-      const { visible, forceRender, getContainer, parent } = this;
+      const { visible, forceRender, getContainer,containerClass, parent } = this;
       const self = this;
       if (visible || parent.$refs._component || forceRender) {
         let el = this.componentEl;
@@ -50,6 +51,24 @@ export default {
           this.componentEl = el;
           this.container.appendChild(el);
         }
+        
+        if(this.container.setAttribute && this.container.removeAttribute){
+	        let classNames=[];
+		      if(typeof containerClass == "string"){
+		      	classNames.push(containerClass);
+		      }else if(containerClass && typeof containerClass == "object"){
+		      	for(let className in containerClass){
+		      		containerClass[className] && classNames.push(className);
+		      	}
+		      }
+		      
+		      if(!classNames.length){
+		      	this.container.removeAttribute("class");
+		      }else{
+		      	this.container.setAttribute("class",classNames.join(' '));
+		      }
+        }
+        
         if (!this._component) {
           this._component = new this.$root.constructor({
             el: el,

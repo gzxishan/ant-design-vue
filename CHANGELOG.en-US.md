@@ -10,6 +10,21 @@
 
 ---
 
+## 149.0.2
+
+`2020-2-20`
+
+- 🌟 `Slider`add `tooltipClass` attr（relation to `containerClass` attr for `Tooltip`）
+- 🌟 `Tooltip`add `containerClass` attr
+- 🐞 Fix `Drawer` the issue when multiple layers that set translateX or translateY for diffrent `placement` attr
+
+## 149.0.1
+
+`2020-1-29`
+
+- 🌟` Input`series component add `maxlength` attr，limit the max input chars count by native style
+- 🐞 Fix `Menu` issue that could not force render submenu
+
 ## 1.4.9
 
 `2019-12-10`

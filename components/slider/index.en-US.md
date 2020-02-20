@@ -16,6 +16,7 @@
 | value(v-model) | The value of slider. When `range` is `false`, use `number`, otherwise, use `[number, number]` | number\|number\[] |  |
 | vertical | If true, the slider will be vertical. | Boolean | false |
 | tooltipVisible | If true, Tooltip will show always, or it will not show anyway, even if dragging or hovering. | Boolean |  |
+| tooltipClass | set the class of tooltip | String\|Object |  |
 
 ### events
 

@@ -182,6 +182,7 @@ export default {
     const childCls = {
       [openClassName || `${prefixCls}-open`]: true,
     };
+    
     const tooltipProps = {
       props: {
         ...$props,

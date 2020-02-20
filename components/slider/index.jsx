@@ -35,6 +35,7 @@ export const SliderProps = () => ({
   vertical: PropTypes.bool,
   tipFormatter: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   tooltipVisible: PropTypes.bool,
+  tooltipClass:PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 });
 
 const Slider = {
@@ -68,7 +69,7 @@ const Slider = {
       }));
     },
     handleWithTooltip(tooltipPrefixCls, { value, dragging, index, directives, on, ...restProps }) {
-      const { tipFormatter, tooltipVisible } = this.$props;
+      const { tipFormatter, tooltipVisible,tooltipClass} = this.$props;
       const { visibles } = this;
       const isTipFormatter = tipFormatter ? visibles[index] || dragging : false;
       const visible = tooltipVisible || (tooltipVisible === undefined && isTipFormatter);
@@ -79,6 +80,7 @@ const Slider = {
           visible,
           placement: 'top',
           transitionName: 'fade',
+          "tipClass":tooltipClass,
         },
         key: index,
       };

@@ -33,7 +33,7 @@
 
 ## 版本
 
-- 稳定版：[![npm package](https://img.shields.io/npm/v/ant-design-vue.svg?style=flat-square)](https://www.npmjs.org/package/ant-design-vue)
+- 稳定版：[![npm package](https://img.shields.io/npm/v/ant-design-vue.svg?style=flat-square)](https://www.antdv.com/docs/vue/introduce-cn/)
 
 你可以订阅：https://github.com/vueComponent/ant-design-vue/releases.atom 来获得稳定版发布的通知。
 

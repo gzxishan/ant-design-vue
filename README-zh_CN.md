@@ -53,6 +53,19 @@ $ npm install ant-design-vue --save
 $ yarn add ant-design-vue
 ```
 
+### 构建dist
+
+```bash
+$ npm run dist
+```
+
+### 打包site
+
+```bash
+$ npm run site
+```
+
+
 如果你的网络环境不佳，推荐使用 [cnpm](https://github.com/cnpm/cnpm)。
 
 ## 链接

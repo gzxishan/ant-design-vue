@@ -10,6 +10,8 @@ When `tooltipVisible` is `true`, ToolTip will show always, or ToolTip will not s
 
 ```tpl
 <template>
-  <a-slider :defaultValue="30" :tooltipVisible="true" />
+  <a-slider :defaultValue="30" :tooltipVisible="true" :tooltipClass="{
+  	'demo-tooltip':true
+  }" />
 </template>
 ```

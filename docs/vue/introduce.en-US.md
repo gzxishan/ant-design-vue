@@ -33,7 +33,7 @@ Following the Ant Design specification, we developed a Vue UI library `antd` tha
 
 ## Version
 
-- Stable: [![npm package](https://img.shields.io/npm/v/ant-design-vue.svg?style=flat-square)](https://www.npmjs.org/package/ant-design-vue)
+- Stable: [![npm package](https://img.shields.io/npm/v/ant-design-vue.svg?style=flat-square)](https://www.antdv.com/docs/vue/introduce-cn/)
 
 You can subscribe to this feed for new version notifications: https://github.com/vueComponent/ant-design-vue/releases.atom
 
