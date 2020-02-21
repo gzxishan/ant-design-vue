@@ -69,6 +69,14 @@ const CalendarHeader = {
       this.__emit('panelChange', value, 'year');
       this.__emit('valueChange', value);
     },
+    
+		changeYear(direction) {
+      if (direction > 0) {
+        this.nextYear();
+      } else {
+        this.previousYear();
+      }
+    },
 
     monthYearElement(showTimePicker) {
       const props = this.$props;
@@ -158,6 +166,7 @@ const CalendarHeader = {
           cellRender={props.monthCellRender}
           contentRender={props.monthCellContentRender}
           renderFooter={renderFooter}
+          changeYear={this.changeYear}
         />
       );
     }

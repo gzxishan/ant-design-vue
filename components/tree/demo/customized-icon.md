@@ -15,7 +15,7 @@ You can customize icons for different nodes.
     <a-icon slot="smile" type="smile-o" />
     <a-icon slot="meh" type="smile-o" />
     <template slot="custom" slot-scope="{selected}">
-      <a-icon :type="selected ? 'frown':'frown-o'" />
+      <a-icon :type="selected ? 'smile':'frown-o'" />
     </template>
   </a-tree>
 </template>

@@ -10,6 +10,18 @@
 
 ---
 
+## 149.0.3
+
+`2020-2-21`
+
+- 🐞 Fixed the left and right arrows of `MonthPicker` cannot be worked
+- 🐞 Fix style of `Upload` button is misaligned
+- 🐞 Fix `TimePicker` id is not unique
+- 🐞 Fix `Upload` component preview image not refreshing
+- 🐞 Fix `Statistic.Countdown` does not trigger finish event
+- 🐞 Fix `ConfigProvider` component error report error
+- 🌟 Replace this.$listeners of all `Table` components to avoid repeated rendering of components
+
 ## 149.0.2
 
 `2020-2-20`

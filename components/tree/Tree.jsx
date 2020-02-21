@@ -161,19 +161,12 @@ export default {
       return treeData.map(item => {
         const key = item[replaceFields.key];
         const children = item[replaceFields.children];
-        const {
-          on = {},
-          slots = {},
-          scopedSlots = {},
-          class: cls,
-          style,
-          ...restProps
-        } = item;
+        const { on = {}, slots = {}, scopedSlots = {}, class: cls, style, ...restProps } = item;
         const treeNodeProps = {
           ...restProps,
           icon:
             $slots[slots.icon] ||
-            ($scopedSlots[scopedSlots.icon] && $scopedSlots[scopedSlots.icon]) ||
+            ($scopedSlots[scopedSlots.icon] && $scopedSlots[scopedSlots.icon](item)) ||
             restProps.icon,
           title:
             $slots[slots.title] ||

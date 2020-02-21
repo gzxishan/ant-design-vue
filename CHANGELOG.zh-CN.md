@@ -10,6 +10,18 @@
 
 ---
 
+## 149.0.3
+
+`2020-2-21`
+
+- 🐞 修复 `MonthPicker` 左右箭头切换月份失效问题
+- 🐞 修复 `Upload` 按钮样式错位问题
+- 🐞 修复 `TimePicker` id 不唯一问题
+- 🐞 修复 `Upload` 组件预览图片不刷新问题
+- 🐞 修复 `Statistic.Countdown` 不触发 finish 事件的问题
+- 🐞 修复 `ConfigProvider` 组件更改属性时，报错问题
+- 🌟 替换 `Table` 所有组件的 this.$listeners 避免组件重复渲染
+
 ## 149.0.2
 
 `2020-2-20`
