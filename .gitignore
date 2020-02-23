@@ -18,7 +18,6 @@ npm-debug.log
 .gradle/
 build/
 /_site/
-/dist/
 /lib/
 /es/
 /renovate.json
