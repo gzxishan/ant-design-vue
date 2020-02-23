@@ -14,6 +14,10 @@ An enterprise-class UI components based on Ant Design and Vue.
 
 </div>
 
+[Github](https://github.com/gzxishan/ant-design-vue)
+
+[码云](https://gitee.com/xishankeji/ant-design-vue)
+
 [官方项目](https://github.com/vueComponent/ant-design-vue)
 
 English | [简体中文](./README-zh_CN.md) | [官网国内镜像](http://ant-design-vue.gitee.io/docs/vue/introduce-cn/)
