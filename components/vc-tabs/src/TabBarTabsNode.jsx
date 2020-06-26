@@ -8,7 +8,7 @@ export default {
   name: 'TabBarTabsNode',
   mixins: [BaseMixin],
   props: {
-    activeKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
+    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     panels: PropTypes.any.def([]),
     prefixCls: PropTypes.string.def(''),
     tabBarGutter: PropTypes.any.def(null),
@@ -17,6 +17,7 @@ export default {
     getRef: PropTypes.func.def(noop),
     renderTabBarNode: PropTypes.func,
     tabBarPosition: PropTypes.string,
+    direction: PropTypes.string,
   },
   render() {
     const {
@@ -26,6 +27,7 @@ export default {
       tabBarGutter,
       saveRef,
       tabBarPosition,
+      direction,
     } = this.$props;
     const rst = [];
     const renderTabBarNode = this.renderTabBarNode || this.$scopedSlots.renderTabBarNode;
@@ -56,8 +58,9 @@ export default {
       const tab = getComponentFromProp(child, 'tab');
       let gutter = tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter;
       gutter = typeof gutter === 'number' ? `${gutter}px` : gutter;
+      const marginProperty = direction === 'rtl' ? 'marginLeft' : 'marginRight';
       const style = {
-        [isVertical(tabBarPosition) ? 'marginBottom' : 'marginRight']: gutter,
+        [isVertical(tabBarPosition) ? 'marginBottom' : marginProperty]: gutter,
       };
       warning(tab !== undefined, 'There must be `tab` property or slot on children of Tabs.');
       let node = (
@@ -69,7 +72,7 @@ export default {
           class={cls}
           key={key}
           style={style}
-          {...{ directives: directives }}
+          {...{ directives }}
         >
           {tab}
         </div>

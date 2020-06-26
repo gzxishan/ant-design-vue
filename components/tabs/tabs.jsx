@@ -3,8 +3,14 @@ import VcTabs, { TabPane } from '../vc-tabs/src';
 import TabContent from '../vc-tabs/src/TabContent';
 import { isFlexSupported } from '../_util/styleChecker';
 import PropTypes from '../_util/vue-types';
-import { getComponentFromProp, getOptionProps, filterEmpty } from '../_util/props-util';
+import {
+  getComponentFromProp,
+  getOptionProps,
+  filterEmpty,
+  getListeners,
+} from '../_util/props-util';
 import { cloneElement } from '../_util/vnode';
+import isValid from '../_util/isValid';
 import { ConfigConsumerProps } from '../config-provider';
 import TabBar from './TabBar';
 
@@ -17,11 +23,11 @@ export default {
   },
   props: {
     prefixCls: PropTypes.string,
-    activeKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
-    defaultActiveKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
+    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    defaultActiveKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     hideAdd: PropTypes.bool.def(false),
     tabBarStyle: PropTypes.object,
-    tabBarExtraContent: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.func]),
+    tabBarExtraContent: PropTypes.any,
     destroyInactiveTabPane: PropTypes.bool.def(false),
     type: PropTypes.oneOf(['line', 'card', 'editable-card']),
     tabPosition: PropTypes.oneOf(['top', 'right', 'bottom', 'left']).def('top'),
@@ -43,10 +49,9 @@ export default {
   methods: {
     removeTab(targetKey, e) {
       e.stopPropagation();
-      if (!targetKey) {
-        return;
+      if(isValid(targetKey)) {
+        this.$emit('edit', targetKey, 'remove');
       }
-      this.$emit('edit', targetKey, 'remove');
     },
     handleChange(activeKey) {
       this.$emit('change', activeKey);
@@ -139,6 +144,7 @@ export default {
     ) : null;
 
     const renderTabBarSlot = renderTabBar || this.$scopedSlots.renderTabBar;
+    const listeners = getListeners(this);
     const tabBarProps = {
       props: {
         ...this.$props,
@@ -146,7 +152,7 @@ export default {
         tabBarExtraContent,
         renderTabBar: renderTabBarSlot,
       },
-      on: this.$listeners,
+      on: listeners,
     };
     const contentCls = {
       [`${prefixCls}-${tabPosition}-content`]: true,
@@ -157,7 +163,10 @@ export default {
         ...getOptionProps(this),
         prefixCls,
         tabBarPosition: tabPosition,
-        renderTabBar: () => <TabBar {...tabBarProps} />,
+        // https://github.com/vueComponent/ant-design-vue/issues/2030
+        // 如仅传递 tabBarProps 会导致，第二次执行 renderTabBar 时，丢失 on 属性，
+        // 添加key之后，会在babel jsx 插件中做一次merge，最终TabBar接收的是一个新的对象，而不是 tabBarProps
+        renderTabBar: () => <TabBar key="tabBar" {...tabBarProps} />,
         renderTabContent: () => (
           <TabContent class={contentCls} animated={tabPaneAnimated} animatedWithMargin />
         ),
@@ -165,7 +174,7 @@ export default {
         __propsSymbol__: Symbol(),
       },
       on: {
-        ...this.$listeners,
+        ...listeners,
         change: this.handleChange,
       },
       class: cls,

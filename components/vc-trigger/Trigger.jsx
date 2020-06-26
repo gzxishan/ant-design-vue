@@ -1,10 +1,16 @@
 import Vue from 'vue';
 import ref from 'vue-ref';
 import PropTypes from '../_util/vue-types';
-import contains from '../_util/Dom/contains';
-import { hasProp, getComponentFromProp, getEvents, filterEmpty } from '../_util/props-util';
+import contains from '../vc-util/Dom/contains';
+import {
+  hasProp,
+  getComponentFromProp,
+  getDataEvents,
+  filterEmpty,
+  getListeners,
+} from '../_util/props-util';
 import { requestAnimationTimeout, cancelAnimationTimeout } from '../_util/requestAnimationTimeout';
-import addEventListener from '../_util/Dom/addEventListener';
+import addEventListener from '../vc-util/Dom/addEventListener';
 import warning from '../_util/warning';
 import Popup from './Popup';
 import { getAlignFromPlacement, getAlignPopupClassName, noop } from './utils';
@@ -43,10 +49,9 @@ export default {
     // onPopupVisibleChange: PropTypes.func.def(noop),
     afterPopupVisibleChange: PropTypes.func.def(noop),
     popup: PropTypes.any,
-    popupStyle: PropTypes.object.def({}),
+    popupStyle: PropTypes.object.def(() => ({})),
     prefixCls: PropTypes.string.def('rc-trigger-popup'),
     popupClassName: PropTypes.string.def(''),
-    containerClass:PropTypes.any,
     popupPlacement: PropTypes.string,
     builtinPlacements: PropTypes.object,
     popupTransitionName: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -63,7 +68,7 @@ export default {
     mask: PropTypes.bool.def(false),
     maskClosable: PropTypes.bool.def(true),
     // onPopupAlign: PropTypes.func.def(noop),
-    popupAlign: PropTypes.object.def({}),
+    popupAlign: PropTypes.object.def(() => ({})),
     popupVisible: PropTypes.bool,
     defaultPopupVisible: PropTypes.bool.def(false),
     maskTransitionName: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -89,7 +94,13 @@ export default {
     } else {
       popupVisible = !!props.defaultPopupVisible;
     }
+    ALL_HANDLERS.forEach(h => {
+      this[`fire${h}`] = e => {
+        this.fireEvents(h, e);
+      };
+    });
     return {
+      prevPopupVisible: popupVisible,
       sPopupVisible: popupVisible,
       point: null,
     };
@@ -97,24 +108,10 @@ export default {
   watch: {
     popupVisible(val) {
       if (val !== undefined) {
+        this.prevPopupVisible = this.sPopupVisible;
         this.sPopupVisible = val;
       }
     },
-    sPopupVisible(val) {
-      this.$nextTick(() => {
-        this.renderComponent(null, () => {
-          this.afterPopupVisibleChange(this.sPopupVisible);
-        });
-      });
-    },
-  },
-
-  beforeCreate() {
-    ALL_HANDLERS.forEach(h => {
-      this[`fire${h}`] = e => {
-        this.fireEvents(h, e);
-      };
-    });
   },
   deactivated() {
     this.setPopupVisible(false);
@@ -127,6 +124,13 @@ export default {
   },
 
   updated() {
+    const triggerAfterPopupVisibleChange = () => {
+      if (this.sPopupVisible !== this.prevPopupVisible) {
+        this.afterPopupVisibleChange(this.sPopupVisible);
+      }
+      this.prevPopupVisible = this.sPopupVisible;
+    };
+    this.renderComponent(null, triggerAfterPopupVisibleChange);
     this.$nextTick(() => {
       this.updatedCal();
     });
@@ -281,7 +285,15 @@ export default {
       }
       this.preClickTime = 0;
       this.preTouchTime = 0;
-      if (event && event.preventDefault) {
+      // Only prevent default when all the action is click.
+      // https://github.com/ant-design/ant-design/issues/17043
+      // https://github.com/ant-design/ant-design/issues/17291
+      if (
+        this.isClickToShow() &&
+        (this.isClickToHide() || this.isBlurToHide()) &&
+        event &&
+        event.preventDefault
+      ) {
         event.preventDefault();
       }
       if (event && event.domEvent) {
@@ -370,7 +382,7 @@ export default {
       }
       mouseProps.mousedown = this.onPopupMouseDown;
       mouseProps.touchstart = this.onPopupMouseDown;
-      const { handleGetPopupClassFromAlign, getRootDomNode, getContainer, $listeners } = self;
+      const { handleGetPopupClassFromAlign, getRootDomNode, getContainer } = self;
       const {
         prefixCls,
         destroyPopupOnHide,
@@ -410,7 +422,7 @@ export default {
           popupStyle,
         },
         on: {
-          align: $listeners.popupAlign || noop,
+          align: getListeners(this).popupAlign || noop,
           ...mouseProps,
         },
         directives: [
@@ -441,18 +453,20 @@ export default {
     },
 
     setPopupVisible(sPopupVisible, event) {
-      const { alignPoint } = this.$props;
+      const { alignPoint, sPopupVisible: prevPopupVisible } = this;
       this.clearDelayTimer();
-      if (this.$data.sPopupVisible !== sPopupVisible) {
+      if (prevPopupVisible !== sPopupVisible) {
         if (!hasProp(this, 'popupVisible')) {
           this.setState({
             sPopupVisible,
+            prevPopupVisible,
           });
         }
-        this.$listeners.popupVisibleChange && this.$listeners.popupVisibleChange(sPopupVisible);
+        const listeners = getListeners(this);
+        listeners.popupVisibleChange && listeners.popupVisibleChange(sPopupVisible);
       }
       // Always record the point position since mouseEnterDelay will delay the show
-      if (sPopupVisible && alignPoint && event) {
+      if (alignPoint && event) {
         this.setPoint(event);
       }
     },
@@ -514,7 +528,7 @@ export default {
 
     createTwoChains(event) {
       let fn = () => {};
-      const events = this.$listeners;
+      const events = getListeners(this);
       if (this.childOriginEvents[event] && events[event]) {
         return this[`fire${event}`];
       }
@@ -581,48 +595,48 @@ export default {
       warning(false, 'Trigger $slots.default.length > 1, just support only one default', true);
     }
     const child = children[0];
-    this.childOriginEvents = getEvents(child);
+    this.childOriginEvents = getDataEvents(child);
     const newChildProps = {
       props: {},
-      on: {},
+      nativeOn: {},
       key: 'trigger',
     };
 
     if (this.isContextmenuToShow()) {
-      newChildProps.on.contextmenu = this.onContextmenu;
+      newChildProps.nativeOn.contextmenu = this.onContextmenu;
     } else {
-      newChildProps.on.contextmenu = this.createTwoChains('contextmenu');
+      newChildProps.nativeOn.contextmenu = this.createTwoChains('contextmenu');
     }
 
     if (this.isClickToHide() || this.isClickToShow()) {
-      newChildProps.on.click = this.onClick;
-      newChildProps.on.mousedown = this.onMousedown;
-      newChildProps.on.touchstart = this.onTouchstart;
+      newChildProps.nativeOn.click = this.onClick;
+      newChildProps.nativeOn.mousedown = this.onMousedown;
+      newChildProps.nativeOn.touchstart = this.onTouchstart;
     } else {
-      newChildProps.on.click = this.createTwoChains('click');
-      newChildProps.on.mousedown = this.createTwoChains('mousedown');
-      newChildProps.on.touchstart = this.createTwoChains('onTouchstart');
+      newChildProps.nativeOn.click = this.createTwoChains('click');
+      newChildProps.nativeOn.mousedown = this.createTwoChains('mousedown');
+      newChildProps.nativeOn.touchstart = this.createTwoChains('onTouchstart');
     }
     if (this.isMouseEnterToShow()) {
-      newChildProps.on.mouseenter = this.onMouseenter;
+      newChildProps.nativeOn.mouseenter = this.onMouseenter;
       if (alignPoint) {
-        newChildProps.on.mousemove = this.onMouseMove;
+        newChildProps.nativeOn.mousemove = this.onMouseMove;
       }
     } else {
-      newChildProps.on.mouseenter = this.createTwoChains('mouseenter');
+      newChildProps.nativeOn.mouseenter = this.createTwoChains('mouseenter');
     }
     if (this.isMouseLeaveToHide()) {
-      newChildProps.on.mouseleave = this.onMouseleave;
+      newChildProps.nativeOn.mouseleave = this.onMouseleave;
     } else {
-      newChildProps.on.mouseleave = this.createTwoChains('mouseleave');
+      newChildProps.nativeOn.mouseleave = this.createTwoChains('mouseleave');
     }
 
     if (this.isFocusToShow() || this.isBlurToHide()) {
-      newChildProps.on.focus = this.onFocus;
-      newChildProps.on.blur = this.onBlur;
+      newChildProps.nativeOn.focus = this.onFocus;
+      newChildProps.nativeOn.blur = this.onBlur;
     } else {
-      newChildProps.on.focus = this.createTwoChains('focus');
-      newChildProps.on.blur = e => {
+      newChildProps.nativeOn.focus = this.createTwoChains('focus');
+      newChildProps.nativeOn.blur = e => {
         if (e && (!e.relatedTarget || !contains(e.target, e.relatedTarget))) {
           this.createTwoChains('blur')(e);
         }
@@ -639,7 +653,6 @@ export default {
         forceRender={forceRender}
         getComponent={this.getComponent}
         getContainer={this.getContainer}
-        containerClass={this.containerClass}
         children={({ renderComponent }) => {
           this.renderComponent = renderComponent;
           return this.trigger;

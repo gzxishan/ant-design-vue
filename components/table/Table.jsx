@@ -1,4 +1,4 @@
-import VcTable from '../vc-table';
+import VcTable, { INTERNAL_COL_DEFINE } from '../vc-table';
 import classNames from 'classnames';
 import shallowEqual from 'shallowequal';
 import FilterDropdown from './filterDropdown';
@@ -9,37 +9,50 @@ import Column from './Column';
 import ColumnGroup from './ColumnGroup';
 import createBodyRow from './createBodyRow';
 import { flatArray, treeMap, flatFilter } from './util';
-import {
-  initDefaultProps,
-  mergeProps,
-  getOptionProps,
-  isValidElement,
-  filterEmpty,
-  getAllProps,
-  getComponentFromProp,
-  getListeners,
-} from '../_util/props-util';
+import { initDefaultProps, mergeProps, getOptionProps, getListeners } from '../_util/props-util';
 import BaseMixin from '../_util/BaseMixin';
 import { ConfigConsumerProps } from '../config-provider';
 import { TableProps } from './interface';
 import Pagination from '../pagination';
 import Icon from '../icon';
-import Spin, { SpinProps } from '../spin';
+import Spin from '../spin';
 import LocaleReceiver from '../locale-provider/LocaleReceiver';
 import defaultLocale from '../locale-provider/default';
 import warning from '../_util/warning';
+import scrollTo from '../_util/scrollTo';
+import TransButton from '../_util/transButton';
 
 function noop() {}
 
 function stopPropagation(e) {
   e.stopPropagation();
-  if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) {
-    e.nativeEvent.stopImmediatePropagation();
-  }
 }
 
 function getRowSelection(props) {
   return props.rowSelection || {};
+}
+
+function getColumnKey(column, index) {
+  return column.key || column.dataIndex || index;
+}
+
+function isSameColumn(a, b) {
+  if (a && b && a.key && a.key === b.key) {
+    return true;
+  }
+  return (
+    a === b ||
+    shallowEqual(a, b, (value, other) => {
+      // https://github.com/ant-design/ant-design/issues/12737
+      if (typeof value === 'function' && typeof other === 'function') {
+        return value === other || value.toString() === other.toString();
+      }
+      // https://github.com/ant-design/ant-design/issues/19398
+      if (Array.isArray(value) && Array.isArray(other)) {
+        return value === other || shallowEqual(value, other);
+      }
+    })
+  );
 }
 
 const defaultPagination = {
@@ -47,13 +60,52 @@ const defaultPagination = {
   onShowSizeChange: noop,
 };
 
-const ROW_SELECTION_COLUMN_WIDTH = '62px';
-
 /**
  * Avoid creating new object, so that parent component's shouldComponentUpdate
  * can works appropriately。
  */
 const emptyObject = {};
+
+const createComponents = (components = {}) => {
+  const bodyRow = components && components.body && components.body.row;
+  return {
+    ...components,
+    body: {
+      ...components.body,
+      row: createBodyRow(bodyRow),
+    },
+  };
+};
+
+function isTheSameComponents(components1 = {}, components2 = {}) {
+  return (
+    components1 === components2 ||
+    ['table', 'header', 'body'].every(key => shallowEqual(components1[key], components2[key]))
+  );
+}
+
+function getFilteredValueColumns(state, columns) {
+  return flatFilter(
+    columns || (state || {}).columns || [],
+    column => typeof column.filteredValue !== 'undefined',
+  );
+}
+
+function getFiltersFromColumns(state, columns) {
+  const filters = {};
+  getFilteredValueColumns(state, columns).forEach(col => {
+    const colKey = getColumnKey(col);
+    filters[colKey] = col.filteredValue;
+  });
+  return filters;
+}
+
+function isFiltersChanged(state, filters) {
+  if (Object.keys(filters).length !== Object.keys(state.filters).length) {
+    return true;
+  }
+  return Object.keys(filters).some(columnKey => filters[columnKey] !== state.filters[columnKey]);
+}
 
 export default {
   name: 'Table',
@@ -72,6 +124,7 @@ export default {
     rowKey: 'key',
     showHeader: true,
     sortDirections: ['ascend', 'descend'],
+    childrenColumnName: 'children',
   }),
 
   inject: {
@@ -91,7 +144,6 @@ export default {
       !props.expandedRowRender || !('scroll' in props),
       '`expandedRowRender` and `scroll` are not compatible. Please use one of them at one time.',
     );
-    this.createComponents(this.components);
     this.CheckboxPropsCache = {};
 
     this.store = createStore({
@@ -99,11 +151,13 @@ export default {
       selectionDirty: false,
     });
     return {
-      ...this.getDefaultSortOrder(this.columns),
+      ...this.getDefaultSortOrder(props.columns || []),
       // 减少状态
-      sFilters: this.getFiltersFromColumns(),
+      sFilters: this.getDefaultFilters(props.columns),
       sPagination: this.getDefaultPagination(this.$props),
       pivot: undefined,
+      sComponents: createComponents(this.components),
+      filterDataCnt: 0,
     };
   },
   watch: {
@@ -140,38 +194,45 @@ export default {
       },
       deep: true,
     },
+
     dataSource() {
       this.store.setState({
         selectionDirty: false,
       });
       this.CheckboxPropsCache = {};
     },
-    columns(val) {
-      if (this.getSortOrderColumns(val).length > 0) {
-        const sortState = this.getSortStateFromColumns(val);
-        if (
-          sortState.sSortColumn !== this.sSortColumn ||
-          sortState.sSortOrder !== this.sSortOrder
-        ) {
-          this.setState(sortState);
-        }
-      }
 
-      const filteredValueColumns = this.getFilteredValueColumns(val);
+    columns(val) {
+      const filteredValueColumns = getFilteredValueColumns({ columns: val }, val);
       if (filteredValueColumns.length > 0) {
-        const filtersFromColumns = this.getFiltersFromColumns(val);
+        const filtersFromColumns = getFiltersFromColumns({ columns: val }, val);
         const newFilters = { ...this.sFilters };
         Object.keys(filtersFromColumns).forEach(key => {
           newFilters[key] = filtersFromColumns[key];
         });
-        if (this.isFiltersChanged(newFilters)) {
+        if (isFiltersChanged({ filters: this.sFilters }, newFilters)) {
           this.setState({ sFilters: newFilters });
         }
       }
     },
-    components(val, preVal) {
-      this.createComponents(val, preVal);
+    components: {
+      handler(val, oldVal) {
+        if (!isTheSameComponents(val, oldVal)) {
+          const components = createComponents(val);
+          this.setState({ sComponents: components });
+        }
+      },
+      deep: true,
     },
+  },
+  updated() {
+    const { columns, sSortColumn: sortColumn, sSortOrder: sortOrder } = this;
+    if (this.getSortOrderColumns(columns).length > 0) {
+      const sortState = this.getSortStateFromColumns(columns);
+      if (!isSameColumn(sortState.sSortColumn, sortColumn) || sortState.sSortOrder !== sortOrder) {
+        this.setState(sortState);
+      }
+    }
   },
   methods: {
     getCheckboxPropsByItem(item, index) {
@@ -224,6 +285,164 @@ export default {
         : {};
     },
 
+    getSortOrderColumns(columns) {
+      return flatFilter(columns || this.columns || [], column => 'sortOrder' in column);
+    },
+
+    getDefaultFilters(columns) {
+      const definedFilters = getFiltersFromColumns({ columns: this.columns }, columns);
+
+      const defaultFilteredValueColumns = flatFilter(
+        columns || [],
+        column => typeof column.defaultFilteredValue !== 'undefined',
+      );
+
+      const defaultFilters = defaultFilteredValueColumns.reduce((soFar, col) => {
+        const colKey = getColumnKey(col);
+        soFar[colKey] = col.defaultFilteredValue;
+        return soFar;
+      }, {});
+
+      return { ...defaultFilters, ...definedFilters };
+    },
+
+    getDefaultSortOrder(columns) {
+      const definedSortState = this.getSortStateFromColumns(columns);
+
+      const defaultSortedColumn = flatFilter(columns || [], column => {
+        return column.defaultSortOrder != null;
+      })[0];
+
+      if (defaultSortedColumn && !definedSortState.sortColumn) {
+        return {
+          sSortColumn: defaultSortedColumn,
+          sSortOrder: defaultSortedColumn.defaultSortOrder,
+        };
+      }
+
+      return definedSortState;
+    },
+
+    getSortStateFromColumns(columns) {
+      // return first column which sortOrder is not falsy
+      const sortedColumn = this.getSortOrderColumns(columns).filter(col => col.sortOrder)[0];
+
+      if (sortedColumn) {
+        return {
+          sSortColumn: sortedColumn,
+          sSortOrder: sortedColumn.sortOrder,
+        };
+      }
+
+      return {
+        sSortColumn: null,
+        sSortOrder: null,
+      };
+    },
+    getMaxCurrent(total) {
+      const { current, pageSize } = this.sPagination;
+      if ((current - 1) * pageSize >= total) {
+        return Math.floor((total - 1) / pageSize) + 1;
+      }
+      return current;
+    },
+
+    getRecordKey(record, index) {
+      const { rowKey } = this;
+      const recordKey = typeof rowKey === 'function' ? rowKey(record, index) : record[rowKey];
+      warning(
+        recordKey !== undefined,
+        'Table',
+        'Each record in dataSource of table should have a unique `key` prop, ' +
+          'or set `rowKey` of Table to an unique primary key, ',
+      );
+      return recordKey === undefined ? index : recordKey;
+    },
+
+    getSorterFn(state) {
+      const { sSortOrder: sortOrder, sSortColumn: sortColumn } = state || this.$data;
+      if (!sortOrder || !sortColumn || typeof sortColumn.sorter !== 'function') {
+        return;
+      }
+
+      return (a, b) => {
+        const result = sortColumn.sorter(a, b, sortOrder);
+        if (result !== 0) {
+          return sortOrder === 'descend' ? -result : result;
+        }
+        return 0;
+      };
+    },
+
+    getCurrentPageData() {
+      let data = this.getLocalData();
+      this.filterDataCnt = data.length;
+      let current;
+      let pageSize;
+      const sPagination = this.sPagination;
+      // 如果没有分页的话，默认全部展示
+      if (!this.hasPagination()) {
+        pageSize = Number.MAX_VALUE;
+        current = 1;
+      } else {
+        pageSize = sPagination.pageSize;
+        current = this.getMaxCurrent(sPagination.total || data.length);
+      }
+
+      // 分页
+      // ---
+      // 当数据量少于等于每页数量时，直接设置数据
+      // 否则进行读取分页数据
+      if (data.length > pageSize || pageSize === Number.MAX_VALUE) {
+        data = data.slice((current - 1) * pageSize, current * pageSize);
+      }
+      return data;
+    },
+
+    getFlatData() {
+      const { childrenColumnName } = this.$props;
+      return flatArray(this.getLocalData(null, false), childrenColumnName);
+    },
+
+    getFlatCurrentPageData() {
+      const { childrenColumnName } = this.$props;
+      return flatArray(this.getCurrentPageData(), childrenColumnName);
+    },
+
+    getLocalData(state, filter = true) {
+      const currentState = state || this.$data;
+      const { sFilters: filters } = currentState;
+      const { dataSource } = this.$props;
+      let data = dataSource || [];
+      // 优化本地排序
+      data = data.slice(0);
+      const sorterFn = this.getSorterFn(currentState);
+      if (sorterFn) {
+        // 使用新数组，避免改变原数组导致无限循环更新
+        // https://github.com/vueComponent/ant-design-vue/issues/2270
+        data = this.recursiveSort([...data], sorterFn);
+      }
+      // 筛选
+      if (filter && filters) {
+        Object.keys(filters).forEach(columnKey => {
+          const col = this.findColumn(columnKey);
+          if (!col) {
+            return;
+          }
+          const values = filters[columnKey] || [];
+          if (values.length === 0) {
+            return;
+          }
+          const onFilter = col.onFilter;
+          data = onFilter
+            ? data.filter(record => {
+                return values.some(v => onFilter(v, record));
+              })
+            : data;
+        });
+      }
+      return data;
+    },
     onRow(prefixCls, record, index) {
       const { customRow } = this;
       const custom = customRow ? customRow(record, index) : {};
@@ -268,93 +487,24 @@ export default {
         rowSelection.onSelectInvert(selectedRowKeys);
       }
     },
-
-    hasPagination() {
-      return this.pagination !== false;
+    generatePopupContainerFunc(getPopupContainer) {
+      const { scroll } = this.$props;
+      const table = this.$refs.vcTable;
+      if (getPopupContainer) {
+        return getPopupContainer;
+      }
+      // Use undefined to let rc component use default logic.
+      return scroll && table ? () => table.getTableNode() : undefined;
     },
-
-    isFiltersChanged(filters) {
-      let filtersChanged = false;
-      if (Object.keys(filters).length !== Object.keys(this.sFilters).length) {
-        filtersChanged = true;
-      } else {
-        Object.keys(filters).forEach(columnKey => {
-          if (filters[columnKey] !== this.sFilters[columnKey]) {
-            filtersChanged = true;
-          }
+    scrollToFirstRow() {
+      const { scroll } = this.$props;
+      if (scroll && scroll.scrollToFirstRowOnChange !== false) {
+        scrollTo(0, {
+          getContainer: () => {
+            return this.$refs.vcTable.getBodyTable();
+          },
         });
       }
-      return filtersChanged;
-    },
-
-    getSortOrderColumns(columns) {
-      return flatFilter(columns || this.columns || [], column => 'sortOrder' in column);
-    },
-
-    getFilteredValueColumns(columns) {
-      return flatFilter(
-        columns || this.columns || [],
-        column => typeof column.filteredValue !== 'undefined',
-      );
-    },
-
-    getFiltersFromColumns(columns) {
-      const filters = {};
-      this.getFilteredValueColumns(columns).forEach(col => {
-        const colKey = this.getColumnKey(col);
-        filters[colKey] = col.filteredValue;
-      });
-      return filters;
-    },
-
-    getDefaultSortOrder(columns) {
-      const definedSortState = this.getSortStateFromColumns(columns);
-
-      const defaultSortedColumn = flatFilter(
-        columns || [],
-        column => column.defaultSortOrder != null,
-      )[0];
-
-      if (defaultSortedColumn && !definedSortState.sortColumn) {
-        return {
-          sSortColumn: defaultSortedColumn,
-          sSortOrder: defaultSortedColumn.defaultSortOrder,
-        };
-      }
-
-      return definedSortState;
-    },
-
-    getSortStateFromColumns(columns) {
-      // return first column which sortOrder is not falsy
-      const sortedColumn = this.getSortOrderColumns(columns).filter(col => col.sortOrder)[0];
-
-      if (sortedColumn) {
-        return {
-          sSortColumn: sortedColumn,
-          sSortOrder: sortedColumn.sortOrder,
-        };
-      }
-
-      return {
-        sSortColumn: null,
-        sSortOrder: null,
-      };
-    },
-
-    getSorterFn(state) {
-      const { sSortOrder: sortOrder, sSortColumn: sortColumn } = state || this.$data;
-      if (!sortOrder || !sortColumn || typeof sortColumn.sorter !== 'function') {
-        return;
-      }
-
-      return (a, b) => {
-        const result = sortColumn.sorter(a, b, sortOrder);
-        if (result !== 0) {
-          return sortOrder === 'descend' ? -result : result;
-        }
-        return 0;
-      };
     },
     isSameColumn(a, b) {
       if (a && b && a.key && a.key === b.key) {
@@ -370,53 +520,18 @@ export default {
       );
     },
 
-    toggleSortOrder(column) {
-      if (!column.sorter) {
-        return;
-      }
-      const sortDirections = column.sortDirections || this.sortDirections;
-      const { sSortOrder: sortOrder, sSortColumn: sortColumn } = this;
-      // 只同时允许一列进行排序，否则会导致排序顺序的逻辑问题
-      let newSortOrder;
-      // 切换另一列时，丢弃 sortOrder 的状态
-      if (this.isSameColumn(sortColumn, column) && sortOrder !== undefined) {
-        // 按照sortDirections的内容依次切换排序状态
-        const methodIndex = sortDirections.indexOf(sortOrder) + 1;
-        newSortOrder =
-          methodIndex === sortDirections.length ? undefined : sortDirections[methodIndex];
-      } else {
-        newSortOrder = sortDirections[0];
-      }
-      const newState = {
-        sSortOrder: newSortOrder,
-        sSortColumn: newSortOrder ? column : null,
-      };
-
-      // Controlled
-      if (this.getSortOrderColumns().length === 0) {
-        this.setState(newState);
-      }
-      this.$emit(
-        'change',
-        ...this.prepareParamsArguments({
-          ...this.$data,
-          ...newState,
-        }),
-      );
-    },
-
     handleFilter(column, nextFilters) {
       const props = this.$props;
       const pagination = { ...this.sPagination };
       const filters = {
         ...this.sFilters,
-        [this.getColumnKey(column)]: nextFilters,
+        [getColumnKey(column)]: nextFilters,
       };
       // Remove filters not in current columns
       const currentColumnKeys = [];
       treeMap(this.columns, c => {
         if (!c.children) {
-          currentColumnKeys.push(this.getColumnKey(c));
+          currentColumnKeys.push(getColumnKey(c));
         }
       });
       Object.keys(filters).forEach(columnKey => {
@@ -437,8 +552,8 @@ export default {
       };
       const filtersToSetState = { ...filters };
       // Remove filters which is controlled
-      this.getFilteredValueColumns().forEach(col => {
-        const columnKey = this.getColumnKey(col);
+      getFilteredValueColumns({ columns: props.columns }).forEach(col => {
+        const columnKey = getColumnKey(col);
         if (columnKey) {
           delete filtersToSetState[columnKey];
         }
@@ -456,6 +571,7 @@ export default {
       }
 
       this.setState(newState, () => {
+        this.scrollToFirstRow();
         this.store.setState({
           selectionDirty: false,
         });
@@ -480,7 +596,7 @@ export default {
       let selectedRowKeys = this.store.getState().selectedRowKeys.concat(defaultSelection);
       const key = this.getRecordKey(record, rowIndex);
       const { pivot } = this.$data;
-      const rows = this.getFlatCurrentPageData(this.$props.childrenColumnName);
+      const rows = this.getFlatCurrentPageData();
       let realIndex = rowIndex;
       if (this.$props.expandedRowRender) {
         realIndex = rows.findIndex(row => this.getRecordKey(row, rowIndex) === key);
@@ -534,7 +650,7 @@ export default {
           selectWay: 'onSelect',
           record,
           checked,
-          changeRowKeys: void 0,
+          changeRowKeys: undefined,
           nativeEvent,
         });
       }
@@ -552,13 +668,13 @@ export default {
         selectWay: 'onSelect',
         record,
         checked,
-        changeRowKeys: void 0,
+        changeRowKeys: undefined,
         nativeEvent,
       });
     },
 
     handleSelectRow(selectionKey, index, onSelectFunc) {
-      const data = this.getFlatCurrentPageData(this.$props.childrenColumnName);
+      const data = this.getFlatCurrentPageData();
       const defaultSelection = this.store.getState().selectionDirty
         ? []
         : this.getDefaultSelection();
@@ -650,7 +766,7 @@ export default {
           current: this.sPagination.current,
         };
       }
-      this.setState(newState);
+      this.setState(newState, this.scrollToFirstRow);
 
       this.store.setState({
         selectionDirty: false,
@@ -665,6 +781,182 @@ export default {
       );
     },
 
+    handleShowSizeChange(current, pageSize) {
+      const pagination = this.sPagination;
+      pagination.onShowSizeChange(current, pageSize);
+      const nextPagination = {
+        ...pagination,
+        pageSize,
+        current,
+      };
+      this.setState({ sPagination: nextPagination }, this.scrollToFirstRow);
+      this.$emit(
+        'change',
+        ...this.prepareParamsArguments({
+          ...this.$data,
+          sPagination: nextPagination,
+        }),
+      );
+    },
+
+    toggleSortOrder(column) {
+      const sortDirections = column.sortDirections || this.sortDirections;
+      const { sSortOrder: sortOrder, sSortColumn: sortColumn } = this;
+      // 只同时允许一列进行排序，否则会导致排序顺序的逻辑问题
+      let newSortOrder;
+      // 切换另一列时，丢弃 sortOrder 的状态
+      if (isSameColumn(sortColumn, column) && sortOrder !== undefined) {
+        // 按照sortDirections的内容依次切换排序状态
+        const methodIndex = sortDirections.indexOf(sortOrder) + 1;
+        newSortOrder =
+          methodIndex === sortDirections.length ? undefined : sortDirections[methodIndex];
+      } else {
+        newSortOrder = sortDirections[0];
+      }
+      const newState = {
+        sSortOrder: newSortOrder,
+        sSortColumn: newSortOrder ? column : null,
+      };
+
+      // Controlled
+      if (this.getSortOrderColumns().length === 0) {
+        this.setState(newState, this.scrollToFirstRow);
+      }
+      this.$emit(
+        'change',
+        ...this.prepareParamsArguments(
+          {
+            ...this.$data,
+            ...newState,
+          },
+          column,
+        ),
+      );
+    },
+
+    hasPagination(props) {
+      return (props || this.$props).pagination !== false;
+    },
+
+    isSortColumn(column) {
+      const { sSortColumn: sortColumn } = this;
+      if (!column || !sortColumn) {
+        return false;
+      }
+      return getColumnKey(sortColumn) === getColumnKey(column);
+    },
+
+    // Get pagination, filters, sorter
+    prepareParamsArguments(state, column) {
+      const pagination = { ...state.sPagination };
+      // remove useless handle function in Table.onChange
+      delete pagination.onChange;
+      delete pagination.onShowSizeChange;
+      const filters = state.sFilters;
+      const sorter = {};
+      let currentColumn = column;
+      if (state.sSortColumn && state.sSortOrder) {
+        currentColumn = state.sSortColumn;
+        sorter.column = state.sSortColumn;
+        sorter.order = state.sSortOrder;
+      }
+
+      if (currentColumn) {
+        sorter.field = currentColumn.dataIndex;
+        sorter.columnKey = getColumnKey(currentColumn);
+      }
+
+      const extra = {
+        currentDataSource: this.getLocalData(state),
+      };
+
+      return [pagination, filters, sorter, extra];
+    },
+
+    findColumn(myKey) {
+      let column;
+      treeMap(this.columns, c => {
+        if (getColumnKey(c) === myKey) {
+          column = c;
+        }
+      });
+      return column;
+    },
+
+    recursiveSort(data, sorterFn) {
+      const { childrenColumnName = 'children' } = this;
+      return data.sort(sorterFn).map(item =>
+        item[childrenColumnName]
+          ? {
+              ...item,
+              [childrenColumnName]: this.recursiveSort([...item[childrenColumnName]], sorterFn),
+            }
+          : item,
+      );
+    },
+    renderExpandIcon(prefixCls) {
+      return ({ expandable, expanded, needIndentSpaced, record, onExpand }) => {
+        if (expandable) {
+          return (
+            <LocaleReceiver componentName="Table" defaultLocale={defaultLocale.Table}>
+              {locale => (
+                <TransButton
+                  class={classNames(`${prefixCls}-row-expand-icon`, {
+                    [`${prefixCls}-row-collapsed`]: !expanded,
+                    [`${prefixCls}-row-expanded`]: expanded,
+                  })}
+                  onClick={event => {
+                    onExpand(record, event);
+                  }}
+                  aria-label={expanded ? locale.collapse : locale.expand}
+                  noStyle
+                />
+              )}
+            </LocaleReceiver>
+          );
+        }
+
+        if (needIndentSpaced) {
+          return <span class={`${prefixCls}-row-expand-icon ${prefixCls}-row-spaced`} />;
+        }
+
+        return null;
+      };
+    },
+    renderPagination(prefixCls, paginationPosition) {
+      // 强制不需要分页
+      if (!this.hasPagination()) {
+        return null;
+      }
+      let size = 'default';
+      const { sPagination: pagination } = this;
+      if (pagination.size) {
+        size = pagination.size;
+      } else if (this.size === 'middle' || this.size === 'small') {
+        size = 'small';
+      }
+      const position = pagination.position || 'bottom';
+      const total = pagination.total || this.filterDataCnt;
+      const { class: cls, style, onChange, onShowSizeChange, ...restProps } = pagination; // eslint-disable-line
+      const paginationProps = mergeProps({
+        key: `pagination-${paginationPosition}`,
+        class: classNames(cls, `${prefixCls}-pagination`),
+        props: {
+          ...restProps,
+          total,
+          size,
+          current: this.getMaxCurrent(total),
+        },
+        style,
+        on: {
+          change: this.handlePageChange,
+          showSizeChange: this.handleShowSizeChange,
+        },
+      });
+      return total > 0 && (position === paginationPosition || position === 'both') ? (
+        <Pagination {...paginationProps} />
+      ) : null;
+    },
     renderSelectionBox(type) {
       return (_, record, index) => {
         const rowKey = this.getRecordKey(record, index); // 从 1 开始
@@ -697,32 +989,11 @@ export default {
       };
     },
 
-    getRecordKey(record, index) {
-      const { rowKey } = this;
-      const recordKey = typeof rowKey === 'function' ? rowKey(record, index) : record[rowKey];
-      warning(
-        recordKey !== undefined,
-        'Each record in dataSource of table should have a unique `key` prop, or set `rowKey` of Table to an unique primary key,',
-      );
-      return recordKey === undefined ? index : recordKey;
-    },
-
-    getPopupContainer() {
-      return this.$el;
-    },
-
-    generatePopupContainerFunc() {
-      const { scroll } = this.$props;
-
-      // Use undefined to let rc component use default logic.
-      return scroll ? this.getPopupContainer : undefined;
-    },
-
-    renderRowSelection(prefixCls, locale) {
-      const { rowSelection, childrenColumnName } = this;
+    renderRowSelection({ prefixCls, locale, getPopupContainer }) {
+      const { rowSelection } = this;
       const columns = this.columns.concat();
       if (rowSelection) {
-        const data = this.getFlatCurrentPageData(childrenColumnName).filter((item, index) => {
+        const data = this.getFlatCurrentPageData().filter((item, index) => {
           if (rowSelection.getCheckboxProps) {
             return !this.getCheckboxPropsByItem(item, index).props.disabled;
           }
@@ -736,8 +1007,11 @@ export default {
           customRender: this.renderSelectionBox(rowSelection.type),
           className: selectionColumnClass,
           fixed: rowSelection.fixed,
-          width: rowSelection.columnWidth || ROW_SELECTION_COLUMN_WIDTH,
+          width: rowSelection.columnWidth,
           title: rowSelection.columnTitle,
+          [INTERNAL_COL_DEFINE]: {
+            class: `${prefixCls}-selection-col`,
+          },
         };
         if (rowSelection.type !== 'radio') {
           const checkboxAllDisabled = data.every(
@@ -755,7 +1029,7 @@ export default {
               onSelect={this.handleSelectRow}
               selections={rowSelection.selections}
               hideDefaultSelections={rowSelection.hideDefaultSelections}
-              getPopupContainer={this.generatePopupContainerFunc()}
+              getPopupContainer={this.generatePopupContainerFunc(getPopupContainer)}
             />
           );
         }
@@ -773,34 +1047,13 @@ export default {
       return columns;
     },
 
-    getColumnKey(column, index) {
-      return column.key || column.dataIndex || index;
-    },
-
-    getMaxCurrent(total) {
-      const { current, pageSize } = this.sPagination;
-      if ((current - 1) * pageSize >= total) {
-        return Math.floor((total - 1) / pageSize) + 1;
-      }
-      return current;
-    },
-
-    isSortColumn(column) {
-      const { sSortColumn: sortColumn } = this;
-      if (!column || !sortColumn) {
-        return false;
-      }
-      return this.getColumnKey(sortColumn) === this.getColumnKey(column);
-    },
-
-    renderColumnsDropdown(prefixCls, dropdownPrefixCls, columns, locale) {
+    renderColumnsDropdown({ prefixCls, dropdownPrefixCls, columns, locale, getPopupContainer }) {
       const { sSortOrder: sortOrder, sFilters: filters } = this;
       return treeMap(columns, (column, i) => {
-        const key = this.getColumnKey(column, i);
+        const key = getColumnKey(column, i);
         let filterDropdown;
         let sortButton;
         let customHeaderCell = column.customHeaderCell;
-        const title = this.renderColumnTitle(column.title);
         const isSortColumn = this.isSortColumn(column);
         if ((column.filters && column.filters.length > 0) || column.filterDropdown) {
           const colFilters = key in filters ? filters[key] : [];
@@ -813,7 +1066,7 @@ export default {
               confirmFilter={this.handleFilter}
               prefixCls={`${prefixCls}-filter`}
               dropdownPrefixCls={dropdownPrefixCls || 'ant-dropdown'}
-              getPopupContainer={this.generatePopupContainerFunc()}
+              getPopupContainer={this.generatePopupContainerFunc(getPopupContainer)}
               key="filter-dropdown"
             />
           );
@@ -841,7 +1094,14 @@ export default {
           );
 
           sortButton = (
-            <div title={locale.sortTitle} class={`${prefixCls}-column-sorter`} key="sorter">
+            <div
+              title={locale.sortTitle}
+              class={classNames(
+                `${prefixCls}-column-sorter-inner`,
+                ascend && descend && `${prefixCls}-column-sorter-inner-full`,
+              )}
+              key="sorter"
+            >
               {ascend}
               {descend}
             </div>
@@ -875,10 +1135,14 @@ export default {
             [`${prefixCls}-column-sort`]: isSortColumn && sortOrder,
           }),
           title: [
-            <div key="title" class={sortButton ? `${prefixCls}-column-sorters` : undefined}>
-              {title}
-              {sortButton}
-            </div>,
+            <span key="title" class={`${prefixCls}-header-column`}>
+              <div class={sortButton ? `${prefixCls}-column-sorters` : undefined}>
+                <span class={`${prefixCls}-column-title`}>
+                  {this.renderColumnTitle(column.title)}
+                </span>
+                <span class={`${prefixCls}-column-sorter`}>{sortButton}</span>
+              </div>
+            </span>,
             filterDropdown,
           ],
           customHeaderCell,
@@ -886,201 +1150,34 @@ export default {
       });
     },
     renderColumnTitle(title) {
-      const { sFilters: filters, sSortOrder: sortOrder } = this.$data;
+      const { sFilters: filters, sSortOrder: sortOrder, sSortColumn: sortColumn } = this.$data;
       // https://github.com/ant-design/ant-design/issues/11246#issuecomment-405009167
       if (title instanceof Function) {
         return title({
           filters,
           sortOrder,
+          sortColumn,
         });
       }
       return title;
     },
 
-    handleShowSizeChange(current, pageSize) {
-      const pagination = this.sPagination;
-      pagination.onShowSizeChange(current, pageSize);
-      const nextPagination = {
-        ...pagination,
-        pageSize,
-        current,
-      };
-      this.setState({ sPagination: nextPagination });
-      this.$emit(
-        'change',
-        ...this.prepareParamsArguments({
-          ...this.$data,
-          sPagination: nextPagination,
-        }),
-      );
-    },
-
-    renderPagination(prefixCls, paginationPosition) {
-      // 强制不需要分页
-      if (!this.hasPagination()) {
-        return null;
-      }
-      let size = 'default';
-      const { sPagination: pagination } = this;
-      if (pagination.size) {
-        size = pagination.size;
-      } else if (this.size === 'middle' || this.size === 'small') {
-        size = 'small';
-      }
-      const position = pagination.position || 'bottom';
-      const total = pagination.total || this.getLocalData().length;
-      const { class: cls, style, onChange, onShowSizeChange, ...restProps } = pagination; // eslint-disable-line
-      const paginationProps = mergeProps({
-        key: `pagination-${paginationPosition}`,
-        class: classNames(cls, `${prefixCls}-pagination`),
-        props: {
-          ...restProps,
-          total,
-          size,
-          current: this.getMaxCurrent(total),
-        },
-        style,
-        on: {
-          change: this.handlePageChange,
-          showSizeChange: this.handleShowSizeChange,
-        },
-      });
-      return total > 0 && (position === paginationPosition || position === 'both') ? (
-        <Pagination {...paginationProps} />
-      ) : null;
-    },
-
-    // Get pagination, filters, sorter
-    prepareParamsArguments(state) {
-      const pagination = { ...state.sPagination };
-      // remove useless handle function in Table.onChange
-      delete pagination.onChange;
-      delete pagination.onShowSizeChange;
-      const filters = state.sFilters;
-      const sorter = {};
-      if (state.sSortColumn && state.sSortOrder) {
-        sorter.column = state.sSortColumn;
-        sorter.order = state.sSortOrder;
-        sorter.field = state.sSortColumn.dataIndex;
-        sorter.columnKey = this.getColumnKey(state.sSortColumn);
-      }
-      const extra = {
-        currentDataSource: this.getLocalData(state),
-      };
-
-      return [pagination, filters, sorter, extra];
-    },
-
-    findColumn(myKey) {
-      let column;
-      treeMap(this.columns, c => {
-        if (this.getColumnKey(c) === myKey) {
-          column = c;
-        }
-      });
-      return column;
-    },
-
-    getCurrentPageData() {
-      let data = this.getLocalData();
-      let current;
-      let pageSize;
-      const sPagination = this.sPagination;
-      // 如果没有分页的话，默认全部展示
-      if (!this.hasPagination()) {
-        pageSize = Number.MAX_VALUE;
-        current = 1;
-      } else {
-        pageSize = sPagination.pageSize;
-        current = this.getMaxCurrent(sPagination.total || data.length);
-      }
-
-      // 分页
-      // ---
-      // 当数据量少于等于每页数量时，直接设置数据
-      // 否则进行读取分页数据
-      if (data.length > pageSize || pageSize === Number.MAX_VALUE) {
-        data = data.filter((_, i) => {
-          return i >= (current - 1) * pageSize && i < current * pageSize;
-        });
-      }
-      return data;
-    },
-
-    getFlatData() {
-      return flatArray(this.getLocalData(null, false));
-    },
-
-    getFlatCurrentPageData(childrenColumnName) {
-      return flatArray(this.getCurrentPageData(), childrenColumnName);
-    },
-
-    recursiveSort(data, sorterFn) {
-      const { childrenColumnName = 'children' } = this;
-      return data.sort(sorterFn).map(item =>
-        item[childrenColumnName]
-          ? {
-              ...item,
-              [childrenColumnName]: this.recursiveSort(item[childrenColumnName], sorterFn),
-            }
-          : item,
-      );
-    },
-
-    getLocalData(state, filter = true) {
-      const currentState = state || this.$data;
-      const { sFilters: filters } = currentState;
-      const { dataSource } = this.$props;
-      let data = dataSource || [];
-      // 优化本地排序
-      data = data.slice(0);
-      const sorterFn = this.getSorterFn(currentState);
-      if (sorterFn) {
-        data = this.recursiveSort(data, sorterFn);
-      }
-      // 筛选
-      if (filter && filters) {
-        Object.keys(filters).forEach(columnKey => {
-          const col = this.findColumn(columnKey);
-          if (!col) {
-            return;
-          }
-          const values = filters[columnKey] || [];
-          if (values.length === 0) {
-            return;
-          }
-          const onFilter = col.onFilter;
-          data = onFilter
-            ? data.filter(record => {
-                return values.some(v => onFilter(v, record));
-              })
-            : data;
-        });
-      }
-      return data;
-    },
-
-    createComponents(components = {}, prevComponents) {
-      const bodyRow = components && components.body && components.body.row;
-      const preBodyRow = prevComponents && prevComponents.body && prevComponents.body.row;
-      if (!this.row || bodyRow !== preBodyRow) {
-        this.row = createBodyRow(bodyRow);
-      }
-      this.customComponents = {
-        ...components,
-        body: {
-          ...components.body,
-          row: this.row,
-        },
-      };
-    },
-
-    renderTable(prefixCls, renderEmpty, dropdownPrefixCls, contextLocale, loading) {
-      const locale = { ...contextLocale, ...this.locale };
-      const { showHeader, ...restProps } = getOptionProps(this);
+    renderTable({
+      prefixCls,
+      renderEmpty,
+      dropdownPrefixCls,
+      contextLocale,
+      getPopupContainer: contextGetPopupContainer,
+      transformCellText,
+    }) {
+      const { showHeader, locale, getPopupContainer, ...restProps } = getOptionProps(this);
       const data = this.getCurrentPageData();
       const expandIconAsCell = this.expandedRowRender && this.expandIconAsCell !== false;
 
+      // use props.getPopupContainer first
+      const realGetPopupContainer = getPopupContainer || contextGetPopupContainer;
+
+      // Merge too locales
       const mergedLocale = { ...contextLocale, ...locale };
       if (!locale || !locale.emptyText) {
         mergedLocale.emptyText = renderEmpty(h, 'Table');
@@ -1093,13 +1190,23 @@ export default {
         [`${prefixCls}-without-column-header`]: !showHeader,
       });
 
-      let columns = this.renderRowSelection(prefixCls, mergedLocale);
-      columns = this.renderColumnsDropdown(prefixCls, dropdownPrefixCls, columns, mergedLocale);
-      columns = columns.map((column, i) => {
+      const columnsWithRowSelection = this.renderRowSelection({
+        prefixCls,
+        locale: mergedLocale,
+        getPopupContainer: realGetPopupContainer,
+      });
+      const columns = this.renderColumnsDropdown({
+        columns: columnsWithRowSelection,
+        prefixCls,
+        dropdownPrefixCls,
+        locale: mergedLocale,
+        getPopupContainer: realGetPopupContainer,
+      }).map((column, i) => {
         const newColumn = { ...column };
-        newColumn.key = this.getColumnKey(newColumn, i);
+        newColumn.key = getColumnKey(newColumn, i);
         return newColumn;
       });
+
       let expandIconColumnIndex = columns[0] && columns[0].key === 'selection-column' ? 1 : 0;
       if ('expandIconColumnIndex' in restProps) {
         expandIconColumnIndex = restProps.expandIconColumnIndex;
@@ -1107,28 +1214,40 @@ export default {
       const vcTableProps = {
         key: 'table',
         props: {
+          expandIcon: this.renderExpandIcon(prefixCls),
           ...restProps,
           customRow: (record, index) => this.onRow(prefixCls, record, index),
-          components: this.customComponents,
+          components: this.sComponents,
           prefixCls,
           data,
           columns,
           showHeader,
           expandIconColumnIndex,
           expandIconAsCell,
-          emptyText: !(loading.props && loading.props.spinning) && mergedLocale.emptyText,
+          emptyText: mergedLocale.emptyText,
+          transformCellText,
         },
-         on: getListeners(this),
+        on: getListeners(this),
         class: classString,
+        ref: 'vcTable',
       };
       return <VcTable {...vcTableProps} />;
     },
   },
 
   render() {
-    const { prefixCls: customizePrefixCls, dropdownPrefixCls: customizeDropdownPrefixCls } = this;
+    const {
+      prefixCls: customizePrefixCls,
+      dropdownPrefixCls: customizeDropdownPrefixCls,
+      transformCellText: customizeTransformCellText,
+    } = this;
     const data = this.getCurrentPageData();
-
+    const {
+      getPopupContainer: getContextPopupContainer,
+      transformCellText: tct,
+    } = this.configProvider;
+    const getPopupContainer = this.getPopupContainer || getContextPopupContainer;
+    const transformCellText = customizeTransformCellText || tct;
     let loading = this.loading;
     if (typeof loading === 'boolean') {
       loading = {
@@ -1152,7 +1271,14 @@ export default {
         componentName="Table"
         defaultLocale={defaultLocale.Table}
         children={locale =>
-          this.renderTable(prefixCls, renderEmpty, dropdownPrefixCls, locale, loading)
+          this.renderTable({
+            prefixCls,
+            renderEmpty,
+            dropdownPrefixCls,
+            contextLocale: locale,
+            getPopupContainer,
+            transformCellText,
+          })
         }
       />
     );

@@ -1,14 +1,11 @@
 <cn>
-#### 小型进度圈
+#### 小型进度圈 
+
 小一号的圈形进度。
 </cn>
-
 <us>
-#### Mini size circular progress bar
-A smaller circular progress bar.
+#### Mini Size Circular Progress Bar
 </us>
-
-```tpl
 <template>
   <div>
     <a-progress type="circle" :percent="30" :width="80" />
@@ -17,10 +14,9 @@ A smaller circular progress bar.
   </div>
 </template>
 <style scoped>
-  .ant-progress-circle-wrap,
-  .ant-progress-line-wrap {
-    margin-right: 8px;
-    margin-bottom: 5px;
-  }
+.ant-progress-circle-wrap,
+.ant-progress-line-wrap {
+  margin-right: 8px;
+  margin-bottom: 5px;
+}
 </style>
-```

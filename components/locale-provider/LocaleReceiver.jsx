@@ -2,6 +2,7 @@ import PropTypes from '../_util/vue-types';
 import defaultLocaleData from './default';
 
 export default {
+  name: 'LocaleReceiver',
   props: {
     componentName: PropTypes.string.def('global'),
     defaultLocale: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
@@ -42,6 +43,7 @@ export default {
   render() {
     const { $scopedSlots } = this;
     const children = this.children || $scopedSlots.default;
-    return children(this.getLocale(), this.getLocaleCode());
+    const { antLocale } = this.localeData;
+    return children(this.getLocale(), this.getLocaleCode(), antLocale);
   },
 };

@@ -1,16 +1,13 @@
 <cn>
-#### 图标
+#### 图标 
+
 有图标的标签。
 </cn>
-
 <us>
 #### Icon
-The Tab with Icon.
 </us>
-
-```tpl
 <template>
-  <a-tabs defaultActiveKey="2">
+  <a-tabs default-active-key="2">
     <a-tab-pane key="1">
       <span slot="tab">
         <a-icon type="apple" />
@@ -27,4 +24,3 @@ The Tab with Icon.
     </a-tab-pane>
   </a-tabs>
 </template>
-```

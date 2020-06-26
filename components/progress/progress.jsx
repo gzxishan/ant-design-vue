@@ -1,17 +1,13 @@
 import classNames from 'classnames';
 import PropTypes from '../_util/vue-types';
-import { getOptionProps, initDefaultProps } from '../_util/props-util';
+import { getOptionProps, initDefaultProps, getListeners } from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider';
 import Icon from '../icon';
 import Line from './line';
 import Circle from './circle';
 import { validProgress } from './utils';
 
-function addUnit(num, unit) {
-  const unitType = unit || 'px';
-  return num ? num + unitType : null;
-}
-
+const ProgressStatuses = ['normal', 'exception', 'active', 'success'];
 export const ProgressType = PropTypes.oneOf(['line', 'circle', 'dashboard']);
 export const ProgressSize = PropTypes.oneOf(['default', 'small']);
 
@@ -21,11 +17,11 @@ export const ProgressProps = {
   percent: PropTypes.number,
   successPercent: PropTypes.number,
   format: PropTypes.func,
-  status: PropTypes.oneOf(['normal', 'success', 'active', 'exception']),
+  status: PropTypes.oneOf(ProgressStatuses),
   showInfo: PropTypes.bool,
   strokeWidth: PropTypes.number,
-  strokeLinecap: PropTypes.oneOf(['round', 'square']),
-  strokeColor: PropTypes.string,
+  strokeLinecap: PropTypes.oneOf(['butt', 'round', 'square']),
+  strokeColor: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   trailColor: PropTypes.string,
   width: PropTypes.number,
   gapDegree: PropTypes.number,
@@ -48,6 +44,21 @@ export default {
     configProvider: { default: () => ConfigConsumerProps },
   },
   methods: {
+    getPercentNumber() {
+      const { successPercent, percent = 0 } = this.$props;
+      return parseInt(
+        successPercent !== undefined ? successPercent.toString() : percent.toString(),
+        10,
+      );
+    },
+
+    getProgressStatus() {
+      const { status } = this.$props;
+      if (ProgressStatuses.indexOf(status) < 0 && this.getPercentNumber() >= 100) {
+        return 'success';
+      }
+      return status || 'normal';
+    },
     renderProcessInfo(prefixCls, progressStatus) {
       const { showInfo, format, type, percent, successPercent } = this.$props;
       if (!showInfo) return null;
@@ -76,34 +87,13 @@ export default {
   },
   render() {
     const props = getOptionProps(this);
-    const {
-      prefixCls: customizePrefixCls,
-      percent = 0,
-      status,
-      format,
-      trailColor,
-      size,
-      successPercent,
-      type,
-      strokeWidth,
-      width,
-      showInfo,
-      gapDegree = 0,
-      gapPosition,
-      strokeColor,
-      strokeLinecap = 'round',
-      ...restProps
-    } = props;
+    const { prefixCls: customizePrefixCls, size, type, showInfo } = props;
     const getPrefixCls = this.configProvider.getPrefixCls;
     const prefixCls = getPrefixCls('progress', customizePrefixCls);
-
-    const progressStatus =
-      parseInt(successPercent !== undefined ? successPercent.toString() : percent.toString(), 10) >=
-        100 && !('status' in props)
-        ? 'success'
-        : status || 'normal';
-    let progress;
+    const progressStatus = this.getProgressStatus();
     const progressInfo = this.renderProcessInfo(prefixCls, progressStatus);
+
+    let progress;
 
     // Render progress shape
     if (type === 'line') {
@@ -133,10 +123,7 @@ export default {
     });
 
     const progressProps = {
-      props: {
-        ...restProps,
-      },
-      on: this.$listeners,
+      on: getListeners(this),
       class: classString,
     };
     return <div {...progressProps}>{progress}</div>;

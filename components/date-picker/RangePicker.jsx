@@ -14,23 +14,24 @@ import {
   initDefaultProps,
   mergeProps,
   getComponentFromProp,
-  isValidElement,
+  getListeners,
 } from '../_util/props-util';
 import BaseMixin from '../_util/BaseMixin';
-import { cloneElement } from '../_util/vnode';
+import { formatDate } from './utils';
+import InputIcon from './InputIcon';
+
 function noop() {}
-function getShowDateFromValue(value) {
+function getShowDateFromValue(value, mode) {
   const [start, end] = value;
   // value could be an empty array, then we should not reset showDate
   if (!start && !end) {
     return;
   }
+  if (mode && mode[0] === 'month') {
+    return [start, end];
+  }
   const newEnd = end && end.isSame(start, 'month') ? end.clone().add(1, 'month') : end;
   return [start, newEnd];
-}
-
-function formatValue(value, format) {
-  return (value && value.format(format)) || '';
 }
 
 function pickerValueAdapter(value) {
@@ -76,6 +77,7 @@ export default {
   props: initDefaultProps(RangePickerProps(), {
     allowClear: true,
     showToday: false,
+    separator: '~',
   }),
   inject: {
     configProvider: { default: () => ConfigConsumerProps },
@@ -107,7 +109,7 @@ export default {
       if (!shallowequal(val, this.sValue)) {
         state = {
           ...state,
-          sShowDate: getShowDateFromValue(value) || this.sShowDate,
+          sShowDate: getShowDateFromValue(value, this.mode) || this.sShowDate,
         };
       }
       this.setState(state);
@@ -125,6 +127,12 @@ export default {
     },
   },
   methods: {
+    setValue(value, hidePanel) {
+      this.handleChange(value);
+      if ((hidePanel || !this.showTime) && !hasProp(this, 'open')) {
+        this.setState({ sOpen: false });
+      }
+    },
     clearSelection(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -143,8 +151,11 @@ export default {
           sShowDate: getShowDateFromValue(value) || sShowDate,
         }));
       }
+      if (value[0] && value[1] && value[0].diff(value[1]) > 0) {
+        value[1] = undefined;
+      }
       const [start, end] = value;
-      this.$emit('change', value, [formatValue(start, this.format), formatValue(end, this.format)]);
+      this.$emit('change', value, [formatDate(start, this.format), formatDate(end, this.format)]);
     },
 
     handleOpenChange(open) {
@@ -193,13 +204,6 @@ export default {
       this.$emit('openChange', false);
     },
 
-    setValue(value, hidePanel) {
-      this.handleChange(value);
-      if ((hidePanel || !this.showTime) && !hasProp(this, 'open')) {
-        this.setState({ sOpen: false });
-      }
-    },
-
     onMouseEnter(e) {
       this.$emit('mouseenter', e);
     },
@@ -215,7 +219,7 @@ export default {
       this.$refs.picker.blur();
     },
 
-    renderFooter(...args) {
+    renderFooter() {
       const { ranges, $scopedSlots, $slots } = this;
       const { _prefixCls: prefixCls, _tagPrefixCls: tagPrefixCls } = this;
       const renderExtraFooter =
@@ -225,24 +229,27 @@ export default {
       }
       const customFooter = renderExtraFooter ? (
         <div class={`${prefixCls}-footer-extra`} key="extra">
-          {typeof renderExtraFooter === 'function' ? renderExtraFooter(...args) : renderExtraFooter}
+          {typeof renderExtraFooter === 'function' ? renderExtraFooter() : renderExtraFooter}
         </div>
       ) : null;
-      const operations = Object.keys(ranges || {}).map(range => {
-        const value = ranges[range];
-        return (
-          <Tag
-            key={range}
-            prefixCls={tagPrefixCls}
-            color="blue"
-            onClick={() => this.handleRangeClick(value)}
-            onMouseenter={() => this.setState({ sHoverValue: value })}
-            onMouseleave={this.handleRangeMouseLeave}
-          >
-            {range}
-          </Tag>
-        );
-      });
+      const operations =
+        ranges &&
+        Object.keys(ranges).map(range => {
+          const value = ranges[range];
+          const hoverValue = typeof value === 'function' ? value.call(this) : value;
+          return (
+            <Tag
+              key={range}
+              prefixCls={tagPrefixCls}
+              color="blue"
+              onClick={() => this.handleRangeClick(value)}
+              onMouseenter={() => this.setState({ sHoverValue: hoverValue })}
+              onMouseleave={this.handleRangeMouseLeave}
+            >
+              {range}
+            </Tag>
+          );
+        });
       const rangeNode =
         operations && operations.length > 0 ? (
           <div class={`${prefixCls}-footer-extra ${prefixCls}-range-quick-selector`} key="range">
@@ -262,16 +269,16 @@ export default {
       sShowDate: showDate,
       sHoverValue: hoverValue,
       sOpen: open,
-      $listeners,
       $scopedSlots,
     } = this;
+    const listeners = getListeners(this);
     const {
       calendarChange = noop,
       ok = noop,
       focus = noop,
       blur = noop,
       panelChange = noop,
-    } = $listeners;
+    } = listeners;
     const {
       prefixCls: customizePrefixCls,
       tagPrefixCls: customizeTagPrefixCls,
@@ -284,6 +291,8 @@ export default {
       locale,
       localeCode,
       format,
+      separator,
+      inputReadOnly,
     } = props;
     const getPrefixCls = this.configProvider.getPrefixCls;
     const prefixCls = getPrefixCls('calendar', customizePrefixCls);
@@ -321,28 +330,33 @@ export default {
       calendarProps.props.mode = props.mode;
     }
 
-    const startPlaceholder =
-      'placeholder' in props ? props.placeholder[0] : locale.lang.rangePlaceholder[0];
-    const endPlaceholder =
-      'placeholder' in props ? props.placeholder[1] : locale.lang.rangePlaceholder[1];
+    const startPlaceholder = Array.isArray(props.placeholder)
+      ? props.placeholder[0]
+      : locale.lang.rangePlaceholder[0];
+    const endPlaceholder = Array.isArray(props.placeholder)
+      ? props.placeholder[1]
+      : locale.lang.rangePlaceholder[1];
+
     const rangeCalendarProps = mergeProps(calendarProps, {
       props: {
-        format: format,
-        prefixCls: prefixCls,
+        separator,
+        format,
+        prefixCls,
         renderFooter: this.renderFooter,
         timePicker: props.timePicker,
-        disabledDate: disabledDate,
-        disabledTime: disabledTime,
+        disabledDate,
+        disabledTime,
         dateInputPlaceholder: [startPlaceholder, endPlaceholder],
         locale: locale.lang,
-        dateRender: dateRender,
+        dateRender,
         value: showDate,
-        hoverValue: hoverValue,
-        showToday: showToday,
+        hoverValue,
+        showToday,
+        inputReadOnly,
       },
       on: {
         change: calendarChange,
-        ok: ok,
+        ok,
         valueChange: this.handleShowDateChange,
         hoverChange: this.handleHoverChange,
         panelChange,
@@ -369,14 +383,7 @@ export default {
         />
       ) : null;
 
-    const inputIcon = (suffixIcon &&
-      (isValidElement(suffixIcon) ? (
-        cloneElement(suffixIcon, {
-          class: `${prefixCls}-picker-icon`,
-        })
-      ) : (
-        <span class={`${prefixCls}-picker-icon`}>{suffixIcon}</span>
-      ))) || <Icon type="calendar" class={`${prefixCls}-picker-icon`} />;
+    const inputIcon = <InputIcon suffixIcon={suffixIcon} prefixCls={prefixCls} />;
 
     const input = ({ value: inputValue }) => {
       const [start, end] = inputValue;
@@ -385,16 +392,16 @@ export default {
           <input
             disabled={props.disabled}
             readOnly
-            value={(start && start.format(props.format)) || ''}
+            value={formatDate(start, props.format)}
             placeholder={startPlaceholder}
             class={`${prefixCls}-range-picker-input`}
             tabIndex={-1}
           />
-          <span class={`${prefixCls}-range-picker-separator`}> ~ </span>
+          <span class={`${prefixCls}-range-picker-separator`}> {separator} </span>
           <input
             disabled={props.disabled}
             readOnly
-            value={(end && end.format(props.format)) || ''}
+            value={formatDate(end, props.format)}
             placeholder={endPlaceholder}
             class={`${prefixCls}-range-picker-input`}
             tabIndex={-1}
@@ -407,14 +414,14 @@ export default {
     const vcDatePickerProps = mergeProps(
       {
         props,
-        on: $listeners,
+        on: listeners,
       },
       pickerChangeHandler,
       {
         props: {
-          calendar: calendar,
-          value: value,
-          open: open,
+          calendar,
+          value,
+          open,
           prefixCls: `${prefixCls}-picker-container`,
         },
         on: {

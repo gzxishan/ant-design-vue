@@ -1,5 +1,5 @@
 import PropTypes from '../../../_util/vue-types';
-import { getOptionProps } from '../../../_util/props-util';
+import { getOptionProps, getListeners } from '../../../_util/props-util';
 import cx from 'classnames';
 import DateConstants from './DateConstants';
 import { getTitleString, getTodayTime } from '../util/';
@@ -50,8 +50,7 @@ const DateTBody = {
       disabledDate,
       hoverValue,
     } = props;
-    const { $listeners = {} } = this;
-    const { select = noop, dayHover = noop } = $listeners;
+    const { select = noop, dayHover = noop } = getListeners(this);
     let iIndex;
     let jIndex;
     let current;
@@ -140,11 +139,21 @@ const DateTBody = {
                 cls += ` ${selectedStartDateClass}`;
               }
             }
-            if (startValue && endValue) {
+            if (startValue || endValue) {
               if (isSameDay(current, endValue)) {
                 selected = true;
                 isActiveWeek = true;
                 cls += ` ${selectedEndDateClass}`;
+              } else if (
+                (startValue === null || startValue === undefined) &&
+                current.isBefore(endValue, 'day')
+              ) {
+                cls += ` ${inRangeClass}`;
+              } else if (
+                (endValue === null || endValue === undefined) &&
+                current.isAfter(startValue, 'day')
+              ) {
+                cls += ` ${inRangeClass}`;
               } else if (current.isAfter(startValue, 'day') && current.isBefore(endValue, 'day')) {
                 cls += ` ${inRangeClass}`;
               }

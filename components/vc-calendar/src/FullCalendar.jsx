@@ -1,7 +1,7 @@
 import moment from 'moment';
 import PropTypes from '../../_util/vue-types';
 import BaseMixin from '../../_util/BaseMixin';
-import { getOptionProps, hasProp } from '../../_util/props-util';
+import { getOptionProps, hasProp, getListeners } from '../../_util/props-util';
 import DateTable from './date/DateTable';
 import MonthTable from './month/MonthTable';
 import CalendarMixin, { getNowByCurrentStateValue } from './mixin/CalendarMixin';
@@ -9,9 +9,10 @@ import CommonMixin from './mixin/CommonMixin';
 import CalendarHeader from './full-calendar/CalendarHeader';
 import enUs from './locale/en_US';
 const FullCalendar = {
+  name: 'FullCalendar',
   props: {
     locale: PropTypes.object.def(enUs),
-    format: PropTypes.string,
+    format: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     visible: PropTypes.bool.def(true),
     prefixCls: PropTypes.string.def('rc-calendar'),
     defaultType: PropTypes.string.def('date'),
@@ -93,7 +94,7 @@ const FullCalendar = {
       headerRender,
       disabledDate,
     } = props;
-    const { sValue: value, sType: type, $listeners } = this;
+    const { sValue: value, sType: type } = this;
 
     let header = null;
     if (showHeader) {
@@ -109,7 +110,7 @@ const FullCalendar = {
             value,
           },
           on: {
-            ...$listeners,
+            ...getListeners(this),
             typeChange: this.setType,
             valueChange: this.setValue,
           },

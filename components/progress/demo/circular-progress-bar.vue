@@ -1,14 +1,11 @@
 <cn>
-#### 进度圈
+#### 进度圈 
+
 圈形的进度。
 </cn>
-
 <us>
-#### Circular progress bar
-A circular progress bar.
+#### Circular Progress Bar
 </us>
-
-```tpl
 <template>
   <div>
     <a-progress type="circle" :percent="75" />
@@ -17,10 +14,9 @@ A circular progress bar.
   </div>
 </template>
 <style scoped>
-  .ant-progress-circle-wrap,
-  .ant-progress-line-wrap {
-    margin-right: 8px;
-    margin-bottom: 5px;
-  }
+.ant-progress-circle-wrap,
+.ant-progress-line-wrap {
+  margin-right: 8px;
+  margin-bottom: 5px;
+}
 </style>
-```

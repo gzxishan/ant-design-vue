@@ -1,9 +1,26 @@
 import Icon from '../icon';
 import ScrollableInkTabBar from '../vc-tabs/src/ScrollableInkTabBar';
 import { cloneElement } from '../_util/vnode';
+import PropTypes from '../_util/vue-types';
+import { getListeners } from '../_util/props-util';
 const TabBar = {
-  functional: true,
-  render(h, context) {
+  name: 'TabBar',
+  inheritAttrs: false,
+  props: {
+    prefixCls: PropTypes.string,
+    tabBarStyle: PropTypes.object,
+    tabBarExtraContent: PropTypes.any,
+    type: PropTypes.oneOf(['line', 'card', 'editable-card']),
+    tabPosition: PropTypes.oneOf(['top', 'right', 'bottom', 'left']).def('top'),
+    tabBarPosition: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+    size: PropTypes.oneOf(['default', 'small', 'large']),
+    animated: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    renderTabBar: PropTypes.func,
+    panels: PropTypes.array.def([]),
+    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    tabBarGutter: PropTypes.number,
+  },
+  render() {
     const {
       tabBarStyle,
       animated = true,
@@ -13,7 +30,7 @@ const TabBar = {
       prefixCls,
       type = 'line',
       size,
-    } = context.props;
+    } = this.$props;
     const inkBarAnimated = typeof animated === 'object' ? animated.inkBar : animated;
 
     const isVertical = tabPosition === 'left' || tabPosition === 'right';
@@ -39,14 +56,15 @@ const TabBar = {
 
     const renderProps = {
       props: {
-        ...context.props,
+        ...this.$props,
+        ...this.$attrs,
         inkBarAnimated,
         extraContent: tabBarExtraContent,
         prevIcon,
         nextIcon,
       },
       style: tabBarStyle,
-      on: context.listeners,
+      on: getListeners(this),
       class: cls,
     };
 
@@ -54,11 +72,11 @@ const TabBar = {
 
     if (renderTabBar) {
       RenderTabBar = renderTabBar(renderProps, ScrollableInkTabBar);
+      // https://github.com/vueComponent/ant-design-vue/issues/2157
+      return cloneElement(RenderTabBar, renderProps);
     } else {
-      RenderTabBar = <ScrollableInkTabBar {...renderProps} />;
+      return <ScrollableInkTabBar {...renderProps} />;
     }
-
-    return cloneElement(RenderTabBar, renderProps);
   },
 };
 

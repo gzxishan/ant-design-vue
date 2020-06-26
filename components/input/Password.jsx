@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { getComponentFromProp, getOptionProps } from '../_util/props-util';
+import { getComponentFromProp, getOptionProps, getListeners } from '../_util/props-util';
 import Input from './Input';
 import Icon from '../icon';
 import inputProps from './inputProps';
@@ -14,6 +14,7 @@ const ActionMap = {
 export default {
   name: 'AInputPassword',
   mixins: [BaseMixin],
+  inheritAttrs: false,
   model: {
     prop: 'value',
     event: 'change.value',
@@ -37,7 +38,10 @@ export default {
     blur() {
       this.$refs.input.blur();
     },
-    onChange() {
+    onVisibleChange() {
+      if (this.disabled) {
+        return;
+      }
       this.setState({
         visible: !this.visible,
       });
@@ -50,7 +54,7 @@ export default {
           type: this.visible ? 'eye' : 'eye-invisible',
         },
         on: {
-          [iconTrigger]: this.onChange,
+          [iconTrigger]: this.onVisibleChange,
           mousedown: e => {
             // Prevent focused state lost
             // https://github.com/ant-design/ant-design/issues/15173
@@ -92,7 +96,7 @@ export default {
       },
       class: inputClassName,
       ref: 'input',
-      on: this.$listeners,
+      on: getListeners(this),
     };
     return <Input {...inputProps} />;
   },

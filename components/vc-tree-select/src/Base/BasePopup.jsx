@@ -2,13 +2,14 @@ import warning from 'warning';
 import PropTypes from '../../../_util/vue-types';
 import { Tree } from '../../../vc-tree';
 import BaseMixin from '../../../_util/BaseMixin';
+import { createRef } from '../util';
 
 // export const popupContextTypes = {
 //   onPopupKeyDown: PropTypes.func.isRequired,
 //   onTreeNodeSelect: PropTypes.func.isRequired,
 //   onTreeNodeCheck: PropTypes.func.isRequired,
 // }
-function getDerivedStateFromProps(nextProps, prevState) {
+function getDerivedState(nextProps, prevState) {
   const {
     _prevProps: prevProps = {},
     _loadedKeys: loadedKeys,
@@ -105,11 +106,12 @@ const BasePopup = {
   },
   watch: {
     __propsSymbol__() {
-      const state = getDerivedStateFromProps(this.$props, this.$data);
+      const state = getDerivedState(this.$props, this.$data);
       this.setState(state);
     },
   },
   data() {
+    this.treeRef = createRef();
     warning(this.$props.__propsSymbol__, 'must pass __propsSymbol__');
     const { treeDefaultExpandAll, treeDefaultExpandedKeys, keyEntities } = this.$props;
 
@@ -122,14 +124,14 @@ const BasePopup = {
     const state = {
       _keyList: [],
       _expandedKeyList: expandedKeyList,
-      // Cache `expandedKeyList` when tree is in filter. This is used in `getDerivedStateFromProps`
-      _cachedExpandedKeyList: [], // eslint-disable-line react/no-unused-state
+      // Cache `expandedKeyList` when tree is in filter. This is used in `getDerivedState`
+      _cachedExpandedKeyList: [],
       _loadedKeys: [],
       _prevProps: {},
     };
     return {
       ...state,
-      ...getDerivedStateFromProps(this.$props, state),
+      ...getDerivedState(this.$props, state),
     };
   },
   methods: {
@@ -148,6 +150,10 @@ const BasePopup = {
 
     onLoad(loadedKeys) {
       this.setState({ _loadedKeys: loadedKeys });
+    },
+
+    getTree() {
+      return this.treeRef.current;
     },
 
     /**
@@ -231,7 +237,7 @@ const BasePopup = {
       } else {
         $notFound = this.renderNotFound();
       }
-    } else if (!treeNodes.length) {
+    } else if (!treeNodes || !treeNodes.length) {
       $notFound = this.renderNotFound();
     } else {
       $treeNodes = treeNodes;
@@ -249,12 +255,12 @@ const BasePopup = {
           selectable: !treeCheckable,
           checkable: treeCheckable,
           checkStrictly: treeCheckStrictly,
-          multiple: multiple,
-          loadData: loadData,
-          loadedKeys: loadedKeys,
+          multiple,
+          loadData,
+          loadedKeys,
           expandedKeys: expandedKeyList,
           filterTreeNode: this.filterTreeNode,
-          switcherIcon: switcherIcon,
+          switcherIcon,
           ...treeProps,
           __propsSymbol__: Symbol(),
           children: $treeNodes,
@@ -265,6 +271,12 @@ const BasePopup = {
           expand: this.onTreeExpand,
           load: this.onLoad,
         },
+        directives: [
+          {
+            name: 'ant-ref',
+            value: this.treeRef,
+          },
+        ],
       };
       $tree = <Tree {...treeAllProps} />;
     }

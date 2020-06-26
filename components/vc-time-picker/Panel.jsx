@@ -3,7 +3,7 @@ import PropTypes from '../_util/vue-types';
 import BaseMixin from '../_util/BaseMixin';
 import Header from './Header';
 import Combobox from './Combobox';
-import { getComponentFromProp } from '../_util/props-util';
+import { getComponentFromProp, getListeners } from '../_util/props-util';
 
 function noop() {}
 
@@ -75,11 +75,9 @@ const Panel = {
   },
   watch: {
     value(val) {
-      if (val) {
-        this.setState({
-          sValue: val,
-        });
-      }
+      this.setState({
+        sValue: val,
+      });
     },
   },
 
@@ -101,7 +99,9 @@ const Panel = {
     close() {
       this.__emit('esc');
     },
-
+    onEsc(e) {
+      this.__emit('esc', e);
+    },
     disabledHours2() {
       const { use12Hours, disabledHours } = this;
       let disabledOptions = disabledHours();
@@ -129,7 +129,6 @@ const Panel = {
       addon,
       disabledSeconds,
       hideDisabledOptions,
-      allowEmpty,
       showHour,
       showMinute,
       showSecond,
@@ -144,10 +143,9 @@ const Panel = {
       inputReadOnly,
       sValue,
       currentSelectPanel,
-      $listeners = {},
     } = this;
     const clearIcon = getComponentFromProp(this, 'clearIcon');
-    const { esc = noop, clear = noop, keydown = noop } = $listeners;
+    const { esc = noop, keydown = noop } = getListeners(this);
 
     const disabledHourOptions = this.disabledHours2();
     const disabledMinuteOptions = disabledMinutes(sValue ? sValue.hour() : null);
@@ -192,7 +190,6 @@ const Panel = {
           disabledMinutes={disabledMinutes}
           disabledSeconds={disabledSeconds}
           onChange={this.onChange}
-          allowEmpty={allowEmpty}
           focusOnOpen={focusOnOpen}
           onKeydown={keydown}
           inputReadOnly={inputReadOnly}
@@ -216,6 +213,7 @@ const Panel = {
           disabledSeconds={disabledSeconds}
           onCurrentSelectPanelChange={this.onCurrentSelectPanelChange}
           use12Hours={use12Hours}
+          onEsc={this.onEsc}
           isAM={this.isAM()}
         />
         {addon(this)}

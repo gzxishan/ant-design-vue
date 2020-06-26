@@ -4,8 +4,10 @@ import PopupInner from './PopupInner';
 import LazyRenderBox from './LazyRenderBox';
 import animate from '../_util/css-animation';
 import BaseMixin from '../_util/BaseMixin';
+import { getListeners } from '../_util/props-util';
 
 export default {
+  name: 'VCTriggerPopup',
   mixins: [BaseMixin],
   props: {
     visible: PropTypes.bool,
@@ -22,7 +24,7 @@ export default {
     mask: PropTypes.bool,
     zIndex: PropTypes.number,
     popupClassName: PropTypes.any,
-    popupStyle: PropTypes.object.def({}),
+    popupStyle: PropTypes.object.def(() => ({})),
     stretch: PropTypes.string,
     point: PropTypes.shape({
       pageX: PropTypes.number,
@@ -44,12 +46,14 @@ export default {
       this.setStretchSize();
     });
   },
-  beforeUpdate() {
-    if (this.domEl && this.domEl.rcEndListener) {
-      this.domEl.rcEndListener();
-      this.domEl = null;
-    }
-  },
+  // 如添加会导致动画失效，如放开会导致快速输入时闪动 https://github.com/vueComponent/ant-design-vue/issues/1327，
+  // 目前方案是保留动画，闪动问题(动画多次执行)进一步定位
+  // beforeUpdate() {
+  //   if (this.domEl && this.domEl.rcEndListener) {
+  //     this.domEl.rcEndListener();
+  //     this.domEl = null;
+  //   }
+  // },
   updated() {
     this.$nextTick(() => {
       this.setStretchSize();
@@ -72,7 +76,8 @@ export default {
         this.currentAlignClassName = currentAlignClassName;
         popupDomNode.className = this.getClassName(currentAlignClassName);
       }
-      this.$listeners.align && this.$listeners.align(popupDomNode, align);
+      const listeners = getListeners(this);
+      listeners.align && listeners.align(popupDomNode, align);
     },
 
     // Record size if stretch needed
@@ -148,7 +153,7 @@ export default {
       return `${this.$props.prefixCls} ${this.$props.popupClassName} ${currentAlignClassName}`;
     },
     getPopupElement() {
-      const { $props: props, $slots, $listeners, getTransitionName } = this;
+      const { $props: props, $slots, getTransitionName } = this;
       const { stretchChecked, targetHeight, targetWidth } = this.$data;
 
       const {
@@ -161,7 +166,6 @@ export default {
         destroyPopupOnHide,
         stretch,
       } = props;
-      // const { mouseenter, mouseleave } = $listeners
       const className = this.getClassName(
         this.currentAlignClassName || getClassNameFromAlign(align),
       );
@@ -183,7 +187,6 @@ export default {
         } else if (stretch.indexOf('minWidth') !== -1) {
           sizeStyle.minWidth = typeof targetWidth === 'number' ? `${targetWidth}px` : targetWidth;
         }
-
         // Delay force align to makes ui smooth
         if (!stretchChecked) {
           // sizeStyle.visibility = 'hidden'
@@ -201,15 +204,15 @@ export default {
           // hiddenClassName,
         },
         class: className,
-        on: $listeners,
+        on: getListeners(this),
         ref: 'popupInstance',
         style: { ...sizeStyle, ...popupStyle, ...this.getZIndexStyle() },
       };
       let transitionProps = {
-        props: Object.assign({
+        props: {
           appear: true,
           css: false,
-        }),
+        },
       };
       const transitionName = getTransitionName();
       let useTransition = !!transitionName;
@@ -226,6 +229,8 @@ export default {
                 this.domEl = el;
                 animate(el, `${transitionName}-enter`, done);
               });
+            } else {
+              done();
             }
           });
         },

@@ -1,6 +1,6 @@
 import PropTypes from '../../../_util/vue-types';
 import BaseMixin from '../../../_util/BaseMixin';
-import { getOptionProps, getComponentFromProp } from '../../../_util/props-util';
+import { getOptionProps, getComponentFromProp, getListeners } from '../../../_util/props-util';
 import { cloneElement } from '../../../_util/vnode';
 import CalendarHeader from '../calendar/CalendarHeader';
 import DateTable from '../date/DateTable';
@@ -30,11 +30,13 @@ const CalendarPart = {
     timePickerDisabledTime: PropTypes.object,
     enableNext: PropTypes.any,
     enablePrev: PropTypes.any,
-    dateRender: PropTypes.func,
     clearIcon: PropTypes.any,
+    dateRender: PropTypes.func,
+    inputMode: PropTypes.string,
+    inputReadOnly: PropTypes.bool,
   },
   render() {
-    const { $props: props, $listeners = {} } = this;
+    const { $props: props } = this;
     const {
       prefixCls,
       value,
@@ -56,6 +58,9 @@ const CalendarPart = {
       showDateInput,
       dateRender,
       showWeekNumber,
+      showClear,
+      inputMode,
+      inputReadOnly,
     } = props;
     const clearIcon = getComponentFromProp(this, 'clearIcon');
     const {
@@ -65,7 +70,7 @@ const CalendarPart = {
       panelChange = noop,
       select = noop,
       dayHover = noop,
-    } = $listeners;
+    } = getListeners(this);
     const shouldShowTimePicker = showTimePicker && timePicker;
     const disabledTimeConfig =
       shouldShowTimePicker && disabledTime ? getTimeConfig(selectedValue, disabledTime) : null;
@@ -107,12 +112,13 @@ const CalendarPart = {
         placeholder={placeholder}
         disabledTime={disabledTime}
         value={value}
-        showClear={false}
+        showClear={showClear || false}
         selectedValue={selectedValue[index]}
-        onChange={inputSelect}
         onChange={inputChange}
         onSelect={inputSelect}
         clearIcon={clearIcon}
+        inputMode={inputMode}
+        inputReadOnly={inputReadOnly}
       />
     );
     const headerProps = {

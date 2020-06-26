@@ -1,70 +1,78 @@
 <script>
-import Line from './line.md';
-import Circle from './circle.md';
-import LineMini from './line-mini.md';
-import CircleMini from './circle-mini.md';
-import CircleDynamic from './circle-dynamic.md';
-import Format from './format.md';
-import Dynamic from './dynamic.md';
-import Dashboard from './dashboard.md';
-import Segment from './segment.md';
-import Linecap from './linecap.md';
-import CN from '../index.zh-CN.md';
-import US from '../index.en-US.md';
+import CProgressBar from './progress-bar';
+import CProgressBarString from '!raw-loader!./progress-bar';
+import CMiniSizeProgressBar from './mini-size-progress-bar';
+import CMiniSizeProgressBarString from '!raw-loader!./mini-size-progress-bar';
+import CDynamicCircularProgressBar from './dynamic-circular-progress-bar';
+import CDynamicCircularProgressBarString from '!raw-loader!./dynamic-circular-progress-bar';
+import CDynamic from './dynamic';
+import CDynamicString from '!raw-loader!./dynamic';
+import CProgressBarWithSuccessSegment from './progress-bar-with-success-segment';
+import CProgressBarWithSuccessSegmentString from '!raw-loader!./progress-bar-with-success-segment';
+import CCustomLineGradient from './custom-line-gradient';
+import CCustomLineGradientString from '!raw-loader!./custom-line-gradient';
+import CCircularProgressBar from './circular-progress-bar';
+import CCircularProgressBarString from '!raw-loader!./circular-progress-bar';
+import CMiniSizeCircularProgressBar from './mini-size-circular-progress-bar';
+import CMiniSizeCircularProgressBarString from '!raw-loader!./mini-size-circular-progress-bar';
+import CCustomTextFormat from './custom-text-format';
+import CCustomTextFormatString from '!raw-loader!./custom-text-format';
+import CDashboard from './dashboard';
+import CDashboardString from '!raw-loader!./dashboard';
+import CSquareLinecaps from './square-linecaps';
+import CSquareLinecapsString from '!raw-loader!./square-linecaps';
+import CN from '../index.zh-CN';
+import US from '../index.en-US';
 
 const md = {
-  cn: `# Progress 进度条
-  展示操作的当前进度。
-  ## 何时使用
-  在操作需要较长时间才能完成时，为用户显示该操作的当前进度和状态。
+us:``,
+cn:`# Progress 进度条
 
-  - 当一个操作会打断当前界面，或者需要在后台运行，且耗时可能超过2秒时；
-  - 当需要显示一个操作完成的百分比时。
-        ## 代码演示`,
-  us: `# Progress
-  Display the current progress of an operation flow.
-  ## When To Use
-  If it will take a long time to complete an operation, you can use \`Progress\` to show the current progress and status.
+展示操作的当前进度。
 
-  - When an operation will interrupt the current interface, or it needs to run in the background for more than 2 seconds.
-  - When you need to display the completion percentage of an operation.
-  ## Examples
-  `,
+## 何时使用
+
+在操作需要较长时间才能完成时，为用户显示该操作的当前进度和状态。
+
+- 当一个操作会打断当前界面，或者需要在后台运行，且耗时可能超过2秒时；
+- 当需要显示一个操作完成的百分比时。代码演示`
 };
+
 export default {
   category: 'Components',
   subtitle: '进度条',
   type: 'Feedback',
+  zhType: '反馈',
+  cols: 2,
   title: 'Progress',
   render() {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <br />
-        <Line />
-        <br />
-        <Circle />
-        <br />
-        <LineMini />
-        <br />
-        <CircleMini />
-        <br />
-        <CircleDynamic />
-        <br />
-        <Format />
-        <br />
-        <Dynamic />
-        <br />
-        <Dashboard />
-        <br />
-        <Segment />
-        <br />
-        <Linecap />
-        <br />
+        <demo-container code={CProgressBarString}><CProgressBar /></demo-container>
+
+<demo-container code={CMiniSizeProgressBarString}><CMiniSizeProgressBar /></demo-container>
+
+<demo-container code={CDynamicCircularProgressBarString}><CDynamicCircularProgressBar /></demo-container>
+
+<demo-container code={CDynamicString}><CDynamic /></demo-container>
+
+<demo-container code={CProgressBarWithSuccessSegmentString}><CProgressBarWithSuccessSegment /></demo-container>
+
+<demo-container code={CCustomLineGradientString}><CCustomLineGradient /></demo-container>
+
+<demo-container code={CCircularProgressBarString}><CCircularProgressBar /></demo-container>
+
+<demo-container code={CMiniSizeCircularProgressBarString}><CMiniSizeCircularProgressBar /></demo-container>
+
+<demo-container code={CCustomTextFormatString}><CCustomTextFormat /></demo-container>
+
+<demo-container code={CDashboardString}><CDashboard /></demo-container>
+
+<demo-container code={CSquareLinecapsString}><CSquareLinecaps /></demo-container>
+
         <api>
-          <template slot="cn">
-            <CN />
-          </template>
+          <CN slot="cn" />
           <US />
         </api>
       </div>

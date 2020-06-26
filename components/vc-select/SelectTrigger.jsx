@@ -1,9 +1,11 @@
 import classnames from 'classnames';
+import raf from 'raf';
 import Trigger from '../vc-trigger';
 import PropTypes from '../_util/vue-types';
 import DropdownMenu from './DropdownMenu';
 import { isSingleMode, saveRef } from './util';
 import BaseMixin from '../_util/BaseMixin';
+import { getListeners } from '../_util/props-util';
 
 const BUILT_IN_PLACEMENTS = {
   bottomLeft: {
@@ -64,6 +66,7 @@ export default {
     };
   },
   created() {
+    this.rafInstance = null;
     this.saveDropdownMenuRef = saveRef(this, 'dropdownMenuRef');
     this.saveTriggerRef = saveRef(this, 'triggerRef');
   },
@@ -79,14 +82,24 @@ export default {
       this.setDropdownWidth();
     });
   },
+  beforeDestroy() {
+    this.cancelRafInstance();
+  },
   methods: {
     setDropdownWidth() {
-      const width = this.$el.offsetWidth;
-      if (width !== this.dropdownWidth) {
-        this.setState({ dropdownWidth: width });
+      this.cancelRafInstance();
+      this.rafInstance = raf(() => {
+        const width = this.$el.offsetWidth;
+        if (width !== this.dropdownWidth) {
+          this.setState({ dropdownWidth: width });
+        }
+      });
+    },
+    cancelRafInstance() {
+      if (this.rafInstance) {
+        raf.cancel(this.rafInstance);
       }
     },
-
     getInnerMenu() {
       return this.dropdownMenuRef && this.dropdownMenuRef.$refs.menuRef;
     },
@@ -105,7 +118,7 @@ export default {
         backfillValue,
         menuItemSelectedIcon,
       } = this;
-      const { menuSelect, menuDeselect, popupScroll } = this.$listeners;
+      const { menuSelect, menuDeselect, popupScroll } = getListeners(this);
       const props = this.$props;
 
       const { dropdownRender, ariaId } = props;
@@ -157,7 +170,7 @@ export default {
   },
 
   render() {
-    const { $props, $slots, $listeners } = this;
+    const { $props, $slots } = this;
     const {
       multiple,
       visible,
@@ -173,7 +186,7 @@ export default {
       showAction,
       empty,
     } = $props;
-    const { mouseenter, mouseleave, popupFocus, dropdownVisibleChange } = $listeners;
+    const { mouseenter, mouseleave, popupFocus, dropdownVisibleChange } = getListeners(this);
     const dropdownPrefixCls = this.getDropdownPrefixCls();
     const popupClassName = {
       [dropdownClassName]: !!dropdownClassName,

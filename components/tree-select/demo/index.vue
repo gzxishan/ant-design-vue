@@ -1,46 +1,55 @@
 <script>
-import Basic from './basic';
-import Checkable from './checkable';
-import Multiple from './multiple';
-import TreeData from './treeData';
-import Suffix from './suffix';
-
-import CN from '../index.zh-CN.md';
-import US from '../index.en-US.md';
+import CBasic from './basic';
+import CBasicString from '!raw-loader!./basic';
+import CMultipleSelection from './multiple-selection';
+import CMultipleSelectionString from '!raw-loader!./multiple-selection';
+import CSuffix from './suffix';
+import CSuffixString from '!raw-loader!./suffix';
+import CCheckable from './checkable';
+import CCheckableString from '!raw-loader!./checkable';
+import CGenerateFormTreeData from './generate-form-tree-data';
+import CGenerateFormTreeDataString from '!raw-loader!./generate-form-tree-data';
+import CAsynchronousLoading from './asynchronous-loading';
+import CAsynchronousLoadingString from '!raw-loader!./asynchronous-loading';
+import CN from '../index.zh-CN';
+import US from '../index.en-US';
 
 const md = {
-  cn: `# 树型选择控件
-  ## 何时使用
+us:``,
+cn:`# 树型选择控件
+
+## 何时使用
 
 类似 Select 的选择控件，可选择的数据结构是一个树形结构时，可以使用 TreeSelect，例如公司层级、学科系统、分类目录等等。
 
-        ## 代码演示`,
-  us: `# TreeSelect
-  ## When To Use
-
-\`TreeSelect\` is similar to \`Select\`, but the values are provided in a tree like structure.
-Any data whose entries are defined in a hierarchical manner is fit to use this control. Examples of such case may include a corporate hierarchy, a directory structure, and so on.
-## Examples
-  `,
+## 代码演示`
 };
+
 export default {
   category: 'Components',
-  subtitle: '树选择',
+  subtitle: '树型选择控件',
   type: 'Data Entry',
+  zhType: '数据录入',
+  cols: 2,
   title: 'TreeSelect',
   render() {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <Basic />
-        <Checkable />
-        <Multiple />
-        <TreeData />
-        <Suffix />
+        <demo-container code={CBasicString}><CBasic /></demo-container>
+
+<demo-container code={CMultipleSelectionString}><CMultipleSelection /></demo-container>
+
+<demo-container code={CSuffixString}><CSuffix /></demo-container>
+
+<demo-container code={CCheckableString}><CCheckable /></demo-container>
+
+<demo-container code={CGenerateFormTreeDataString}><CGenerateFormTreeData /></demo-container>
+
+<demo-container code={CAsynchronousLoadingString}><CAsynchronousLoading /></demo-container>
+
         <api>
-          <template slot="cn">
-            <CN />
-          </template>
+          <CN slot="cn" />
           <US />
         </api>
       </div>

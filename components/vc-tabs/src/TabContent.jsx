@@ -15,8 +15,10 @@ export default {
       default: 'ant-tabs',
       type: String,
     },
-    activeKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
+    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     tabBarPosition: String,
+    direction: PropTypes.string,
+    destroyInactiveTabPane: PropTypes.bool,
   },
   computed: {
     classes() {
@@ -55,14 +57,14 @@ export default {
     },
   },
   render() {
-    const { activeKey, tabBarPosition, animated, animatedWithMargin, classes } = this;
+    const { activeKey, tabBarPosition, animated, animatedWithMargin, direction, classes } = this;
     let style = {};
     if (animated && this.$slots.default) {
       const activeIndex = getActiveIndex(this.$slots.default, activeKey);
       if (activeIndex !== -1) {
         const animatedStyle = animatedWithMargin
           ? getMarginStyle(activeIndex, tabBarPosition)
-          : getTransformPropValue(getTransformByIndex(activeIndex, tabBarPosition));
+          : getTransformPropValue(getTransformByIndex(activeIndex, tabBarPosition, direction));
         style = animatedStyle;
       } else {
         style = {

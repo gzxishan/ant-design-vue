@@ -1,14 +1,11 @@
 <cn>
-#### 额外的页脚
+#### 额外的页脚 
+
 在浮层中加入额外的页脚，以满足某些定制信息的需求。
 </cn>
-
 <us>
 #### Extra Footer
-Render extra footer in panel for customized requirements.
 </us>
-
-```tpl
 <template>
   <div>
     <a-date-picker>
@@ -16,7 +13,7 @@ Render extra footer in panel for customized requirements.
         extra footer
       </template>
     </a-date-picker>
-    <a-date-picker showTime>
+    <a-date-picker show-time>
       <template slot="renderExtraFooter">
         extra footer
       </template>
@@ -26,7 +23,7 @@ Render extra footer in panel for customized requirements.
         extra footer
       </template>
     </a-range-picker>
-    <a-range-picker showTime>
+    <a-range-picker show-time>
       <template slot="renderExtraFooter">
         extra footer
       </template>
@@ -38,4 +35,3 @@ Render extra footer in panel for customized requirements.
     </a-month-picker>
   </div>
 </template>
-```

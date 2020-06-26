@@ -2,25 +2,17 @@ import PropTypes from '../_util/vue-types';
 export default {
   prefixCls: PropTypes.string,
   inputPrefixCls: PropTypes.string,
-  defaultValue: [String, Number],
-  value: [String, Number],
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   placeholder: [String, Number],
-  maxlength:[String,Number],
   type: {
     default: 'text',
     type: String,
   },
   name: String,
-  size: {
-    validator(value) {
-      return ['small', 'large', 'default'].includes(value);
-    },
-  },
-  disabled: {
-    default: false,
-    type: Boolean,
-  },
-  readOnly: Boolean,
+  size: PropTypes.oneOf(['small', 'large', 'default']),
+  disabled: PropTypes.bool,
+  readOnly: PropTypes.bool,
   addonBefore: PropTypes.any,
   addonAfter: PropTypes.any,
   // onPressEnter?: React.FormEventHandler<any>;
@@ -38,4 +30,8 @@ export default {
     default: true,
     type: Boolean,
   },
+  maxLength: PropTypes.number,
+  maxlength: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  loading: PropTypes.bool,
+  className: PropTypes.string,
 };

@@ -5,7 +5,7 @@ import scrollIntoView from 'dom-scroll-into-view';
 import { getSelectKeys, preventDefaultEvent } from './util';
 import { cloneElement } from '../_util/vnode';
 import BaseMixin from '../_util/BaseMixin';
-import { getSlotOptions, getComponentFromProp } from '../_util/props-util';
+import { getSlotOptions, getComponentFromProp, getListeners } from '../_util/props-util';
 
 export default {
   name: 'DropdownMenu',
@@ -32,12 +32,16 @@ export default {
     visible(val) {
       if (!val) {
         this.lastVisible = val;
+      } else {
+        this.$nextTick(() => {
+          this.scrollActiveItemToView();
+        });
       }
     },
   },
 
   created() {
-    this.rafInstance = { cancel: () => null };
+    this.rafInstance = null;
     this.lastInputValue = this.$props.inputValue;
     this.lastVisible = false;
   },
@@ -50,18 +54,18 @@ export default {
   },
   updated() {
     const props = this.$props;
-    if (!this.prevVisible && props.visible) {
-      this.$nextTick(() => {
-        this.scrollActiveItemToView();
-      });
-    }
+    // if (!this.prevVisible && props.visible) {
+    //   this.$nextTick(() => {
+    //     this.scrollActiveItemToView();
+    //   });
+    // }
     this.lastVisible = props.visible;
     this.lastInputValue = props.inputValue;
     this.prevVisible = this.visible;
   },
   beforeDestroy() {
-    if (this.rafInstance && this.rafInstance.cancel) {
-      this.rafInstance.cancel();
+    if (this.rafInstance) {
+      raf.cancel(this.rafInstance);
     }
   },
   methods: {
@@ -101,7 +105,7 @@ export default {
         visible,
       } = props;
       const menuItemSelectedIcon = getComponentFromProp(this, 'menuItemSelectedIcon');
-      const { menuDeselect, menuSelect, popupScroll } = this.$listeners;
+      const { menuDeselect, menuSelect, popupScroll } = getListeners(this);
       if (menuItems && menuItems.length) {
         const selectedKeys = getSelectKeys(menuItems, value);
         const menuProps = {
@@ -191,7 +195,7 @@ export default {
   },
   render() {
     const renderMenu = this.renderMenu();
-    const { popupFocus, popupScroll } = this.$listeners;
+    const { popupFocus, popupScroll } = getListeners(this);
     return renderMenu ? (
       <div
         style={{

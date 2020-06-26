@@ -4,7 +4,7 @@ import PropTypes from '../_util/vue-types';
 import animation from '../_util/openAnimation';
 import warning from '../_util/warning';
 import Item from './MenuItem';
-import { hasProp } from '../_util/props-util';
+import { hasProp, getOptionProps } from '../_util/props-util';
 import BaseMixin from '../_util/BaseMixin';
 import commonPropsType from '../vc-menu/commonPropsType';
 import { ConfigConsumerProps } from '../config-provider';
@@ -208,7 +208,9 @@ const Menu = {
     const { layoutSiderContext, $slots, $listeners } = this;
     const { collapsedWidth } = layoutSiderContext;
     const { getPopupContainer: getContextPopupContainer } = this.configProvider;
-    const { prefixCls: customizePrefixCls, theme, getPopupContainer } = this.$props;
+    //const { prefixCls: customizePrefixCls, theme, getPopupContainer } = this.$props;
+    const props = getOptionProps(this);
+    const { prefixCls: customizePrefixCls, theme, getPopupContainer } = props;
     const getPrefixCls = this.configProvider.getPrefixCls;
     const prefixCls = getPrefixCls('menu', customizePrefixCls);
     const menuMode = this.getRealMenuMode();
@@ -221,7 +223,8 @@ const Menu = {
 
     const menuProps = {
       props: {
-        ...omit(this.$props, ['inlineCollapsed']),
+        //...omit(this.$props, ['inlineCollapsed']),
+        ...omit(props, ['inlineCollapsed']),
         getPopupContainer: getPopupContainer || getContextPopupContainer,
         openKeys: this.sOpenKeys,
         mode: menuMode,

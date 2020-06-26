@@ -2,6 +2,7 @@ import PropTypes from '../../../_util/vue-types';
 import BasePopup from '../Base/BasePopup';
 import SearchInput from '../SearchInput';
 import { createRef } from '../util';
+import { getListeners } from '../../../_util/props-util';
 
 const SinglePopup = {
   name: 'SinglePopup',
@@ -16,12 +17,16 @@ const SinglePopup = {
   },
   created() {
     this.inputRef = createRef();
+    this.searchRef = createRef();
+    this.popupRef = createRef();
   },
   methods: {
     onPlaceholderClick() {
       this.inputRef.current.focus();
     },
-
+    getTree() {
+      return this.popupRef.current && this.popupRef.current.getTree();
+    },
     _renderPlaceholder() {
       const { searchPlaceholder, searchValue, prefixCls } = this.$props;
 
@@ -50,11 +55,21 @@ const SinglePopup = {
       }
 
       return (
-        <span class={`${dropdownPrefixCls}-search`}>
+        <span
+          class={`${dropdownPrefixCls}-search`}
+          {...{
+            directives: [
+              {
+                name: 'ant-ref',
+                value: this.searchRef,
+              },
+            ],
+          }}
+        >
           <SearchInput
             {...{
               props: { ...this.$props, renderPlaceholder: this._renderPlaceholder },
-              on: this.$listeners,
+              on: getListeners(this),
               directives: [
                 {
                   name: 'ant-ref',
@@ -72,7 +87,13 @@ const SinglePopup = {
       <BasePopup
         {...{
           props: { ...this.$props, renderSearch: this._renderSearch, __propsSymbol__: Symbol() },
-          on: this.$listeners,
+          on: getListeners(this),
+          directives: [
+            {
+              name: 'ant-ref',
+              value: this.popupRef,
+            },
+          ],
         }}
       />
     );

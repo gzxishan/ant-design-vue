@@ -108,8 +108,9 @@ const Tree = {
 
   data() {
     warning(this.$props.__propsSymbol__, 'must pass __propsSymbol__');
-    warning(this.$props.children, 'please children prop replace slots.default');
+    warning(this.$props.children, 'please use children prop replace slots.default');
     this.needSyncKeys = {};
+    this.domTreeNodes = {};
     const state = {
       _posEntities: new Map(),
       _keyEntities: new Map(),
@@ -127,7 +128,7 @@ const Tree = {
     };
     return {
       ...state,
-      ...this.getDerivedStateFromProps(getOptionProps(this), state),
+      ...this.getDerivedState(getOptionProps(this), state),
     };
   },
   provide() {
@@ -147,13 +148,13 @@ const Tree = {
       'loadedKeys',
     ]),
     __propsSymbol__() {
-      this.setState(this.getDerivedStateFromProps(getOptionProps(this), this.$data));
+      this.setState(this.getDerivedState(getOptionProps(this), this.$data));
       this.needSyncKeys = {};
     },
   },
 
   methods: {
-    getDerivedStateFromProps(props, prevState) {
+    getDerivedState(props, prevState) {
       const { _prevProps } = prevState;
       const newState = {
         _prevProps: { ...props },
@@ -180,7 +181,6 @@ const Tree = {
 
         // Calculate the entities data for quick match
         const entitiesMap = convertTreeToEntities(treeNode);
-        newState._posEntities = entitiesMap.posEntities;
         newState._keyEntities = entitiesMap.keyEntities;
       }
 
@@ -231,8 +231,7 @@ const Tree = {
 
           if (!props.checkStrictly) {
             const conductKeys = conductCheck(checkedKeys, true, keyEntities);
-            checkedKeys = conductKeys.checkedKeys;
-            halfCheckedKeys = conductKeys.halfCheckedKeys;
+            ({ checkedKeys, halfCheckedKeys } = conductKeys);
           }
 
           newState._checkedKeys = checkedKeys;
@@ -366,6 +365,7 @@ const Tree = {
         dragNode: this.dragNode,
         dragNodesKeys: _dragNodesKeys.slice(),
         dropPosition: _dropPosition + Number(posArr[posArr.length - 1]),
+        dropToGap: false,
       };
 
       if (_dropPosition !== 0) {
@@ -499,16 +499,16 @@ const Tree = {
           // Process load data
           const promise = loadData(treeNode);
           promise.then(() => {
-            const newLoadedKeys = arrAdd(this.$data._loadedKeys, eventKey);
-            const newLoadingKeys = arrDel(this.$data._loadingKeys, eventKey);
+            const { _loadedKeys: currentLoadedKeys, _loadingKeys: currentLoadingKeys } = this.$data;
+            const newLoadedKeys = arrAdd(currentLoadedKeys, eventKey);
+            const newLoadingKeys = arrDel(currentLoadingKeys, eventKey);
 
             // onLoad should trigger before internal setState to avoid `loadData` trigger twice.
             // https://github.com/ant-design/ant-design/issues/12464
-            const eventObj = {
+            this.__emit('load', newLoadedKeys, {
               event: 'load',
               node: treeNode,
-            };
-            this.__emit('load', newLoadedKeys, eventObj);
+            });
             this.setUncontrolledState({
               _loadedKeys: newLoadedKeys,
             });
@@ -598,6 +598,14 @@ const Tree = {
       }
     },
 
+    registerTreeNode(key, node) {
+      if (node) {
+        this.domTreeNodes[key] = node;
+      } else {
+        delete this.domTreeNodes[key];
+      }
+    },
+
     isKeyChecked(key) {
       const { _checkedKeys: checkedKeys = [] } = this.$data;
       return checkedKeys.indexOf(key) !== -1;
@@ -652,18 +660,15 @@ const Tree = {
   render() {
     const { _treeNode: treeNode } = this.$data;
     const { prefixCls, focusable, showLine, tabIndex = 0 } = this.$props;
-    const domProps = {};
 
     return (
       <ul
-        {...domProps}
         class={classNames(prefixCls, {
           [`${prefixCls}-show-line`]: showLine,
         })}
         role="tree"
         unselectable="on"
         tabIndex={focusable ? tabIndex : null}
-        onKeydown={focusable ? this.onKeydown : () => {}}
       >
         {mapChildren(treeNode, (node, index) => this.renderTreeNode(node, index))}
       </ul>

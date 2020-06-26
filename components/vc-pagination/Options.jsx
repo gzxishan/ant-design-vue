@@ -26,21 +26,28 @@ export default {
   methods: {
     getValidValue() {
       const { goInputText, current } = this;
-      return isNaN(goInputText) ? current : Number(goInputText);
+      return !goInputText || isNaN(goInputText) ? current : Number(goInputText);
     },
     defaultBuildOptionText(opt) {
       return `${opt.value} ${this.locale.items_per_page}`;
     },
     handleChange(e) {
       const { value, composing } = e.target;
-      if (composing || this.goInputText === value) return;
+      if (e.isComposing || composing || this.goInputText === value) return;
       this.setState({
         goInputText: value,
       });
     },
-    handleBlur() {
-      const { goButton, quickGo } = this;
+    handleBlur(e) {
+      const { goButton, quickGo, rootPrefixCls } = this.$props;
       if (goButton) {
+        return;
+      }
+      if (
+        e.relatedTarget &&
+        (e.relatedTarget.className.indexOf(`${rootPrefixCls}-prev`) >= 0 ||
+          e.relatedTarget.className.indexOf(`${rootPrefixCls}-next`) >= 0)
+      ) {
         return;
       }
       quickGo(this.getValidValue());

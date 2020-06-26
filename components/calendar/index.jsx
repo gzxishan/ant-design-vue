@@ -1,14 +1,15 @@
 import PropTypes from '../_util/vue-types';
 import BaseMixin from '../_util/BaseMixin';
-import { getOptionProps, hasProp, initDefaultProps } from '../_util/props-util';
+import { getOptionProps, hasProp, initDefaultProps, getListeners } from '../_util/props-util';
 import * as moment from 'moment';
 import FullCalendar from '../vc-calendar/src/FullCalendar';
-import LocaleReceiver from '../locale-provider/LocaleReceiver';
 import Header from './Header';
+import LocaleReceiver from '../locale-provider/LocaleReceiver';
 import interopDefault from '../_util/interopDefault';
 import { ConfigConsumerProps } from '../config-provider';
 import enUS from './locale/en_US';
 import Base from '../base';
+import { checkValidate, stringToMoment, momentToString, TimeType } from '../_util/moment-util';
 
 function noop() {
   return null;
@@ -20,12 +21,6 @@ function zerofixed(v) {
   }
   return `${v}`;
 }
-export const MomentType = {
-  type: Object,
-  validator: function(value) {
-    return moment.isMoment(value);
-  },
-};
 function isMomentArray(value) {
   return Array.isArray(value) && !!value.find(val => moment.isMoment(val));
 }
@@ -33,8 +28,8 @@ export const CalendarMode = PropTypes.oneOf(['month', 'year']);
 
 export const CalendarProps = () => ({
   prefixCls: PropTypes.string,
-  value: MomentType,
-  defaultValue: MomentType,
+  value: TimeType,
+  defaultValue: TimeType,
   mode: CalendarMode,
   fullscreen: PropTypes.bool,
   // dateCellRender: PropTypes.func,
@@ -46,6 +41,8 @@ export const CalendarProps = () => ({
   // onSelect?: (date?: moment.Moment) => void;
   disabledDate: PropTypes.func,
   validRange: PropTypes.custom(isMomentArray),
+  headerRender: PropTypes.func,
+  valueFormat: PropTypes.string,
 });
 
 const Calendar = {
@@ -54,7 +51,6 @@ const Calendar = {
   props: initDefaultProps(CalendarProps(), {
     locale: {},
     fullscreen: true,
-    mode: 'month',
   }),
   model: {
     prop: 'value',
@@ -64,20 +60,21 @@ const Calendar = {
     configProvider: { default: () => ConfigConsumerProps },
   },
   data() {
-    const value = this.value || this.defaultValue || interopDefault(moment)();
-    if (!interopDefault(moment).isMoment(value)) {
-      throw new Error('The value/defaultValue of Calendar must be a moment object, ');
-    }
+    const { value, defaultValue, valueFormat } = this;
+    const sValue = value || defaultValue || interopDefault(moment)();
+    checkValidate('Calendar', defaultValue, 'defaultValue', valueFormat);
+    checkValidate('Calendar', value, 'value', valueFormat);
     this._sPrefixCls = undefined;
     return {
-      sValue: value,
-      sMode: this.mode,
+      sValue: stringToMoment(sValue, valueFormat),
+      sMode: this.mode || 'month',
     };
   },
   watch: {
     value(val) {
+      checkValidate('Calendar', val, 'value', this.valueFormat);
       this.setState({
-        sValue: val,
+        sValue: stringToMoment(val, this.valueFormat),
       });
     },
     mode(val) {
@@ -87,64 +84,38 @@ const Calendar = {
     },
   },
   methods: {
-    monthCellRender2(value) {
-      const { _sPrefixCls, $scopedSlots } = this;
-      const monthCellRender = this.monthCellRender || $scopedSlots.monthCellRender || noop;
-      return (
-        <div class={`${_sPrefixCls}-month`}>
-          <div class={`${_sPrefixCls}-value`}>{value.localeData().monthsShort(value)}</div>
-          <div class={`${_sPrefixCls}-content`}>{monthCellRender(value)}</div>
-        </div>
-      );
-    },
-
-    dateCellRender2(value) {
-      const { _sPrefixCls, $scopedSlots } = this;
-      const dateCellRender = this.dateCellRender || $scopedSlots.dateCellRender || noop;
-      return (
-        <div class={`${_sPrefixCls}-date`}>
-          <div class={`${_sPrefixCls}-value`}>{zerofixed(value.date())}</div>
-          <div class={`${_sPrefixCls}-content`}>{dateCellRender(value)}</div>
-        </div>
-      );
-    },
-
-    setValue(value, way) {
-      if (way === 'select') {
-        this.$emit('select', value);
-      } else if (way === 'changePanel') {
-        this.onPanelChange(value, this.sMode);
-      }
-      if (!hasProp(this, 'value')) {
-        this.setState({ sValue: value });
-      }
-    },
-
-    setType(type) {
-      const mode = type === 'date' ? 'month' : 'year';
-      if (this.sMode !== mode) {
-        this.setState({ sMode: mode });
-        this.onPanelChange(this.sValue, mode);
-      }
-    },
-
     onHeaderValueChange(value) {
       this.setValue(value, 'changePanel');
     },
-
-    onHeaderTypeChange(type) {
-      this.setType(type);
+    onHeaderTypeChange(mode) {
+      this.sMode = mode;
+      this.onPanelChange(this.sValue, mode);
     },
-
     onPanelChange(value, mode) {
-      this.$emit('panelChange', value, mode);
+      const val = this.valueFormat ? momentToString(value, this.valueFormat) : value;
+      this.$emit('panelChange', val, mode);
       if (value !== this.sValue) {
-        this.$emit('change', value);
+        this.$emit('change', val);
       }
     },
 
     onSelect(value) {
       this.setValue(value, 'select');
+    },
+    setValue(value, way) {
+      const prevValue = this.value ? stringToMoment(this.value, this.valueFormat) : this.sValue;
+      const { sMode: mode, valueFormat } = this;
+      if (!hasProp(this, 'value')) {
+        this.setState({ sValue: value });
+      }
+      if (way === 'select') {
+        if (prevValue && prevValue.month() !== value.month()) {
+          this.onPanelChange(value, mode);
+        }
+        this.$emit('select', valueFormat ? momentToString(value, valueFormat) : value);
+      } else if (way === 'changePanel') {
+        this.onPanelChange(value, mode);
+      }
     },
     getDateRange(validRange, disabledDate) {
       return current => {
@@ -170,9 +141,31 @@ const Calendar = {
       };
       return result;
     },
+    monthCellRender2(value) {
+      const { _sPrefixCls, $scopedSlots } = this;
+      const monthCellRender = this.monthCellRender || $scopedSlots.monthCellRender || noop;
+      return (
+        <div class={`${_sPrefixCls}-month`}>
+          <div class={`${_sPrefixCls}-value`}>{value.localeData().monthsShort(value)}</div>
+          <div class={`${_sPrefixCls}-content`}>{monthCellRender(value)}</div>
+        </div>
+      );
+    },
+
+    dateCellRender2(value) {
+      const { _sPrefixCls, $scopedSlots } = this;
+      const dateCellRender = this.dateCellRender || $scopedSlots.dateCellRender || noop;
+      return (
+        <div class={`${_sPrefixCls}-date`}>
+          <div class={`${_sPrefixCls}-value`}>{zerofixed(value.date())}</div>
+          <div class={`${_sPrefixCls}-content`}>{dateCellRender(value)}</div>
+        </div>
+      );
+    },
+
     renderCalendar(locale, localeCode) {
       const props = getOptionProps(this);
-      const { sValue: value, sMode: mode, $listeners, $scopedSlots } = this;
+      const { sValue: value, sMode: mode, $scopedSlots } = this;
       if (value && localeCode) {
         value.locale(localeCode);
       }
@@ -182,9 +175,9 @@ const Calendar = {
         dateFullCellRender,
         monthFullCellRender,
       } = props;
+      const headerRender = this.headerRender || $scopedSlots.headerRender;
       const getPrefixCls = this.configProvider.getPrefixCls;
       const prefixCls = getPrefixCls('fullcalendar', customizePrefixCls);
-      const type = mode === 'year' ? 'month' : 'date';
 
       // To support old version react.
       // Have to add prefixCls on the instance.
@@ -211,16 +204,16 @@ const Calendar = {
           ...props,
           Select: {},
           locale: locale.lang,
-          type: type,
-          prefixCls: prefixCls,
+          type: mode === 'year' ? 'month' : 'date',
+          prefixCls,
           showHeader: false,
-          value: value,
-          monthCellRender: monthCellRender,
-          dateCellRender: dateCellRender,
+          value,
+          monthCellRender,
+          dateCellRender,
           disabledDate,
         },
         on: {
-          ...$listeners,
+          ...getListeners(this),
           select: this.onSelect,
         },
       };
@@ -228,7 +221,8 @@ const Calendar = {
         <div class={cls}>
           <Header
             fullscreen={fullscreen}
-            type={type}
+            type={mode}
+            headerRender={headerRender}
             value={value}
             locale={locale.lang}
             prefixCls={prefixCls}

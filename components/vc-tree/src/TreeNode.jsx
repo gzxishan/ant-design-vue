@@ -4,7 +4,6 @@ import { getNodeChildren, mapChildren, warnOnlyTreeNode } from './util';
 import { initDefaultProps, filterEmpty, getComponentFromProp } from '../../_util/props-util';
 import BaseMixin from '../../_util/BaseMixin';
 import getTransitionProps from '../../_util/getTransitionProps';
-import { cloneElement } from '../../_util/vnode';
 
 function noop() {}
 const ICON_OPEN = 'open';
@@ -18,7 +17,7 @@ const TreeNode = {
   __ANT_TREE_NODE: true,
   props: initDefaultProps(
     {
-      eventKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]), // Pass by parent `cloneElement`
+      eventKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // Pass by parent `cloneElement`
       prefixCls: PropTypes.string,
       // className: PropTypes.string,
       root: PropTypes.object,
@@ -39,13 +38,13 @@ const TreeNode = {
 
       // By user
       isLeaf: PropTypes.bool,
+      checkable: PropTypes.bool,
       selectable: PropTypes.bool,
       disabled: PropTypes.bool,
       disableCheckbox: PropTypes.bool,
       icon: PropTypes.any,
       dataRef: PropTypes.object,
       switcherIcon: PropTypes.any,
-
       label: PropTypes.any,
       value: PropTypes.any,
     },
@@ -69,10 +68,22 @@ const TreeNode = {
 
   // Isomorphic needn't load data in server side
   mounted() {
+    const {
+      eventKey,
+      vcTree: { registerTreeNode },
+    } = this;
     this.syncLoadData(this.$props);
+    registerTreeNode && registerTreeNode(eventKey, this);
   },
   updated() {
     this.syncLoadData(this.$props);
+  },
+  beforeDestroy() {
+    const {
+      eventKey,
+      vcTree: { registerTreeNode },
+    } = this;
+    registerTreeNode && registerTreeNode(eventKey, null);
   },
 
   methods: {
@@ -111,10 +122,10 @@ const TreeNode = {
 
       const { disableCheckbox, checked } = this;
       const {
-        vcTree: { checkable, onNodeCheck },
+        vcTree: { onNodeCheck },
       } = this;
 
-      if (!checkable || disableCheckbox) return;
+      if (!this.isCheckable() || disableCheckbox) return;
 
       e.preventDefault();
       const targetChecked = !checked;
@@ -275,18 +286,15 @@ const TreeNode = {
       return !!(treeDisabled || disabled);
     },
 
-    isSelectable() {
-      const { selectable } = this;
+    isCheckable() {
+      const { checkable } = this.$props;
       const {
-        vcTree: { selectable: treeSelectable },
+        vcTree: { checkable: treeCheckable },
       } = this;
 
-      // Ignore when selectable is undefined or null
-      if (typeof selectable === 'boolean') {
-        return selectable;
-      }
-
-      return treeSelectable;
+      // Return false if tree or treeNode is not checkable
+      if (!treeCheckable || checkable === false) return false;
+      return treeCheckable;
     },
 
     // Load data to avoid default expanded tree without data
@@ -307,6 +315,20 @@ const TreeNode = {
       }
     },
 
+    isSelectable() {
+      const { selectable } = this;
+      const {
+        vcTree: { selectable: treeSelectable },
+      } = this;
+
+      // Ignore when selectable is undefined or null
+      if (typeof selectable === 'boolean') {
+        return selectable;
+      }
+
+      return treeSelectable;
+    },
+
     // Switcher
     renderSwitcher() {
       const { expanded } = this;
@@ -323,7 +345,7 @@ const TreeNode = {
             class={classNames(`${prefixCls}-switcher`, `${prefixCls}-switcher-noop`)}
           >
             {typeof switcherIcon === 'function'
-              ? cloneElement(switcherIcon({ ...this.$props, isLeaf: true }))
+              ? switcherIcon({ ...this.$props, ...this.$props.dataRef, isLeaf: true })
               : switcherIcon}
           </span>
         );
@@ -336,7 +358,7 @@ const TreeNode = {
       return (
         <span key="switcher" onClick={this.onExpand} class={switcherCls}>
           {typeof switcherIcon === 'function'
-            ? cloneElement(switcherIcon({ ...this.$props, isLeaf: false }))
+            ? switcherIcon({ ...this.$props, ...this.$props.dataRef, isLeaf: false })
             : switcherIcon}
         </span>
       );
@@ -346,9 +368,10 @@ const TreeNode = {
     renderCheckbox() {
       const { checked, halfChecked, disableCheckbox } = this;
       const {
-        vcTree: { prefixCls, checkable },
+        vcTree: { prefixCls },
       } = this;
       const disabled = this.isDisabled();
+      const checkable = this.isCheckable();
 
       if (!checkable) return null;
 
@@ -391,12 +414,13 @@ const TreeNode = {
 
     // Icon + Title
     renderSelector(h) {
-      const { selected, icon, loading, dragNodeHighlight } = this;
+      const { selected, loading, dragNodeHighlight } = this;
+      const icon = getComponentFromProp(this, 'icon', {}, false);
       const {
         vcTree: { prefixCls, showIcon, icon: treeIcon, draggable, loadData },
       } = this;
       const disabled = this.isDisabled();
-      const title = getComponentFromProp(this, 'title') || defaultTitle;
+      const title = getComponentFromProp(this, 'title', {}, false);
       const wrapClass = `${prefixCls}-node-content-wrapper`;
 
       // Icon - Still show loading icon when loading without showIcon
@@ -406,7 +430,9 @@ const TreeNode = {
         const currentIcon = icon || treeIcon;
         $icon = currentIcon ? (
           <span class={classNames(`${prefixCls}-iconEle`, `${prefixCls}-icon__customize`)}>
-            {typeof currentIcon === 'function' ? currentIcon({ ...this.$props }, h) : currentIcon}
+            {typeof currentIcon === 'function'
+              ? currentIcon({ ...this.$props, ...this.$props.dataRef }, h)
+              : currentIcon}
           </span>
         ) : (
           this.renderIcon()
@@ -415,8 +441,16 @@ const TreeNode = {
         $icon = this.renderIcon();
       }
 
-      // Title
-      const $title = <span class={`${prefixCls}-title`}>{title}</span>;
+      const currentTitle = title;
+      let $title = currentTitle ? (
+        <span class={`${prefixCls}-title`}>
+          {typeof currentTitle === 'function'
+            ? currentTitle({ ...this.$props, ...this.$props.dataRef }, h)
+            : currentTitle}
+        </span>
+      ) : (
+        <span class={`${prefixCls}-title`}>{defaultTitle}</span>
+      );
 
       return (
         <span

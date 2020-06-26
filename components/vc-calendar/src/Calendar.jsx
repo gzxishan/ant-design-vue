@@ -14,7 +14,15 @@ import enUs from './locale/en_US';
 import { getTimeConfig, getTodayTime, syncTime } from './util';
 import { goStartMonth, goEndMonth, goTime } from './util/toTime';
 
+const getMomentObjectIfValid = date => {
+  if (moment.isMoment(date) && date.isValid()) {
+    return date;
+  }
+  return false;
+};
+
 const Calendar = {
+  name: 'Calendar',
   props: {
     locale: PropTypes.object.def(enUs),
     format: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
@@ -46,6 +54,8 @@ const Calendar = {
     renderSidebar: PropTypes.func.def(() => null),
     clearIcon: PropTypes.any,
     focusablePanel: PropTypes.bool.def(true),
+    inputMode: PropTypes.string,
+    inputReadOnly: PropTypes.bool,
   },
 
   mixins: [BaseMixin, CommonMixin, CalendarMixin],
@@ -54,7 +64,10 @@ const Calendar = {
     const props = this.$props;
     return {
       sMode: this.mode || 'date',
-      sValue: props.value || props.defaultValue || moment(),
+      sValue:
+        getMomentObjectIfValid(props.value) ||
+        getMomentObjectIfValid(props.defaultValue) ||
+        moment(),
       sSelectedValue: props.selectedValue || props.defaultSelectedValue,
     };
   },
@@ -63,9 +76,11 @@ const Calendar = {
       this.setState({ sMode: val });
     },
     value(val) {
-      const sValue = val || this.defaultValue || getNowByCurrentStateValue(this.sValue);
       this.setState({
-        sValue,
+        sValue:
+          getMomentObjectIfValid(val) ||
+          getMomentObjectIfValid(this.defaultValue) ||
+          getNowByCurrentStateValue(this.sValue),
       });
     },
     selectedValue(val) {
@@ -190,6 +205,25 @@ const Calendar = {
         source: 'todayButton',
       });
     },
+
+    onBlur(event) {
+      setTimeout(() => {
+        const dateInput = DateInput.getInstance();
+        const rootInstance = this.rootInstance;
+
+        if (
+          !rootInstance ||
+          rootInstance.contains(document.activeElement) ||
+          (dateInput && dateInput.contains(document.activeElement))
+        ) {
+          // focused element is still part of Calendar
+          return;
+        }
+
+        this.$emit('blur', event);
+      }, 0);
+    },
+
     getRootDOMNode() {
       return this.$el;
     },
@@ -217,6 +251,10 @@ const Calendar = {
       sSelectedValue,
       sMode,
       renderFooter,
+      inputMode,
+      inputReadOnly,
+      monthCellRender,
+      monthCellContentRender,
       $props: props,
     } = this;
     const clearIcon = getComponentFromProp(this, 'clearIcon');
@@ -267,6 +305,8 @@ const Calendar = {
         onChange={this.onDateInputChange}
         clearIcon={clearIcon}
         onSelect={this.onDateInputSelect}
+        inputMode={inputMode}
+        inputReadOnly={inputReadOnly}
       />
     ) : null;
     const children = [];
@@ -286,6 +326,8 @@ const Calendar = {
             renderFooter={renderFooter}
             showTimePicker={showTimePicker}
             prefixCls={prefixCls}
+            monthCellRender={monthCellRender}
+            monthCellContentRender={monthCellContentRender}
           />
           {timePicker && showTimePicker ? (
             <div class={`${prefixCls}-time-picker`}>
@@ -317,6 +359,7 @@ const Calendar = {
             showDateInput={props.showDateInput}
             timePicker={timePicker}
             selectedValue={sSelectedValue}
+            timePickerDisabled={!sSelectedValue}
             value={sValue}
             disabledDate={disabledDate}
             okDisabled={

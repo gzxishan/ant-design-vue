@@ -1,7 +1,9 @@
 import PropTypes from '../../_util/vue-types';
 import Touchable from '../../vc-m-feedback';
+import { getListeners } from '../../_util/props-util';
 
 const InputHandler = {
+  name: 'InputHandler',
   props: {
     prefixCls: PropTypes.string,
     disabled: PropTypes.bool,
@@ -13,7 +15,7 @@ const InputHandler = {
         disabled,
         activeClassName: `${prefixCls}-handler-active`,
       },
-      on: this.$listeners,
+      on: getListeners(this),
     };
     return (
       <Touchable {...touchableProps}>

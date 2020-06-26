@@ -8,13 +8,13 @@ import CalendarMixin from './mixin/CalendarMixin';
 import CommonMixin from './mixin/CommonMixin';
 import enUs from './locale/en_US';
 const MonthCalendar = {
+  name: 'MonthCalendar',
   props: {
     locale: PropTypes.object.def(enUs),
     format: PropTypes.string,
     visible: PropTypes.bool.def(true),
     prefixCls: PropTypes.string.def('rc-calendar'),
     monthCellRender: PropTypes.func,
-    dateCellRender: PropTypes.func,
     value: PropTypes.object,
     defaultValue: PropTypes.object,
     selectedValue: PropTypes.object,

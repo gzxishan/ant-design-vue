@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import PropTypes from '../../_util/vue-types';
 import { connect } from '../../_util/store';
 import TableCell from './TableCell';
-import { warningOnce } from './utils';
 import { initDefaultProps, mergeProps, getStyle } from '../../_util/props-util';
 import BaseMixin from '../../_util/BaseMixin';
+import warning from '../../_util/warning';
 function noop() {}
 const TableRow = {
   name: 'TableRow',
@@ -83,34 +83,39 @@ const TableRow = {
     }
   },
   methods: {
-    onRowClick(event) {
+    onRowClick(event, rowPropFunc = noop) {
       const { record, index } = this;
       this.__emit('rowClick', record, index, event);
+      rowPropFunc(event);
     },
 
-    onRowDoubleClick(event) {
+    onRowDoubleClick(event, rowPropFunc = noop) {
       const { record, index } = this;
       this.__emit('rowDoubleClick', record, index, event);
+      rowPropFunc(event);
     },
 
-    onContextMenu(event) {
+    onContextMenu(event, rowPropFunc = noop) {
       const { record, index } = this;
       this.__emit('rowContextmenu', record, index, event);
+      rowPropFunc(event);
     },
 
-    onMouseEnter(event) {
+    onMouseEnter(event, rowPropFunc = noop) {
       const { record, index, rowKey } = this;
       this.__emit('hover', true, rowKey);
       this.__emit('rowMouseenter', record, index, event);
+      rowPropFunc(event);
     },
 
-    onMouseLeave(event) {
+    onMouseLeave(event, rowPropFunc = noop) {
       const { record, index, rowKey } = this;
       this.__emit('hover', false, rowKey);
       this.__emit('rowMouseleave', record, index, event);
+      rowPropFunc(event);
     },
 
-    setExpanedRowHeight() {
+    setExpandedRowHeight() {
       const { store, rowKey } = this;
       let { expandedRowsHeight } = store.getState();
       const height = this.rowRef.getBoundingClientRect().height;
@@ -157,7 +162,7 @@ const TableRow = {
       }
 
       if (!fixed && expandedRow) {
-        this.setExpanedRowHeight();
+        this.setExpandedRowHeight();
       }
 
       if (!fixed && ancestorKeys.length >= 0) {
@@ -201,10 +206,10 @@ const TableRow = {
 
     renderExpandIconCell(cells);
 
-    for (let i = 0; i < columns.length; i++) {
+    for (let i = 0; i < columns.length; i += 1) {
       const column = columns[i];
 
-      warningOnce(
+      warning(
         column.onCellClick === undefined,
         'column[onCellClick] is deprecated, please use column[customCell] instead.',
       );
@@ -241,18 +246,29 @@ const TableRow = {
       customClassName,
       customClass,
     );
+    const rowPropEvents = rowProps.on || {};
     const bodyRowProps = mergeProps(
+      { ...rowProps, style },
       {
         on: {
-          click: this.onRowClick,
-          dblclick: this.onRowDoubleClick,
-          mouseenter: this.onMouseEnter,
-          mouseleave: this.onMouseLeave,
-          contextmenu: this.onContextMenu,
+          click: e => {
+            this.onRowClick(e, rowPropEvents.click);
+          },
+          dblclick: e => {
+            this.onRowDoubleClick(e, rowPropEvents.dblclick);
+          },
+          mouseenter: e => {
+            this.onMouseEnter(e, rowPropEvents.mouseenter);
+          },
+          mouseleave: e => {
+            this.onMouseLeave(e, rowPropEvents.mouseleave);
+          },
+          contextmenu: e => {
+            this.onContextMenu(e, rowPropEvents.contextmenu);
+          },
         },
         class: rowClassName,
       },
-      { ...rowProps, style },
       {
         attrs: {
           'data-row-key': rowKey,
@@ -285,7 +301,7 @@ function getRowHeight(state, props) {
 export default connect((state, props) => {
   const { currentHoverKey, expandedRowKeys } = state;
   const { rowKey, ancestorKeys } = props;
-  const visible = ancestorKeys.length === 0 || ancestorKeys.every(k => ~expandedRowKeys.indexOf(k));
+  const visible = ancestorKeys.length === 0 || ancestorKeys.every(k => expandedRowKeys.includes(k));
 
   return {
     visible,

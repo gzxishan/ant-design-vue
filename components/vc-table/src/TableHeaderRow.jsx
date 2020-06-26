@@ -20,7 +20,10 @@ const TableHeaderRow = {
     const { row, index, height, components, customHeaderRow, prefixCls } = this;
     const HeaderRow = components.header.row;
     const HeaderCell = components.header.cell;
-    const rowProps = customHeaderRow(row.map(cell => cell.column), index);
+    const rowProps = customHeaderRow(
+      row.map(cell => cell.column),
+      index,
+    );
     const customStyle = rowProps ? rowProps.style : {};
     const style = { height, ...customStyle };
     if (style.height === null) {
@@ -29,16 +32,13 @@ const TableHeaderRow = {
     return (
       <HeaderRow {...rowProps} style={style}>
         {row.map((cell, i) => {
-          const { column, children, className, ...cellProps } = cell;
-          const cls = cell.class || className;
+          const { column, isLast, children, className, ...cellProps } = cell;
           const customProps = column.customHeaderCell ? column.customHeaderCell(column) : {};
-
           const headerCellProps = mergeProps(
             {
               attrs: {
                 ...cellProps,
               },
-              class: cls,
             },
             {
               ...customProps,
@@ -48,10 +48,20 @@ const TableHeaderRow = {
 
           if (column.align) {
             headerCellProps.style = { ...customProps.style, textAlign: column.align };
-            headerCellProps.class = classNames(customProps.cls, column.class, column.className, {
-              [`${prefixCls}-align-${column.align}`]: !!column.align,
-            });
           }
+
+          headerCellProps.class = classNames(
+            customProps.class,
+            customProps.className,
+            column.class,
+            column.className,
+            {
+              [`${prefixCls}-align-${column.align}`]: !!column.align,
+              [`${prefixCls}-row-cell-ellipsis`]: !!column.ellipsis,
+              [`${prefixCls}-row-cell-break-word`]: !!column.width,
+              [`${prefixCls}-row-cell-last`]: isLast,
+            },
+          );
 
           if (typeof HeaderCell === 'function') {
             return HeaderCell(h, headerCellProps, children);

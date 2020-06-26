@@ -3,8 +3,9 @@ import classNames from 'classnames';
 import LocaleReceiver from '../locale-provider/LocaleReceiver';
 import { generateShowHourMinuteSecond } from '../time-picker';
 import enUS from './locale/en_US';
-import { getOptionProps, initDefaultProps } from '../_util/props-util';
+import { getOptionProps, initDefaultProps, getListeners } from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider';
+import { checkValidate, stringToMoment, momentToString } from '../_util/moment-util';
 
 const DEFAULT_FORMAT = {
   date: 'YYYY-MM-DD',
@@ -58,14 +59,33 @@ export default function wrapPicker(Picker, props, pickerType) {
       };
     },
     mounted() {
-      const { autoFocus, disabled } = this;
+      const { autoFocus, disabled, value, defaultValue, valueFormat } = this;
+      checkValidate('DatePicker', defaultValue, 'defaultValue', valueFormat);
+      checkValidate('DatePicker', value, 'value', valueFormat);
       if (autoFocus && !disabled) {
         this.$nextTick(() => {
           this.focus();
         });
       }
     },
+    watch: {
+      value(val) {
+        checkValidate('DatePicker', val, 'value', this.valueFormat);
+      },
+    },
     methods: {
+      getDefaultLocale() {
+        const result = {
+          ...enUS,
+          ...this.locale,
+        };
+        result.lang = {
+          ...result.lang,
+          ...(this.locale || {}).lang,
+        };
+        return result;
+      },
+
       savePopupRef(ref) {
         this.popupRef = ref;
       },
@@ -88,7 +108,23 @@ export default function wrapPicker(Picker, props, pickerType) {
       handleMouseLeave(e) {
         this.$emit('mouseleave', e);
       },
-
+      handleChange(date, dateString) {
+        this.$emit(
+          'change',
+          this.valueFormat ? momentToString(date, this.valueFormat) : date,
+          dateString,
+        );
+      },
+      handleOk(val) {
+        this.$emit('ok', this.valueFormat ? momentToString(val, this.valueFormat) : val);
+      },
+      handleCalendarChange(date, dateString) {
+        this.$emit(
+          'calendarChange',
+          this.valueFormat ? momentToString(date, this.valueFormat) : date,
+          dateString,
+        );
+      },
       focus() {
         this.$refs.picker.focus();
       },
@@ -97,23 +133,25 @@ export default function wrapPicker(Picker, props, pickerType) {
         this.$refs.picker.blur();
       },
 
-      getDefaultLocale() {
-        const result = {
-          ...enUS,
-          ...this.locale,
-        };
-        result.lang = {
-          ...result.lang,
-          ...(this.locale || {}).lang,
-        };
-        return result;
+      transformValue(props) {
+        if ('value' in props) {
+          props.value = stringToMoment(props.value, this.valueFormat);
+        }
+        if ('defaultValue' in props) {
+          props.defaultValue = stringToMoment(props.defaultValue, this.valueFormat);
+        }
+        if ('defaultPickerValue' in props) {
+          props.defaultPickerValue = stringToMoment(props.defaultPickerValue, this.valueFormat);
+        }
       },
 
       renderPicker(locale, localeCode) {
         const props = getOptionProps(this);
+        this.transformValue(props);
         const {
           prefixCls: customizePrefixCls,
           inputPrefixCls: customizeInputPrefixCls,
+          getCalendarContainer,
           size,
           showTime,
           disabled,
@@ -125,7 +163,8 @@ export default function wrapPicker(Picker, props, pickerType) {
           locale[LOCALE_FORMAT_MAPPING[mergedPickerType]] ||
           DEFAULT_FORMAT[mergedPickerType];
 
-        const getPrefixCls = this.configProvider.getPrefixCls;
+        const { getPrefixCls, getPopupContainer: getContextPopupContainer } = this.configProvider;
+        const getPopupContainer = getCalendarContainer || getContextPopupContainer;
         const prefixCls = getPrefixCls('calendar', customizePrefixCls);
         const inputPrefixCls = getPrefixCls('input', customizeInputPrefixCls);
 
@@ -155,11 +194,15 @@ export default function wrapPicker(Picker, props, pickerType) {
             transitionName: 'slide-up',
           },
           class: timePickerCls,
+          on: {
+            esc: () => {},
+          },
         };
         const timePicker = showTime ? <TimePickerPanel {...timePickerPanelProps} /> : null;
         const pickerProps = {
           props: {
             ...props,
+            getCalendarContainer: getPopupContainer,
             format: mergedFormat,
             pickerClass,
             pickerInputClass,
@@ -168,12 +211,15 @@ export default function wrapPicker(Picker, props, pickerType) {
             timePicker,
           },
           on: {
-            ...this.$listeners,
+            ...getListeners(this),
             openChange: this.handleOpenChange,
             focus: this.handleFocus,
             blur: this.handleBlur,
             mouseenter: this.handleMouseEnter,
             mouseleave: this.handleMouseLeave,
+            change: this.handleChange,
+            ok: this.handleOk,
+            calendarChange: this.handleCalendarChange,
           },
           ref: 'picker',
           scopedSlots: this.$scopedSlots || {},

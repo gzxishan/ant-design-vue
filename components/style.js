@@ -55,3 +55,9 @@ import './comment/style';
 import './config-provider/style';
 import './empty/style';
 import './statistic/style';
+
+import './form-model/style';
+import './descriptions/style';
+import './result/style';
+import './mentions/style';
+import './page-header/style';

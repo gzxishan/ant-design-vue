@@ -2,7 +2,7 @@ import PropTypes from '../_util/vue-types';
 import VcSelect from '../select';
 import MiniSelect from './MiniSelect';
 import LocaleReceiver from '../locale-provider/LocaleReceiver';
-import { getOptionProps } from '../_util/props-util';
+import { getOptionProps, getListeners } from '../_util/props-util';
 import VcPagination from '../vc-pagination';
 import enUS from '../vc-pagination/locale/en_US';
 import Icon from '../icon';
@@ -11,6 +11,7 @@ import { ConfigConsumerProps } from '../config-provider';
 export const PaginationProps = () => ({
   total: PropTypes.number,
   defaultCurrent: PropTypes.number,
+  disabled: PropTypes.bool,
   current: PropTypes.number,
   defaultPageSize: PropTypes.number,
   pageSize: PropTypes.number,
@@ -19,7 +20,7 @@ export const PaginationProps = () => ({
   pageSizeOptions: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
   buildOptionText: PropTypes.func,
   showSizeChange: PropTypes.func,
-  showQuickJumper: PropTypes.bool,
+  showQuickJumper: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   showTotal: PropTypes.any,
   size: PropTypes.string,
   simple: PropTypes.bool,
@@ -28,6 +29,7 @@ export const PaginationProps = () => ({
   selectPrefixCls: PropTypes.string,
   itemRender: PropTypes.any,
   role: PropTypes.string,
+  showLessItems: PropTypes.bool,
 });
 
 export const PaginationConfig = () => ({
@@ -111,7 +113,7 @@ export default {
         class: {
           mini: isSmall,
         },
-        on: this.$listeners,
+        on: getListeners(this),
       };
 
       return <VcPagination {...paginationProps} />;

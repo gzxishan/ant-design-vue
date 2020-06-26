@@ -7,23 +7,25 @@ import KeyCode from '../../_util/KeyCode';
 import placements from './picker/placements';
 import Trigger from '../../vc-trigger';
 import moment from 'moment';
-import { setTimeout } from 'timers';
-function isMoment(value) {
-  if (Array.isArray(value)) {
-    return (
-      value.length === 0 || value.findIndex(val => val === undefined || moment.isMoment(val)) !== -1
-    );
-  } else {
-    return value === undefined || moment.isMoment(value);
-  }
-}
-const MomentType = PropTypes.custom(isMoment);
+import isNil from 'lodash/isNil';
+const TimeType = {
+  validator(value) {
+    if (Array.isArray(value)) {
+      return (
+        value.length === 0 || value.findIndex(val => !isNil(val) && !moment.isMoment(val)) === -1
+      );
+    } else {
+      return isNil(value) || moment.isMoment(value);
+    }
+  },
+};
 const Picker = {
+  name: 'Picker',
   props: {
     animation: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     disabled: PropTypes.bool,
     transitionName: PropTypes.string,
-    format: PropTypes.string,
+    format: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     // onChange: PropTypes.func,
     // onOpenChange: PropTypes.func,
     children: PropTypes.func,
@@ -33,10 +35,11 @@ const Picker = {
     defaultOpen: PropTypes.bool.def(false),
     prefixCls: PropTypes.string.def('rc-calendar-picker'),
     placement: PropTypes.any.def('bottomLeft'),
-    value: PropTypes.oneOfType([MomentType, PropTypes.arrayOf(MomentType)]),
-    defaultValue: PropTypes.oneOfType([MomentType, PropTypes.arrayOf(MomentType)]),
-    align: PropTypes.object.def({}),
+    value: TimeType,
+    defaultValue: TimeType,
+    align: PropTypes.object.def(() => ({})),
     dropdownClassName: PropTypes.string,
+    dateRender: PropTypes.func,
   },
   mixins: [BaseMixin],
 
@@ -122,6 +125,10 @@ const Picker = {
       this.closeCalendar(this.focus);
     },
 
+    onCalendarBlur() {
+      this.setOpen(false);
+    },
+
     onVisibleChange(open) {
       this.setOpen(open);
     },
@@ -143,6 +150,7 @@ const Picker = {
           ok: createChainedFunction(calendarEvents.ok, this.onCalendarOk),
           select: createChainedFunction(calendarEvents.select, this.onCalendarSelect),
           clear: createChainedFunction(calendarEvents.clear, this.onCalendarClear),
+          blur: createChainedFunction(calendarEvents.blur, this.onCalendarBlur),
         },
       };
 

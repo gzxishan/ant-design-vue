@@ -19,8 +19,18 @@ export const TreeSelectProps = () => ({
   loadData: PropTypes.func,
   maxTagCount: PropTypes.number,
   maxTagPlaceholder: PropTypes.any,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]),
-  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array,
+    PropTypes.number,
+  ]),
+  defaultValue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array,
+    PropTypes.number,
+  ]),
   multiple: PropTypes.bool,
   notFoundContent: PropTypes.any,
   // onSelect: (value: any) => void,
@@ -43,4 +53,5 @@ export const TreeSelectProps = () => ({
   treeDefaultExpandedKeys: PropTypes.array,
   treeNodeFilterProp: PropTypes.string,
   treeNodeLabelProp: PropTypes.string,
+  replaceFields: PropTypes.object.def({}),
 });

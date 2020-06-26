@@ -3,15 +3,16 @@ import BaseMixin from '../../_util/BaseMixin';
 import PropTypes from '../../_util/vue-types';
 import raf from 'raf';
 import KeyCode from './KeyCode';
-import { getOptionProps } from '../../_util/props-util';
+import { getOptionProps, getListeners } from '../../_util/props-util';
 import { cloneElement } from '../../_util/vnode';
 import Sentinel from './Sentinel';
+import isValid from '../../_util/isValid';
 
 function getDefaultActiveKey(props) {
   let activeKey;
   const children = props.children;
   children.forEach(child => {
-    if (child && !activeKey && !child.disabled) {
+    if (child && !isValid(activeKey) && !child.disabled) {
       activeKey = child.key;
     }
   });
@@ -39,9 +40,11 @@ export default {
     children: PropTypes.any.def([]),
     prefixCls: PropTypes.string.def('ant-tabs'),
     tabBarPosition: PropTypes.string.def('top'),
-    activeKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
-    defaultActiveKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
+    activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    defaultActiveKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     __propsSymbol__: PropTypes.any,
+    direction: PropTypes.string.def('ltr'),
+    tabBarGutter: PropTypes.number,
   },
   data() {
     const props = getOptionProps(this);
@@ -177,6 +180,7 @@ export default {
 
       raf.cancel(this.sentinelId);
       this.sentinelId = raf(() => {
+        if (this.destroy) return;
         this.$forceUpdate();
       });
     },
@@ -190,10 +194,13 @@ export default {
       renderTabContent,
       renderTabBar,
       destroyInactiveTabPane,
+      direction,
+      tabBarGutter,
     } = props;
     const cls = {
       [prefixCls]: 1,
       [`${prefixCls}-${tabBarPosition}`]: 1,
+      [`${prefixCls}-rtl`]: direction === 'rtl',
     };
 
     this.tabBar = renderTabBar();
@@ -204,6 +211,8 @@ export default {
         tabBarPosition,
         panels: props.children,
         activeKey: this.$data._activeKey,
+        direction,
+        tabBarGutter,
       },
       on: {
         keydown: this.onNavKeyDown,
@@ -217,6 +226,7 @@ export default {
         tabBarPosition,
         activeKey: this.$data._activeKey,
         destroyInactiveTabPane,
+        direction,
       },
       on: {
         change: this.setActiveKey,
@@ -248,7 +258,7 @@ export default {
       contents.push(tabBar, sentinelStart, tabContent, sentinelEnd);
     }
     const listeners = {
-      ...omit(this.$listeners, ['change']),
+      ...omit(getListeners(this), ['change']),
       scroll: this.onScroll,
     };
     return <div {...{ on: listeners, class: cls }}>{contents}</div>;
