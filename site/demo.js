@@ -23,6 +23,14 @@ export default {
     type: 'Other',
     title: 'ConfigProvider',
   },
+  descriptions: {
+    category: 'Components',
+    subtitle: '描述列表',
+    type: 'Data Display',
+    zhType: '数据展示',
+    cols: 1,
+    title: 'Descriptions',
+  },
   Empty: {
     category: 'Components',
     subtitle: '空状态',
@@ -79,12 +87,28 @@ export default {
     type: 'Data Entry',
     title: 'Select',
   },
+  mentions: {
+    category: 'Components',
+    subtitle: '提及',
+    type: 'Data Entry',
+    zhType: '数据录入',
+    cols: 2,
+    title: 'Mentions',
+  },
   menu: {
     category: 'Components',
     subtitle: '导航菜单',
     type: 'Navigation',
     title: 'Menu',
     cols: 1,
+  },
+  pageHeader: {
+    category: 'Components',
+    subtitle: '页头',
+    type: 'Navigation',
+    zhType: '导航',
+    cols: 1,
+    title: 'PageHeader',
   },
   pagination: {
     category: 'Components',
@@ -117,6 +141,14 @@ export default {
     type: 'Data Entry',
     title: 'Rate',
     cols: 1,
+  },
+  result: {
+    category: 'Components',
+    subtitle: '结果',
+    type: 'Feedback',
+    zhType: '反馈',
+    cols: 2,
+    title: 'Result',
   },
   tabs: {
     category: 'Components',
@@ -324,6 +356,13 @@ export default {
     subtitle: '表单',
     type: 'Data Entry',
     title: 'Form',
+    cols: 1,
+  },
+  formModel: {
+    category: 'Components',
+    subtitle: '表单',
+    type: 'Data Entry',
+    title: 'FormModel',
     cols: 1,
   },
   anchor: {

@@ -96,6 +96,10 @@ export default [
     component: () => import('../components/menu/demo/index.vue'),
   },
   {
+    path: 'page-header-cn',
+    component: () => import('../components/page-header/demo/index.vue'),
+  },
+  {
     path: 'pagination',
     component: () => import('../components/pagination/demo/index.vue'),
   },
@@ -320,6 +324,10 @@ export default [
     component: () => import('../components/progress/demo/index.vue'),
   },
   {
+    path: 'result-cn',
+    component: () => import('../components/result/demo/index.vue'),
+  },
+  {
     path: 'timeline',
     component: () => import('../components/timeline/demo/index.vue'),
   },
@@ -342,6 +350,10 @@ export default [
   {
     path: 'input-number-cn',
     component: () => import('../components/input-number/demo/index.vue'),
+  },
+  {
+    path: 'mentions-cn',
+    component: () => import('../components/mentions/demo/index.vue'),
   },
   {
     path: 'transfer',
@@ -392,6 +404,10 @@ export default [
     component: () => import('../components/form/demo/index.vue'),
   },
   {
+    path: 'form-model-cn',
+    component: () => import('../components/form-model/demo/index.vue'),
+  },
+  {
     path: 'anchor',
     component: () => import('../components/anchor/demo/index.vue'),
   },
@@ -438,6 +454,10 @@ export default [
   {
     path: 'comment-cn',
     component: () => import('../components/comment/demo/index.vue'),
+  },
+  {
+    path: 'descriptions-cn',
+    component: () => import('../components/descriptions/demo/index.vue'),
   },
   {
     path: 'config-provider',

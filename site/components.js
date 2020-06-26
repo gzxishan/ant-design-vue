@@ -17,9 +17,11 @@ import {
   Checkbox,
   Col,
   DatePicker,
+  Descriptions,
   Divider,
   Dropdown,
   Form,
+  FormModel,
   Icon,
   Input,
   InputNumber,
@@ -27,15 +29,18 @@ import {
   List,
   LocaleProvider,
   message,
+  Mentions,
   Menu,
   Modal,
   notification,
+  PageHeader,
   Pagination,
   Popconfirm,
   Popover,
   Progress,
   Radio,
   Rate,
+  Result,
   Row,
   Select,
   Slider,
@@ -90,25 +95,30 @@ Vue.use(Carousel);
 Vue.use(Cascader);
 Vue.use(Checkbox);
 Vue.use(Col);
+Vue.use(Descriptions);
 Vue.use(DatePicker);
 Vue.use(Divider);
 Vue.use(Drawer);
 Vue.use(Dropdown);
 Vue.use(Form);
+Vue.use(FormModel);
 Vue.use(Icon);
 Vue.use(Input);
 Vue.use(InputNumber);
 Vue.use(Layout);
 Vue.use(List);
 Vue.use(LocaleProvider);
+Vue.use(Mentions);
 Vue.use(Menu);
 Vue.use(Modal);
+Vue.use(PageHeader);
 Vue.use(Pagination);
 Vue.use(Popconfirm);
 Vue.use(Popover);
 Vue.use(Progress);
 Vue.use(Radio);
 Vue.use(Rate);
+Vue.use(Result);
 Vue.use(Row);
 Vue.use(Select);
 Vue.use(Slider);
