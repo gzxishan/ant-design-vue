@@ -198,10 +198,19 @@ export function getEvents(child) {
   return { ...events };
 }
 
+// 获取 xxx.native 或者 原生标签 事件
+export function getDataEvents(child) {
+  let events = {};
+  if (child.data && child.data.on) {
+    events = child.data.on;
+  }
+  return { ...events };
+}
+
 // use getListeners instead this.$listeners
 // https://github.com/vueComponent/ant-design-vue/issues/1705
 export function getListeners(context) {
-  return context.$vnode ? context.$vnode.componentOptions.listeners || {} : context.$listeners;
+  return (context.$vnode ? context.$vnode.componentOptions.listeners : context.$listeners) || {};
 }
 export function getClass(ele) {
   let data = {};
@@ -257,6 +266,10 @@ export function getComponentName(opts) {
 
 export function isEmptyElement(c) {
   return !(c.tag || (c.text && c.text.trim() !== ''));
+}
+
+export function isStringElement(c) {
+  return !c.tag;
 }
 
 export function filterEmpty(children = []) {

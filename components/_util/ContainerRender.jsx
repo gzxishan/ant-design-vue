@@ -9,7 +9,6 @@ export default {
     parent: PropTypes.any,
     getComponent: PropTypes.func.isRequired,
     getContainer: PropTypes.func.isRequired,
-    containerClass:PropTypes.any,
     children: PropTypes.func.isRequired,
   },
 
@@ -41,9 +40,9 @@ export default {
     },
 
     renderComponent(props = {}, ready) {
-      const { visible, forceRender, getContainer,containerClass, parent } = this;
+      const { visible, forceRender, getContainer, parent } = this;
       const self = this;
-      if (visible || parent.$refs._component || forceRender) {
+      if (visible || parent._component || parent.$refs._component || forceRender) {
         let el = this.componentEl;
         if (!this.container) {
           this.container = getContainer();
@@ -51,30 +50,14 @@ export default {
           this.componentEl = el;
           this.container.appendChild(el);
         }
-        
-        if(this.container.setAttribute && this.container.removeAttribute){
-	        let classNames=[];
-		      if(typeof containerClass == "string"){
-		      	classNames.push(containerClass);
-		      }else if(containerClass && typeof containerClass == "object"){
-		      	for(let className in containerClass){
-		      		containerClass[className] && classNames.push(className);
-		      	}
-		      }
-		      
-		      if(!classNames.length){
-		      	this.container.removeAttribute("class");
-		      }else{
-		      	this.container.setAttribute("class",classNames.join(' '));
-		      }
-        }
-        
+        // self.getComponent 不要放在 render 中，会因为响应式数据问题导致，多次触发 render
+        const com = { component: self.getComponent(props) };
         if (!this._component) {
           this._component = new this.$root.constructor({
-            el: el,
+            el,
             parent: self,
             data: {
-              comProps: props,
+              _com: com,
             },
             mounted() {
               this.$nextTick(() => {
@@ -90,12 +73,17 @@ export default {
                 }
               });
             },
+            methods: {
+              setComponent(_com) {
+                this.$data._com = _com;
+              },
+            },
             render() {
-              return self.getComponent(this.comProps);
+              return this.$data._com.component;
             },
           });
         } else {
-          this._component.comProps = props;
+          this._component.setComponent(com);
         }
       }
     },
