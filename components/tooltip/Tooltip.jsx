@@ -8,6 +8,7 @@ import {
   getClass,
   getStyle,
   isValidElement,
+  getListeners,
 } from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider';
 import abstractTooltipProps from './abstractTooltipProps';
@@ -77,9 +78,12 @@ export default {
     // mouse events don't trigger at disabled button in Chrome
     // https://github.com/react-component/tooltip/issues/18
     getDisabledCompatibleChildren(ele) {
-      const isAntBtn = ele.componentOptions && ele.componentOptions.Ctor.options.__ANT_BUTTON;
+      const options = (ele.componentOptions && ele.componentOptions.Ctor.options) || {};
+
       if (
-        (isAntBtn &&
+        ((options.__ANT_BUTTON === true ||
+          options.__ANT_SWITCH === true ||
+          options.__ANT_CHECKBOX === true) &&
           (ele.componentOptions.propsData.disabled ||
             ele.componentOptions.propsData.disabled === '')) ||
         (ele.tag === 'button' &&
@@ -103,7 +107,7 @@ export default {
           display: 'inline-block', // default inline-block is important
           ...picked,
           cursor: 'not-allowed',
-          width: isAntBtn && ele.componentOptions.propsData.block ? '100%' : null,
+          width: ele.componentOptions.propsData.block ? '100%' : null,
         };
         const buttonStyle = {
           ...omitted,
@@ -124,8 +128,16 @@ export default {
     },
 
     isNoTitle() {
-      const { $slots, title } = this;
-      return !$slots.title && !title;
+      const title = getComponentFromProp(this, 'title');
+      return !title && title !== 0;
+    },
+
+    getOverlay() {
+      const title = getComponentFromProp(this, 'title');
+      if (title === 0) {
+        return title;
+      }
+      return title || '';
     },
 
     // 动态设置动画点
@@ -161,7 +173,7 @@ export default {
   },
 
   render() {
-    const { $props, $data, $slots, $listeners } = this;
+    const { $props, $data, $slots } = this;
     const { prefixCls: customizePrefixCls, openClassName, getPopupContainer } = $props;
     const { getPopupContainer: getContextPopupContainer } = this.configProvider;
     const getPrefixCls = this.configProvider.getPrefixCls;
@@ -182,25 +194,24 @@ export default {
     const childCls = {
       [openClassName || `${prefixCls}-open`]: true,
     };
-    
     const tooltipProps = {
       props: {
         ...$props,
         prefixCls,
         getTooltipContainer: getPopupContainer || getContextPopupContainer,
         builtinPlacements: this.getPlacements(),
+        overlay: this.getOverlay(),
         visible: sVisible,
       },
       ref: 'tooltip',
       on: {
-        ...$listeners,
+        ...getListeners(this),
         visibleChange: this.onVisibleChange,
         popupAlign: this.onPopupAlign,
       },
     };
     return (
       <VcTooltip {...tooltipProps}>
-        <template slot="overlay">{getComponentFromProp(this, 'title')}</template>
         {sVisible ? cloneElement(child, { class: childCls }) : child}
       </VcTooltip>
     );

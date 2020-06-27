@@ -1,8 +1,10 @@
 import { mount } from '@vue/test-utils';
 import { asyncExpect } from '@/tests/utils';
 import Checkbox from '../index';
+import mountTest from '../../../tests/shared/mountTest';
 
 describe('CheckboxGroup', () => {
+  mountTest(Checkbox.Group);
   it('should work basically', () => {
     const onChange = jest.fn();
     const wrapper = mount(
@@ -19,28 +21,31 @@ describe('CheckboxGroup', () => {
       .findAll('.ant-checkbox-input')
       .at(0)
       .trigger('change');
-    expect(onChange).toBeCalledWith(['Apple']);
+    expect(onChange).toHaveBeenCalledWith(['Apple']);
     wrapper
       .findAll('.ant-checkbox-input')
       .at(1)
       .trigger('change');
-    expect(onChange).toBeCalledWith(['Apple', 'Pear']);
+    expect(onChange).toHaveBeenCalledWith(['Apple', 'Pear']);
     wrapper
       .findAll('.ant-checkbox-input')
       .at(2)
       .trigger('change');
-    expect(onChange).toBeCalledWith(['Apple', 'Pear', 'Orange']);
+    expect(onChange).toHaveBeenCalledWith(['Apple', 'Pear', 'Orange']);
     wrapper
       .findAll('.ant-checkbox-input')
       .at(1)
       .trigger('change');
-    expect(onChange).toBeCalledWith(['Apple', 'Orange']);
+    expect(onChange).toHaveBeenCalledWith(['Apple', 'Orange']);
   });
 
   it('does not trigger onChange callback of both Checkbox and CheckboxGroup when CheckboxGroup is disabled', () => {
     const onChangeGroup = jest.fn();
 
-    const options = [{ label: 'Apple', value: 'Apple' }, { label: 'Pear', value: 'Pear' }];
+    const options = [
+      { label: 'Apple', value: 'Apple' },
+      { label: 'Pear', value: 'Pear' },
+    ];
 
     const groupWrapper = mount(
       {
@@ -86,16 +91,19 @@ describe('CheckboxGroup', () => {
       .findAll('.ant-checkbox-input')
       .at(0)
       .trigger('change');
-    expect(onChangeGroup).toBeCalledWith(['Apple']);
+    expect(onChangeGroup).toHaveBeenCalledWith(['Apple']);
     groupWrapper
       .findAll('.ant-checkbox-input')
       .at(1)
       .trigger('change');
-    expect(onChangeGroup).toBeCalledWith(['Apple']);
+    expect(onChangeGroup).toHaveBeenCalledWith(['Apple']);
   });
 
   it('passes prefixCls down to checkbox', () => {
-    const options = [{ label: 'Apple', value: 'Apple' }, { label: 'Orange', value: 'Orange' }];
+    const options = [
+      { label: 'Apple', value: 'Apple' },
+      { label: 'Orange', value: 'Orange' },
+    ];
 
     const wrapper = mount({
       render() {
@@ -106,7 +114,10 @@ describe('CheckboxGroup', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
   it('should be controlled by value', async () => {
-    const options = [{ label: 'Apple', value: 'Apple' }, { label: 'Orange', value: 'Orange' }];
+    const options = [
+      { label: 'Apple', value: 'Apple' },
+      { label: 'Orange', value: 'Orange' },
+    ];
 
     const wrapper = mount(Checkbox.Group, {
       propsData: { options },

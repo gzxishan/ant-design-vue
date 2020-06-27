@@ -1,6 +1,11 @@
 import classNames from 'classnames';
 import PropTypes from '../_util/vue-types';
-import { getOptionProps, initDefaultProps, getComponentFromProp } from '../_util/props-util';
+import {
+  getOptionProps,
+  initDefaultProps,
+  getComponentFromProp,
+  getListeners,
+} from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider';
 
 export const TimeLineItemProps = {
@@ -8,6 +13,7 @@ export const TimeLineItemProps = {
   color: PropTypes.string,
   dot: PropTypes.any,
   pending: PropTypes.bool,
+  position: PropTypes.oneOf(['left', 'right', '']).def(''),
 };
 
 export default {
@@ -37,14 +43,14 @@ export default {
     });
     const liProps = {
       class: itemClassName,
-      on: this.$listeners,
+      on: getListeners(this),
     };
     return (
       <li {...liProps}>
         <div class={`${prefixCls}-item-tail`} />
         <div
           class={dotClassName}
-          style={{ borderColor: /blue|red|green/.test(color) ? undefined : color }}
+          style={{ borderColor: /blue|red|green|gray/.test(color) ? undefined : color }}
         >
           {dot}
         </div>

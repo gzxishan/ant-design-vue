@@ -1,3 +1,17 @@
+import classNames from 'classnames';
+import PropTypes from '../_util/vue-types';
+import {
+  initDefaultProps,
+  getOptionProps,
+  hasProp,
+  getComponentFromProp,
+  getListeners,
+} from '../_util/props-util';
+import BaseMixin from '../_util/BaseMixin';
+import isNumeric from '../_util/isNumeric';
+import { ConfigConsumerProps } from '../config-provider';
+import Icon from '../icon';
+
 // matchMedia polyfill for
 // https://github.com/WickyNilliams/enquire.js/issues/82
 if (typeof window !== 'undefined') {
@@ -12,26 +26,13 @@ if (typeof window !== 'undefined') {
   window.matchMedia = window.matchMedia || matchMediaPolyfill;
 }
 
-import classNames from 'classnames';
-import PropTypes from '../_util/vue-types';
-import Icon from '../icon';
-import {
-  initDefaultProps,
-  getOptionProps,
-  hasProp,
-  getComponentFromProp,
-} from '../_util/props-util';
-import BaseMixin from '../_util/BaseMixin';
-import isNumeric from '../_util/isNumeric';
-import { ConfigConsumerProps } from '../config-provider';
-
-const dimensionMap = {
-  xs: '480px',
-  sm: '576px',
-  md: '768px',
-  lg: '992px',
-  xl: '1200px',
-  xxl: '1600px',
+const dimensionMaxMap = {
+  xs: '479.98px',
+  sm: '575.98px',
+  md: '767.98px',
+  lg: '991.98px',
+  xl: '1199.98px',
+  xxl: '1599.98px',
 };
 
 // export type CollapseType = 'clickTrigger' | 'responsive';
@@ -43,6 +44,7 @@ export const SiderProps = {
   defaultCollapsed: PropTypes.bool,
   reverseArrow: PropTypes.bool,
   // onCollapse?: (collapsed: boolean, type: CollapseType) => void;
+  zeroWidthTriggerStyle: PropTypes.object,
   trigger: PropTypes.any,
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   collapsedWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -90,8 +92,8 @@ export default {
       matchMedia = window.matchMedia;
     }
     const props = getOptionProps(this);
-    if (matchMedia && props.breakpoint && props.breakpoint in dimensionMap) {
-      this.mql = matchMedia(`(max-width: ${dimensionMap[props.breakpoint]})`);
+    if (matchMedia && props.breakpoint && props.breakpoint in dimensionMaxMap) {
+      this.mql = matchMedia(`(max-width: ${dimensionMaxMap[props.breakpoint]})`);
     }
     let sCollapsed;
     if ('collapsed' in props) {
@@ -186,6 +188,7 @@ export default {
       reverseArrow,
       width,
       collapsedWidth,
+      zeroWidthTriggerStyle,
     } = getOptionProps(this);
     const getPrefixCls = this.configProvider.getPrefixCls;
     const prefixCls = getPrefixCls('layout-sider', customizePrefixCls);
@@ -202,6 +205,7 @@ export default {
           class={`${prefixCls}-zero-width-trigger ${prefixCls}-zero-width-trigger-${
             reverseArrow ? 'right' : 'left'
           }`}
+          style={zeroWidthTriggerStyle}
         >
           <Icon type="bars" />
         </span>
@@ -234,15 +238,15 @@ export default {
       [`${prefixCls}-zero-width`]: parseFloat(siderWidth) === 0,
     });
     const divProps = {
-      on: this.$listeners,
+      on: getListeners(this),
       class: siderCls,
       style: divStyle,
     };
     return (
-      <div {...divProps}>
+      <aside {...divProps}>
         <div class={`${prefixCls}-children`}>{this.$slots.default}</div>
         {collapsible || (this.below && zeroWidthTrigger) ? triggerDom : null}
-      </div>
+      </aside>
     );
   },
 };

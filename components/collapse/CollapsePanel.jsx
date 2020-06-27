@@ -1,4 +1,4 @@
-import { getOptionProps, getComponentFromProp } from '../_util/props-util';
+import { getOptionProps, getComponentFromProp, getListeners } from '../_util/props-util';
 import VcCollapse, { panelProps } from '../vc-collapse';
 import { ConfigConsumerProps } from '../config-provider';
 
@@ -11,7 +11,7 @@ export default {
     configProvider: { default: () => ConfigConsumerProps },
   },
   render() {
-    const { prefixCls: customizePrefixCls, showArrow = true, $listeners } = this;
+    const { prefixCls: customizePrefixCls, showArrow = true } = this;
     const getPrefixCls = this.configProvider.getPrefixCls;
     const prefixCls = getPrefixCls('collapse', customizePrefixCls);
 
@@ -22,9 +22,10 @@ export default {
       props: {
         ...getOptionProps(this),
         prefixCls,
+        extra: getComponentFromProp(this, 'extra'),
       },
       class: collapsePanelClassName,
-      on: $listeners,
+      on: getListeners(this),
     };
     const header = getComponentFromProp(this, 'header');
     return (

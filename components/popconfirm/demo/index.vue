@@ -1,53 +1,55 @@
 <script>
-import Basic from './basic.md';
-import Local from './local.md';
-import Placement from './placement.md';
-import DynamicTrigger from './dynamic-trigger.md';
-import Icon from './icon.md';
-import CN from '../index.zh-CN.md';
-import US from '../index.en-US.md';
+import CBasic from './basic';
+import CBasicString from '!raw-loader!./basic';
+import COPlacement from './o-placement';
+import COPlacementString from '!raw-loader!./o-placement';
+import CCustomizeIcon from './customize-icon';
+import CCustomizeIconString from '!raw-loader!./customize-icon';
+import CLocaleText from './locale-text';
+import CLocaleTextString from '!raw-loader!./locale-text';
+import CConditionalTrigger from './conditional-trigger';
+import CConditionalTriggerString from '!raw-loader!./conditional-trigger';
+import CN from '../index.zh-CN';
+import US from '../index.en-US';
 
 const md = {
-  cn: `# Popconfirm
+us:``,
+cn:`# Popconfirm
 
-  点击元素，弹出气泡式的确认框。
+点击元素，弹出气泡式的确认框。
 
-  ## 何时使用
+## 何时使用
 
-  目标元素的操作需要用户进一步的确认时，在目标元素附近弹出浮层提示，询问用户。
+目标元素的操作需要用户进一步的确认时，在目标元素附近弹出浮层提示，询问用户。
 
-和 'confirm' 弹出的全屏居中模态对话框相比，交互形式更轻量。
-            ## 代码演示`,
-  us: `# Popconfirm
+和 ‘confirm’ 弹出的全屏居中模态对话框相比，交互形式更轻量。
 
-  A simple and compact confirmation dialog of an action.
-
-  # When To Use
-
-  A simple and compact dialog used for asking for user confirmation.
-
-  The difference with the 'confirm' modal dialog is that it's more lightweight than the static popped full-screen confirm modal.
-  ## Examples
-  `,
+## 代码演示`
 };
+
 export default {
   category: 'Components',
   subtitle: '气泡确认框',
   type: 'Feedback',
+  zhType: '反馈',
+  cols: 2,
   title: 'Popconfirm',
   render() {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <Basic />
-        <Local />
-        <Placement />
-        <DynamicTrigger />
-        <Icon />
+        <demo-container code={CBasicString}><CBasic /></demo-container>
+
+<demo-container code={COPlacementString}><COPlacement /></demo-container>
+
+<demo-container code={CCustomizeIconString}><CCustomizeIcon /></demo-container>
+
+<demo-container code={CLocaleTextString}><CLocaleText /></demo-container>
+
+<demo-container code={CConditionalTriggerString}><CConditionalTrigger /></demo-container>
+
         <api>
-          <template slot="cn">
-            <CN />
-          </template>
+          <CN slot="cn" />
           <US />
         </api>
       </div>

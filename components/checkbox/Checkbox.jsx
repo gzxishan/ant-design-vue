@@ -1,13 +1,15 @@
 import PropTypes from '../_util/vue-types';
 import classNames from 'classnames';
 import VcCheckbox from '../vc-checkbox';
-import { getOptionProps, getAttrs } from '../_util/props-util';
+import hasProp, { getOptionProps, getAttrs, getListeners } from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider';
+import warning from '../_util/warning';
 function noop() {}
 
 export default {
   name: 'ACheckbox',
   inheritAttrs: false,
+  __ANT_CHECKBOX: true,
   model: {
     prop: 'checked',
   },
@@ -26,7 +28,36 @@ export default {
   },
   inject: {
     configProvider: { default: () => ConfigConsumerProps },
-    checkboxGroupContext: { default: () => null },
+    checkboxGroupContext: { default: () => undefined },
+  },
+  watch: {
+    value(value, prevValue) {
+      this.$nextTick(() => {
+        const { checkboxGroupContext: checkboxGroup = {} } = this;
+        if (checkboxGroup.registerValue && checkboxGroup.cancelValue) {
+          checkboxGroup.cancelValue(prevValue);
+          checkboxGroup.registerValue(value);
+        }
+      });
+    },
+  },
+  mounted() {
+    const { value, checkboxGroupContext: checkboxGroup = {} } = this;
+    if (checkboxGroup.registerValue) {
+      checkboxGroup.registerValue(value);
+    }
+
+    warning(
+      hasProp(this, 'checked') || this.checkboxGroupContext || !hasProp(this, 'value'),
+      'Checkbox',
+      '`value` is not validate prop, do you mean `checked`?',
+    );
+  },
+  beforeDestroy() {
+    const { value, checkboxGroupContext: checkboxGroup = {} } = this;
+    if (checkboxGroup.cancelValue) {
+      checkboxGroup.cancelValue(value);
+    }
   },
   methods: {
     handleChange(event) {
@@ -43,10 +74,10 @@ export default {
   },
 
   render() {
-    const { checkboxGroupContext: checkboxGroup, $listeners, $slots } = this;
+    const { checkboxGroupContext: checkboxGroup, $slots } = this;
     const props = getOptionProps(this);
     const children = $slots.default;
-    const { mouseenter = noop, mouseleave = noop, input, ...restListeners } = $listeners;
+    const { mouseenter = noop, mouseleave = noop, input, ...restListeners } = getListeners(this);
     const { prefixCls: customizePrefixCls, indeterminate, ...restProps } = props;
     const getPrefixCls = this.configProvider.getPrefixCls;
     const prefixCls = getPrefixCls('checkbox', customizePrefixCls);
@@ -61,8 +92,10 @@ export default {
         this.$emit('change', ...args);
         checkboxGroup.toggleOption({ label: children, value: props.value });
       };
+      checkboxProps.props.name = checkboxGroup.name;
       checkboxProps.props.checked = checkboxGroup.sValue.indexOf(props.value) !== -1;
       checkboxProps.props.disabled = props.disabled || checkboxGroup.disabled;
+      checkboxProps.props.indeterminate = indeterminate;
     } else {
       checkboxProps.on.change = this.handleChange;
     }

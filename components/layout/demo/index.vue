@@ -1,20 +1,30 @@
 <script>
-import Basic from './basic';
-import CustomTrigger from './custom-trigger';
-import FixedSider from './fixed-sider';
-import Fixed from './fixed';
-import Responsive from './responsive';
-import Side from './side';
-import TopSide2 from './top-side-2';
-import TopSide from './top-side';
-import Top from './top';
-
-import CN from '../index.zh-CN.md';
-import US from '../index.en-US.md';
+import CBasic from './basic';
+import CBasicString from '!raw-loader!./basic';
+import CCustomTrigger from './custom-trigger';
+import CCustomTriggerString from '!raw-loader!./custom-trigger';
+import CTopSide2 from './top-side-2';
+import CTopSide2String from '!raw-loader!./top-side-2';
+import CTopSide from './top-side';
+import CTopSideString from '!raw-loader!./top-side';
+import CTop from './top';
+import CTopString from '!raw-loader!./top';
+import CResponsive from './responsive';
+import CResponsiveString from '!raw-loader!./responsive';
+import CFixedSider from './fixed-sider';
+import CFixedSiderString from '!raw-loader!./fixed-sider';
+import CFixedHeader from './fixed-header';
+import CFixedHeaderString from '!raw-loader!./fixed-header';
+import CSider from './sider';
+import CSiderString from '!raw-loader!./sider';
+import CN from '../index.zh-CN';
+import US from '../index.en-US';
 
 const md = {
-  cn: `# 布局
-  协助进行页面级整体布局。
+us:``,
+cn:`# 布局
+
+协助进行页面级整体布局。
 
 ## 设计规则
 
@@ -38,21 +48,21 @@ const md = {
 
 导航样式上需要根据信息层级合理的选择样式：
 
-- **大色块强调**
+- 大色块强调
 
-  建议用于底色为深色系时，当前页面父级的导航项。
+建议用于底色为深色系时，当前页面父级的导航项。
 
-- **高亮火柴棍**
+- 高亮火柴棍
 
-  当导航栏底色为浅色系时使用，可用于当前页面对应导航项，建议尽量在导航路径的最终项使用。
+当导航栏底色为浅色系时使用，可用于当前页面对应导航项，建议尽量在导航路径的最终项使用。
 
-- **字体高亮变色**
+- 字体高亮变色
 
-  从可视化层面，字体高亮的视觉强化力度低于大色块，通常在当前项的上一级使用。
+从可视化层面，字体高亮的视觉强化力度低于大色块，通常在当前项的上一级使用。
 
-- **字体放大**
+- 字体放大
 
-  \`12px\`、\`14px\` 是导航的标准字号，14 号字体用在一、二级导航中。字号可以考虑导航项的等级做相应选择。
+\`12px\`、\`14px\` 是导航的标准字号，14 号字体用在一、二级导航中。字号可以考虑导航项的等级做相应选择。
 
 ## 组件概述
 
@@ -63,107 +73,40 @@ const md = {
 - \`Footer\`：底部布局，自带默认样式，其下可嵌套任何元素，只能放在 \`Layout\` 中。
 
 > 注意：采用 flex 布局实现，请注意[浏览器兼容性](http://caniuse.com/#search=flex)问题。
-
-        ## 代码演示`,
-  us: `# Layout
-  Handling the overall layout of a page.
-
-## Specification
-
-### Size
-
-The first level navigation is inclined left near a logo, and the secondary menu is inclined right.
-
-- Top Navigation (almost systems): the height of the first level navigation \`64px\`, the second level navigation \`48px\`.
-- Top Navigation(contents page): the height of the first level navigation \`80px\`, the second level navigation \`56px\`.
-- Calculation formula of a top navigation: \`48+8n\`.
-- Calculation formula of an aside navigation: \`200+8n\`.
-
-### Interaction rules
-
-- The first level navigation and the last level navigation should be distinguishable by visualization;
-- The current item should have the highest priority of visualization;
-- When the current navigation item is collapsed, the style of the current navigation item is applied to its parent level;
-- The left side navigation bar has support for both the accordion and expanding styles; you can choose the one that fits your case the best.
-
-## Visualization rules
-
- Style of a navigation should conform to its level.
-
-- **Emphasis by colorblock**
-
-  When background color is a deep color, you can use this pattern for the parent level navigation item of the current page.
-
-- **The highlight match stick**
-
-  When background color is a light color, you can use this pattern for the current page navigation item; we recommend using it for the last item of the navigation path.
-
-- **Highlighted font**
-
-  From the visualization aspect, a highlighted font is stronger than colorblock; this pattern is often used for the parent level of the current item.
-
-- **Enlarge the size of the font**
-
-  \`12px\`, \`14px\` is a standard font size of navigations, \`14px\` is used for the first and the second level of the navigation. You can choose an appropriate font size regarding the level of your navigation.
-
-## Component Overview
-
-- \`Layout\`: The layout wrapper, in which \`Header\` \`Sider\` \`Content\` \`Footer\` or \`Layout\` itself can be nested, and can be placed in any parent container.
-- \`Header\`: The top layout with the default style, in which any element can be nested, and must be placed in \`Layout\`.
-- \`Sider\`: The sidebar with default style and basic functions, in which any element can be nested, and must be placed in \`Layout\`.
-- \`Content\`: The content layout with the default style, in which any element can be nested, and must be placed in \`Layout\`.
-- \`Footer\`: The bottom layout with the default style, in which any element can be nested, and must be placed in \`Layout\`.
-
-> Based on \`flex layout\`, please pay attention to the [compatibility](http://caniuse.com/#search=flex).
-
-  ## Examples
-  `,
+## 代码演示`
 };
+
 export default {
   category: 'Components',
   subtitle: '布局',
   type: 'Layout',
+  zhType: '布局',
   cols: 1,
   title: 'Layout',
-  props: {
-    iframeName: String,
-  },
-  provide() {
-    return {
-      iframeDemo: !this.iframeName
-        ? {
-            'fixed-sider': '/iframe/layout/#fixed-sider',
-            'fixed-header': '/iframe/layout/#fixed-header',
-            sider: '/iframe/layout/#sider',
-          }
-        : {},
-    };
-  },
   render() {
-    const iframeName = this.iframeName;
-    if (iframeName === 'fixed-sider') {
-      return <FixedSider />;
-    } else if (iframeName === 'fixed-header') {
-      return <Fixed />;
-    } else if (iframeName === 'sider') {
-      return <Side />;
-    }
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <Basic />
-        <CustomTrigger />
-        <TopSide2 />
-        <TopSide />
-        <Top />
-        <Responsive />
-        <FixedSider />
-        <Fixed />
-        <Side />
+        <demo-container code={CBasicString}><CBasic /></demo-container>
+
+<demo-container code={CCustomTriggerString}><CCustomTrigger /></demo-container>
+
+<demo-container code={CTopSide2String}><CTopSide2 /></demo-container>
+
+<demo-container code={CTopSideString}><CTopSide /></demo-container>
+
+<demo-container code={CTopString}><CTop /></demo-container>
+
+<demo-container code={CResponsiveString}><CResponsive /></demo-container>
+
+<demo-container code={CFixedSiderString}><CFixedSider /></demo-container>
+
+<demo-container code={CFixedHeaderString}><CFixedHeader /></demo-container>
+
+<demo-container code={CSiderString}><CSider /></demo-container>
+
         <api>
-          <template slot="cn">
-            <CN />
-          </template>
+          <CN slot="cn" />
           <US />
         </api>
       </div>

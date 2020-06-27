@@ -1,6 +1,6 @@
 import { getComponentFromProp, initDefaultProps } from '../_util/props-util';
 import KeyCode from '../_util/KeyCode';
-import contains from '../_util/Dom/contains';
+import contains from '../vc-util/Dom/contains';
 import LazyRenderBox from './LazyRenderBox';
 import BaseMixin from '../_util/BaseMixin';
 import getTransitionProps from '../_util/getTransitionProps';
@@ -10,7 +10,6 @@ const IDialogPropTypes = getDialogPropTypes();
 
 let uuid = 0;
 
-/* eslint react/no-is-mounted:0 */
 function noop() {}
 function getScroll(w, top) {
   let ret = w[`page${top ? 'Y' : 'X'}Offset`];
@@ -111,7 +110,7 @@ export default {
     },
     updatedCallback(visible) {
       const mousePosition = this.mousePosition;
-      const {mask, focusTriggerAfterClose} = this;
+      const { mask, focusTriggerAfterClose } = this;
       if (this.visible) {
         // first show
         if (!visible) {
@@ -219,8 +218,10 @@ export default {
         visible,
         bodyProps,
         forceRender,
+        dialogStyle,
+        dialogClass,
       } = this;
-      const dest = {};
+      const dest = { ...dialogStyle };
       if (width !== undefined) {
         dest.width = typeof width === 'number' ? `${width}px` : width;
       }
@@ -264,11 +265,10 @@ export default {
         );
       }
 
-      const style = { ...this.dialogStyle, ...dest };
+      const style = dest;
       const sentinelStyle = { width: 0, height: 0, overflow: 'hidden' };
       const cls = {
         [prefixCls]: true,
-        ...this.dialogClass,
       };
       const transitionName = this.getTransitionName();
       const dialogElement = (
@@ -278,7 +278,7 @@ export default {
           role="document"
           ref="dialog"
           style={style}
-          class={cls}
+          class={[cls, dialogClass]}
           forceRender={forceRender}
           onMousedown={this.onDialogMouseDown}
         >
@@ -375,7 +375,7 @@ export default {
         cacheOverflow = {
           overflowX: document.body.style.overflowX,
           overflowY: document.body.style.overflowY,
-          overflow:  document.body.style.overflow,
+          overflow: document.body.style.overflow,
         };
         switchScrollingEffect();
         // Must be set after switchScrollingEffect
@@ -383,7 +383,7 @@ export default {
       } else if (!openCount) {
         // IE browser doesn't merge overflow style, need to set it separately
         // https://github.com/ant-design/ant-design/issues/19393
-        if (cacheOverflow.overflow  !== undefined) {
+        if (cacheOverflow.overflow !== undefined) {
           document.body.style.overflow = cacheOverflow.overflow;
         }
         if (cacheOverflow.overflowX !== undefined) {

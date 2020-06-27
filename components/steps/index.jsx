@@ -1,5 +1,5 @@
 import PropTypes from '../_util/vue-types';
-import { initDefaultProps, getOptionProps } from '../_util/props-util';
+import { initDefaultProps, getOptionProps, getListeners } from '../_util/props-util';
 import VcSteps from '../vc-steps';
 import Icon from '../icon';
 import { ConfigConsumerProps } from '../config-provider';
@@ -16,6 +16,7 @@ const getStepsProps = (defaultProps = {}) => {
     size: PropTypes.oneOf(['default', 'small']),
     direction: PropTypes.oneOf(['horizontal', 'vertical']),
     progressDot: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+    type: PropTypes.oneOf(['default', 'navigation']),
   };
   return initDefaultProps(props, defaultProps);
 };
@@ -27,6 +28,10 @@ const Steps = {
   }),
   inject: {
     configProvider: { default: () => ConfigConsumerProps },
+  },
+  model: {
+    prop: 'current',
+    event: 'change',
   },
   Step: { ...VcSteps.Step, name: 'AStep' },
   render() {
@@ -47,7 +52,7 @@ const Steps = {
         prefixCls,
         ...props,
       },
-      on: this.$listeners,
+      on: getListeners(this),
       scopedSlots: this.$scopedSlots,
     };
     return <VcSteps {...stepsProps}>{this.$slots.default}</VcSteps>;

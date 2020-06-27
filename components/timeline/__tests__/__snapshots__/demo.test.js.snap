@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders ./components/timeline/demo/alternate.md correctly 1`] = `
+exports[`renders ./antdv-demo/docs/timeline/demo/alternate.md correctly 1`] = `
 <ul class="ant-timeline ant-timeline-alternate">
   <li class="ant-timeline-item ant-timeline-item-left">
     <div class="ant-timeline-item-tail"></div>
@@ -10,11 +10,13 @@ exports[`renders ./components/timeline/demo/alternate.md correctly 1`] = `
   <li class="ant-timeline-item ant-timeline-item-right">
     <div class="ant-timeline-item-tail"></div>
     <div class="ant-timeline-item-head ant-timeline-item-head-green"></div>
-    <div class="ant-timeline-item-content">Solve initial network problems 2015-09-01</div>
+    <div class="ant-timeline-item-content">
+      Solve initial network problems 2015-09-01
+    </div>
   </li>
   <li class="ant-timeline-item ant-timeline-item-left">
     <div class="ant-timeline-item-tail"></div>
-    <div class="ant-timeline-item-head ant-timeline-item-head-custom ant-timeline-item-head-blue"><i slot="dot" aria-label="icon: clock-circle-o" class="anticon anticon-clock-circle-o" style="font-size: 16px;"><svg viewBox="64 64 896 896" data-icon="clock-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
+    <div class="ant-timeline-item-head ant-timeline-item-head-custom ant-timeline-item-head-blue"><i aria-label="icon: clock-circle-o" class="anticon anticon-clock-circle-o" style="font-size: 16px;"><svg viewBox="64 64 896 896" data-icon="clock-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
           <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
           <path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"></path>
         </svg></i></div>
@@ -27,7 +29,9 @@ exports[`renders ./components/timeline/demo/alternate.md correctly 1`] = `
   <li class="ant-timeline-item ant-timeline-item-right">
     <div class="ant-timeline-item-tail"></div>
     <div class="ant-timeline-item-head ant-timeline-item-head-red"></div>
-    <div class="ant-timeline-item-content">Network problems being solved 2015-09-01</div>
+    <div class="ant-timeline-item-content">
+      Network problems being solved 2015-09-01
+    </div>
   </li>
   <li class="ant-timeline-item ant-timeline-item-left">
     <div class="ant-timeline-item-tail"></div>
@@ -36,7 +40,7 @@ exports[`renders ./components/timeline/demo/alternate.md correctly 1`] = `
   </li>
   <li class="ant-timeline-item ant-timeline-item-last ant-timeline-item-right">
     <div class="ant-timeline-item-tail"></div>
-    <div class="ant-timeline-item-head ant-timeline-item-head-custom ant-timeline-item-head-blue"><i slot="dot" aria-label="icon: clock-circle-o" class="anticon anticon-clock-circle-o" style="font-size: 16px;"><svg viewBox="64 64 896 896" data-icon="clock-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
+    <div class="ant-timeline-item-head ant-timeline-item-head-custom ant-timeline-item-head-blue"><i aria-label="icon: clock-circle-o" class="anticon anticon-clock-circle-o" style="font-size: 16px;"><svg viewBox="64 64 896 896" data-icon="clock-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
           <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
           <path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"></path>
         </svg></i></div>
@@ -47,7 +51,7 @@ exports[`renders ./components/timeline/demo/alternate.md correctly 1`] = `
 </ul>
 `;
 
-exports[`renders ./components/timeline/demo/basic.md correctly 1`] = `
+exports[`renders ./antdv-demo/docs/timeline/demo/basic.md correctly 1`] = `
 <ul class="ant-timeline">
   <li class="ant-timeline-item">
     <div class="ant-timeline-item-tail"></div>
@@ -72,17 +76,21 @@ exports[`renders ./components/timeline/demo/basic.md correctly 1`] = `
 </ul>
 `;
 
-exports[`renders ./components/timeline/demo/color.md correctly 1`] = `
+exports[`renders ./antdv-demo/docs/timeline/demo/color.md correctly 1`] = `
 <ul class="ant-timeline">
   <li class="ant-timeline-item">
     <div class="ant-timeline-item-tail"></div>
     <div class="ant-timeline-item-head ant-timeline-item-head-green"></div>
-    <div class="ant-timeline-item-content">Create a services site 2015-09-01</div>
+    <div class="ant-timeline-item-content">
+      Create a services site 2015-09-01
+    </div>
   </li>
   <li class="ant-timeline-item">
     <div class="ant-timeline-item-tail"></div>
     <div class="ant-timeline-item-head ant-timeline-item-head-green"></div>
-    <div class="ant-timeline-item-content">Create a services site 2015-09-01</div>
+    <div class="ant-timeline-item-content">
+      Create a services site 2015-09-01
+    </div>
   </li>
   <li class="ant-timeline-item">
     <div class="ant-timeline-item-tail"></div>
@@ -93,9 +101,27 @@ exports[`renders ./components/timeline/demo/color.md correctly 1`] = `
       <p>Solve initial network problems 3 2015-09-01</p>
     </div>
   </li>
-  <li class="ant-timeline-item ant-timeline-item-last">
+  <li class="ant-timeline-item">
     <div class="ant-timeline-item-tail"></div>
     <div class="ant-timeline-item-head ant-timeline-item-head-blue"></div>
+    <div class="ant-timeline-item-content">
+      <p>Technical testing 1</p>
+      <p>Technical testing 2</p>
+      <p>Technical testing 3 2015-09-01</p>
+    </div>
+  </li>
+  <li class="ant-timeline-item">
+    <div class="ant-timeline-item-tail"></div>
+    <div class="ant-timeline-item-head ant-timeline-item-head-gray"></div>
+    <div class="ant-timeline-item-content">
+      <p>Technical testing 1</p>
+      <p>Technical testing 2</p>
+      <p>Technical testing 3 2015-09-01</p>
+    </div>
+  </li>
+  <li class="ant-timeline-item ant-timeline-item-last">
+    <div class="ant-timeline-item-tail"></div>
+    <div class="ant-timeline-item-head ant-timeline-item-head-gray"></div>
     <div class="ant-timeline-item-content">
       <p>Technical testing 1</p>
       <p>Technical testing 2</p>
@@ -105,7 +131,7 @@ exports[`renders ./components/timeline/demo/color.md correctly 1`] = `
 </ul>
 `;
 
-exports[`renders ./components/timeline/demo/custom.md correctly 1`] = `
+exports[`renders ./antdv-demo/docs/timeline/demo/custom.md correctly 1`] = `
 <ul class="ant-timeline">
   <li class="ant-timeline-item">
     <div class="ant-timeline-item-tail"></div>
@@ -119,7 +145,7 @@ exports[`renders ./components/timeline/demo/custom.md correctly 1`] = `
   </li>
   <li class="ant-timeline-item">
     <div class="ant-timeline-item-tail"></div>
-    <div class="ant-timeline-item-head ant-timeline-item-head-custom ant-timeline-item-head-red"><i slot="dot" aria-label="icon: clock-circle-o" class="anticon anticon-clock-circle-o" style="font-size: 16px;"><svg viewBox="64 64 896 896" data-icon="clock-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
+    <div class="ant-timeline-item-head ant-timeline-item-head-custom ant-timeline-item-head-red"><i aria-label="icon: clock-circle-o" class="anticon anticon-clock-circle-o" style="font-size: 16px;"><svg viewBox="64 64 896 896" data-icon="clock-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
           <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
           <path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"></path>
         </svg></i></div>
@@ -135,7 +161,7 @@ exports[`renders ./components/timeline/demo/custom.md correctly 1`] = `
 </ul>
 `;
 
-exports[`renders ./components/timeline/demo/pending.md correctly 1`] = `
+exports[`renders ./antdv-demo/docs/timeline/demo/pending.md correctly 1`] = `
 <div>
   <ul class="ant-timeline ant-timeline-pending">
     <li class="ant-timeline-item">
@@ -164,7 +190,7 @@ exports[`renders ./components/timeline/demo/pending.md correctly 1`] = `
 </div>
 `;
 
-exports[`renders ./components/timeline/demo/right.md correctly 1`] = `
+exports[`renders ./antdv-demo/docs/timeline/demo/right.md correctly 1`] = `
 <ul class="ant-timeline ant-timeline-right">
   <li class="ant-timeline-item ant-timeline-item-right">
     <div class="ant-timeline-item-tail"></div>
@@ -178,7 +204,7 @@ exports[`renders ./components/timeline/demo/right.md correctly 1`] = `
   </li>
   <li class="ant-timeline-item ant-timeline-item-right">
     <div class="ant-timeline-item-tail"></div>
-    <div class="ant-timeline-item-head ant-timeline-item-head-custom ant-timeline-item-head-blue"><i slot="dot" aria-label="icon: clock-circle-o" class="anticon anticon-clock-circle-o" style="font-size: 16px;"><svg viewBox="64 64 896 896" data-icon="clock-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
+    <div class="ant-timeline-item-head ant-timeline-item-head-custom ant-timeline-item-head-blue"><i aria-label="icon: clock-circle-o" class="anticon anticon-clock-circle-o" style="font-size: 16px;"><svg viewBox="64 64 896 896" data-icon="clock-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false" class="">
           <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
           <path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"></path>
         </svg></i></div>

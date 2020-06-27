@@ -1,17 +1,11 @@
 <cn>
 #### 表单数据存储于 Vuex Store 中
-通过使用 onFieldsChange 与 mapPropsToFields，可以把表单的数据存储到 Vuex 中。
-**注意：**
-`mapPropsToFields` 里面返回的表单域数据必须使用 `Form.createFormField` 包装。
+
+通过使用 onFieldsChange 与 mapPropsToFields，可以把表单的数据存储到 Vuex 中。注意：`mapPropsToFields` 里面返回的表单域数据必须使用 `Form.createFormField` 包装。
 </cn>
-
 <us>
-#### Store Form Data into Vuex Store
-We can store form data into Vuex Store.
-**Note:**
-You must wrap field data with `Form.createFormField` in `mapPropsToFields`.
+#### Store Form Data Into Vuex Store
 </us>
-
 <template>
   <div id="components-form-demo-vuex">
     <a-form :form="form" @submit="handleSubmit">

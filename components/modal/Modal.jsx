@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import Dialog from '../vc-dialog';
 import PropTypes from '../_util/vue-types';
-import addEventListener from '../_util/Dom/addEventListener';
+import addEventListener from '../vc-util/Dom/addEventListener';
 import { getConfirmLocale } from './locale';
 import Icon from '../icon';
 import Button from '../button';
@@ -14,11 +14,28 @@ import {
   getClass,
   getStyle,
   mergeProps,
+  getListeners,
 } from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider';
 
 let mousePosition = null;
-let mousePositionEventBinded = false;
+// ref: https://github.com/ant-design/ant-design/issues/15795
+const getClickPosition = e => {
+  mousePosition = {
+    x: e.pageX,
+    y: e.pageY,
+  };
+  // 100ms 内发生过点击事件，则从点击位置动画展示
+  // 否则直接 zoom 展示
+  // 这样可以兼容非点击方式展开
+  setTimeout(() => (mousePosition = null), 100);
+};
+
+// 只有点击事件支持从鼠标位置动画展开
+if (typeof window !== 'undefined' && window.document && window.document.documentElement) {
+  addEventListener(document.documentElement, 'click', getClickPosition, true);
+}
+
 function noop() {}
 const modalProps = (defaultProps = {}) => {
   const props = {
@@ -31,6 +48,7 @@ const modalProps = (defaultProps = {}) => {
     title: PropTypes.any,
     /** 是否显示右上角的关闭按钮*/
     closable: PropTypes.bool,
+    closeIcon: PropTypes.any,
     /** 点击确定回调*/
     // onOk: (e: React.MouseEvent<any>) => void,
     /** 点击模态框右上角叉、取消按钮、Props.maskClosable 值为 true 时的遮罩层或键盘按下 Esc 时的回调*/
@@ -75,6 +93,7 @@ export const destroyFns = [];
 
 export default {
   name: 'AModal',
+  inheritAttrs: false,
   model: {
     prop: 'visible',
     event: 'change',
@@ -86,30 +105,19 @@ export default {
     confirmLoading: false,
     visible: false,
     okType: 'primary',
-    // okButtonDisabled: false,
-    // cancelButtonDisabled: false,
   }),
+  data() {
+    return {
+      sVisible: !!this.visible,
+    };
+  },
+  watch: {
+    visible(val) {
+      this.sVisible = val;
+    },
+  },
   inject: {
     configProvider: { default: () => ConfigConsumerProps },
-  },
-  mounted() {
-    if (mousePositionEventBinded) {
-      return;
-    }
-    // 只有点击事件支持从鼠标位置动画展开
-    addEventListener(document.documentElement, 'click', e => {
-      mousePosition = {
-        x: e.pageX,
-        y: e.pageY,
-      };
-      // 100ms 内发生过点击事件，则从点击位置动画展示
-      // 否则直接 zoom 展示
-      // 这样可以兼容非点击方式展开
-      setTimeout(() => {
-        mousePosition = null;
-      }, 100);
-    });
-    mousePositionEventBinded = true;
   },
   // static info: ModalFunc;
   // static success: ModalFunc;
@@ -156,14 +164,16 @@ export default {
   render() {
     const {
       prefixCls: customizePrefixCls,
-      visible,
+      sVisible: visible,
       wrapClassName,
       centered,
-      $listeners,
+      getContainer,
       $slots,
+      $scopedSlots,
+      $attrs,
     } = this;
-
-    const getPrefixCls = this.configProvider.getPrefixCls;
+    const children = $scopedSlots.default ? $scopedSlots.default() : $slots.default;
+    const { getPrefixCls, getPopupContainer: getContextPopupContainer } = this.configProvider;
     const prefixCls = getPrefixCls('modal', customizePrefixCls);
 
     const defaultFooter = (
@@ -173,9 +183,10 @@ export default {
         scopedSlots={{ default: this.renderFooter }}
       />
     );
-    const closeIcon = (
+    const closeIcon = getComponentFromProp(this, 'closeIcon');
+    const closeIconToRender = (
       <span class={`${prefixCls}-close-x`}>
-        <Icon class={`${prefixCls}-close-icon`} type={'close'} />
+        {closeIcon || <Icon class={`${prefixCls}-close-icon`} type={'close'} />}
       </span>
     );
     const footer = getComponentFromProp(this, 'footer');
@@ -183,21 +194,23 @@ export default {
     const dialogProps = {
       props: {
         ...this.$props,
+        getContainer: getContainer === undefined ? getContextPopupContainer : getContainer,
         prefixCls,
         wrapClassName: classNames({ [`${prefixCls}-centered`]: !!centered }, wrapClassName),
         title,
         footer: footer === undefined ? defaultFooter : footer,
-        visible: visible,
+        visible,
         mousePosition,
-        closeIcon,
+        closeIcon: closeIconToRender,
       },
       on: {
-        ...$listeners,
+        ...getListeners(this),
         close: this.handleCancel,
       },
       class: getClass(this),
       style: getStyle(this),
+      attrs: $attrs,
     };
-    return <Dialog {...dialogProps}>{$slots.default}</Dialog>;
+    return <Dialog {...dialogProps}>{children}</Dialog>;
   },
 };

@@ -1,15 +1,18 @@
 <cn>
 #### 校验其他组件
+
 以上演示没有出现的表单控件对应的校验演示。
 </cn>
-
 <us>
 #### Other Form Controls
-Demonstration of validation configuration for form controls which are not shown in the demos above.
 </us>
-
 <template>
-  <a-form id="components-form-demo-validate-other" :form="form" v-bind="formItemLayout" @submit="handleSubmit">
+  <a-form
+    id="components-form-demo-validate-other"
+    :form="form"
+    v-bind="formItemLayout"
+    @submit="handleSubmit"
+  >
     <a-form-item label="Plain Text">
       <span class="ant-form-text">
         China

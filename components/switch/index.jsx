@@ -1,13 +1,15 @@
 import PropTypes from '../_util/vue-types';
-import { getOptionProps, getComponentFromProp } from '../_util/props-util';
+import hasProp, { getOptionProps, getComponentFromProp, getListeners } from '../_util/props-util';
 import VcSwitch from '../vc-switch';
 import Wave from '../_util/wave';
 import Icon from '../icon';
 import { ConfigConsumerProps } from '../config-provider';
 import Base from '../base';
+import warning from '../_util/warning';
 
 const Switch = {
   name: 'ASwitch',
+  __ANT_SWITCH: true,
   model: {
     prop: 'checked',
     event: 'change',
@@ -36,6 +38,13 @@ const Switch = {
       this.$refs.refSwitchNode.blur();
     },
   },
+  created() {
+    warning(
+      hasProp(this, 'checked') || !hasProp(this, 'value'),
+      'Switch',
+      '`value` is not validate prop, do you mean `checked`?',
+    );
+  },
 
   render() {
     const { prefixCls: customizePrefixCls, size, loading, disabled, ...restProps } = getOptionProps(
@@ -60,7 +69,7 @@ const Switch = {
         unCheckedChildren: getComponentFromProp(this, 'unCheckedChildren'),
         disabled: disabled || loading,
       },
-      on: this.$listeners,
+      on: getListeners(this),
       class: classes,
       ref: 'refSwitchNode',
     };

@@ -1,13 +1,11 @@
 <cn>
 #### 动态增减表单项
+
 动态增加、减少表单项。
 </cn>
-
 <us>
 #### Dynamic Form Item
-Add or remove form items dynamically.
 </us>
-
 <template>
   <a-form :form="form" @submit="handleSubmit">
     <a-form-item
@@ -114,7 +112,12 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
+          const { keys, names } = values;
           console.log('Received values of form: ', values);
+          console.log(
+            'Merged values:',
+            keys.map(key => names[key]),
+          );
         }
       });
     },

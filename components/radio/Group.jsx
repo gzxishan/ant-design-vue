@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import PropTypes from '../_util/vue-types';
 import Radio from './Radio';
-import { getOptionProps, filterEmpty, hasProp } from '../_util/props-util';
+import { getOptionProps, filterEmpty, hasProp, getListeners } from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider';
 function noop() {}
 
@@ -85,7 +85,7 @@ export default {
     },
   },
   render() {
-    const { mouseenter = noop, mouseleave = noop } = this.$listeners;
+    const { mouseenter = noop, mouseleave = noop } = getListeners(this);
     const props = getOptionProps(this);
     const { prefixCls: customizePrefixCls, options, buttonStyle } = props;
     const getPrefixCls = this.configProvider.getPrefixCls;
@@ -100,11 +100,11 @@ export default {
 
     // 如果存在 options, 优先使用
     if (options && options.length > 0) {
-      children = options.map((option, index) => {
+      children = options.map(option => {
         if (typeof option === 'string') {
           return (
             <Radio
-              key={index}
+              key={option}
               prefixCls={prefixCls}
               disabled={props.disabled}
               value={option}
@@ -116,7 +116,7 @@ export default {
         } else {
           return (
             <Radio
-              key={index}
+              key={`radio-group-value-options-${option.value}`}
               prefixCls={prefixCls}
               disabled={option.disabled || props.disabled}
               value={option.value}

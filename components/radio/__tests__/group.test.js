@@ -2,7 +2,6 @@ import { mount } from '@vue/test-utils';
 import { asyncExpect } from '@/tests/utils';
 import Radio from '../Radio';
 import RadioGroup from '../Group';
-import RadioButton from '../RadioButton';
 
 describe('Radio', () => {
   function createRadioGroup(props, listeners = {}) {
@@ -218,7 +217,10 @@ describe('Radio', () => {
   });
 
   it('passes prefixCls down to radio', () => {
-    const options = [{ label: 'Apple', value: 'Apple' }, { label: 'Orange', value: 'Orange' }];
+    const options = [
+      { label: 'Apple', value: 'Apple' },
+      { label: 'Orange', value: 'Orange' },
+    ];
 
     const wrapper = mount(RadioGroup, {
       propsData: {

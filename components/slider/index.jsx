@@ -1,12 +1,13 @@
 import PropTypes from '../_util/vue-types';
 import BaseMixin from '../_util/BaseMixin';
-import { getOptionProps } from '../_util/props-util';
+import { getOptionProps, getListeners } from '../_util/props-util';
 import VcSlider from '../vc-slider/src/Slider';
 import VcRange from '../vc-slider/src/Range';
 import VcHandle from '../vc-slider/src/Handle';
 import Tooltip from '../tooltip';
 import Base from '../base';
 import { ConfigConsumerProps } from '../config-provider';
+import abstractTooltipProps from '../tooltip/abstractTooltipProps';
 
 // export interface SliderMarks {
 //   [key]: React.ReactNode | {
@@ -18,11 +19,12 @@ import { ConfigConsumerProps } from '../config-provider';
 //   style: PropTypes.object,
 //   label: PropTypes.any,
 // }).loose
-
+const tooltipProps = abstractTooltipProps();
 export const SliderProps = () => ({
   prefixCls: PropTypes.string,
   tooltipPrefixCls: PropTypes.string,
   range: PropTypes.bool,
+  reverse: PropTypes.bool,
   min: PropTypes.number,
   max: PropTypes.number,
   step: PropTypes.oneOfType([PropTypes.number, PropTypes.any]),
@@ -35,7 +37,8 @@ export const SliderProps = () => ({
   vertical: PropTypes.bool,
   tipFormatter: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   tooltipVisible: PropTypes.bool,
-  tooltipClass:PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  tooltipPlacement: tooltipProps.placement,
+  getTooltipPopupContainer: PropTypes.func,
 });
 
 const Slider = {
@@ -68,8 +71,17 @@ const Slider = {
         },
       }));
     },
-    handleWithTooltip(tooltipPrefixCls, { value, dragging, index, directives, on, ...restProps }) {
-      const { tipFormatter, tooltipVisible,tooltipClass} = this.$props;
+    handleWithTooltip(
+      tooltipPrefixCls,
+      prefixCls,
+      { value, dragging, index, directives, on, ...restProps },
+    ) {
+      const {
+        tipFormatter,
+        tooltipVisible,
+        tooltipPlacement,
+        getTooltipPopupContainer,
+      } = this.$props;
       const { visibles } = this;
       const isTipFormatter = tipFormatter ? visibles[index] || dragging : false;
       const visible = tooltipVisible || (tooltipVisible === undefined && isTipFormatter);
@@ -78,9 +90,10 @@ const Slider = {
           prefixCls: tooltipPrefixCls,
           title: tipFormatter ? tipFormatter(value) : '',
           visible,
-          placement: 'top',
-          transitionName: 'fade',
-          "tipClass":tooltipClass,
+          placement: tooltipPlacement || 'top',
+          transitionName: 'zoom-down',
+          overlayClassName: `${prefixCls}-tooltip`,
+          getPopupContainer: getTooltipPopupContainer || (() => document.body),
         },
         key: index,
       };
@@ -119,16 +132,17 @@ const Slider = {
     const getPrefixCls = this.configProvider.getPrefixCls;
     const prefixCls = getPrefixCls('slider', customizePrefixCls);
     const tooltipPrefixCls = getPrefixCls('tooltip', customizeTooltipPrefixCls);
+    const listeners = getListeners(this);
     if (range) {
       const vcRangeProps = {
         props: {
           ...restProps,
           prefixCls,
           tooltipPrefixCls,
-          handle: info => this.handleWithTooltip(tooltipPrefixCls, info),
+          handle: info => this.handleWithTooltip(tooltipPrefixCls, prefixCls, info),
         },
         ref: 'sliderRef',
-        on: this.$listeners,
+        on: listeners,
       };
       return <VcRange {...vcRangeProps} />;
     }
@@ -137,10 +151,10 @@ const Slider = {
         ...restProps,
         prefixCls,
         tooltipPrefixCls,
-        handle: info => this.handleWithTooltip(tooltipPrefixCls, info),
+        handle: info => this.handleWithTooltip(tooltipPrefixCls, prefixCls, info),
       },
       ref: 'sliderRef',
-      on: this.$listeners,
+      on: listeners,
     };
     return <VcSlider {...vcSliderProps} />;
   },

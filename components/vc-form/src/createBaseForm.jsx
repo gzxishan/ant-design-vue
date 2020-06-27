@@ -7,7 +7,13 @@ import omit from 'lodash/omit';
 import createFieldsStore from './createFieldsStore';
 import { cloneElement } from '../../_util/vnode';
 import BaseMixin from '../../_util/BaseMixin';
-import { getOptionProps, getEvents, slotHasProp, getComponentName } from '../../_util/props-util';
+import {
+  getOptionProps,
+  getEvents,
+  slotHasProp,
+  getComponentName,
+  getListeners,
+} from '../../_util/props-util';
 import PropTypes from '../../_util/vue-types';
 
 import {
@@ -90,7 +96,7 @@ function createBaseForm(option = {}, mixins = []) {
         ? {}
         : {
             $props: {
-              handler: function(nextProps) {
+              handler(nextProps) {
                 if (mapPropsToFields) {
                   this.fieldsStore.updateFields(mapPropsToFields(nextProps));
                 }
@@ -704,7 +710,7 @@ function createBaseForm(option = {}, mixins = []) {
       },
 
       render() {
-        const { $listeners, $slots } = this;
+        const { $slots, $scopedSlots } = this;
         const formProps = {
           [formPropName]: this.getForm(),
         };
@@ -714,7 +720,7 @@ function createBaseForm(option = {}, mixins = []) {
             ...formProps,
             ...restProps,
           }),
-          on: $listeners,
+          on: getListeners(this),
           ref: 'WrappedComponent',
           directives: [
             {
@@ -723,9 +729,18 @@ function createBaseForm(option = {}, mixins = []) {
             },
           ],
         };
-
+        if (Object.keys($scopedSlots).length) {
+          wrappedComponentProps.scopedSlots = $scopedSlots;
+        }
+        const slotsKey = Object.keys($slots);
         return WrappedComponent ? (
-          <WrappedComponent {...wrappedComponentProps}>{$slots.default}</WrappedComponent>
+          <WrappedComponent {...wrappedComponentProps}>
+            {slotsKey.length
+              ? slotsKey.map(name => {
+                  return <template slot={name}>{$slots[name]}</template>;
+                })
+              : null}
+          </WrappedComponent>
         ) : null;
       },
     };

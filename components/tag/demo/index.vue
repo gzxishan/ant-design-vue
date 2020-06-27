@@ -1,54 +1,58 @@
 <script>
-import Basic from './basic';
-import Checkable from './checkable';
-import Colorful from './colorful';
-import Control from './control';
-import HotTags from './hot-tags';
-import Controlled from './controlled';
-import CN from '../index.zh-CN.md';
-import US from '../index.en-US.md';
+import CBasicUsage from './basic-usage';
+import CBasicUsageString from '!raw-loader!./basic-usage';
+import CColorfulTag from './colorful-tag';
+import CColorfulTagString from '!raw-loader!./colorful-tag';
+import CHotTags from './hot-tags';
+import CHotTagsString from '!raw-loader!./hot-tags';
+import CCheckable from './checkable';
+import CCheckableString from '!raw-loader!./checkable';
+import CAdd_RemoveDynamically from './add-_-remove-dynamically';
+import CAdd_RemoveDynamicallyString from '!raw-loader!./add-_-remove-dynamically';
+import CControlled from './controlled';
+import CControlledString from '!raw-loader!./controlled';
+import CN from '../index.zh-CN';
+import US from '../index.en-US';
 
 const md = {
-  cn: `# 标签 Tag
+us:``,
+cn:`# 标签 Tag
 
-    进行标记和分类的小标签。
+进行标记和分类的小标签。
 
 ## 何时使用
 
 - 用于标记事物的属性和维度。
 - 进行分类。
 
-    ## 代码演示`,
-  us: `# Tag
-
-    Tag for categorizing or markup.
-
-## When To Use
-
-- It can be used to tag by dimension or property.
-
-- When categorizing.
-    ## Examples `,
+## 代码演示`
 };
+
 export default {
   category: 'Components',
   subtitle: '标签',
   type: 'Data Display',
+  zhType: '数据展示',
+  cols: 2,
   title: 'Tag',
   render() {
     return (
-      <div id="components-tag-demo">
+      <div>
         <md cn={md.cn} us={md.us} />
-        <Basic />
-        <Checkable />
-        <Colorful />
-        <Control />
-        <HotTags />
-        <Controlled />
+        <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
+
+<demo-container code={CColorfulTagString}><CColorfulTag /></demo-container>
+
+<demo-container code={CHotTagsString}><CHotTags /></demo-container>
+
+<demo-container code={CCheckableString}><CCheckable /></demo-container>
+
+<demo-container code={CAdd_RemoveDynamicallyString}><CAdd_RemoveDynamically /></demo-container>
+
+<demo-container code={CControlledString}><CControlled /></demo-container>
+
         <api>
-          <template slot="cn">
-            <CN />
-          </template>
+          <CN slot="cn" />
           <US />
         </api>
       </div>
@@ -56,8 +60,3 @@ export default {
   },
 };
 </script>
-<style>
-#components-tag-demo .ant-tag {
-  margin-bottom: 8px;
-}
-</style>

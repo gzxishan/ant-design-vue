@@ -13,7 +13,7 @@ export default function createSliderWithTooltip(Component) {
         return value;
       }),
       handleStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.object)]),
-      tipProps: PropTypes.object.def({}),
+      tipProps: PropTypes.object.def(() => ({})),
     },
     data() {
       return {
@@ -39,8 +39,7 @@ export default function createSliderWithTooltip(Component) {
           overlay = tipFormatter(value),
           placement = 'top',
           visible = false,
-          tooltipClass,
-          ...restTooltipProps,
+          ...restTooltipProps
         } = tipProps;
 
         let handleStyleWithIndex;
@@ -49,14 +48,10 @@ export default function createSliderWithTooltip(Component) {
         } else {
           handleStyleWithIndex = handleStyle;
         }
-        
-        console.log("tooltipClass:",tooltipClass);
-        
 
         const tooltipProps = {
           props: {
             ...restTooltipProps,
-            "tipClass":tooltipClass,
             prefixCls,
             overlay,
             placement,

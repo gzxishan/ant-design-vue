@@ -45,7 +45,6 @@
   'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol';
 @code-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-@heading-color: fade(@black, 85%);
 @text-color: fade(@black, 65%);
 @text-color-secondary: fade(@black, 45%);
 @text-color-inverse: @white;
@@ -270,10 +269,8 @@
 @zindex-table-fixed: auto;
 @zindex-affix: 10;
 @zindex-back-top: 10;
-@zindex-badge: 10;
 @zindex-picker-panel: 10;
 @zindex-popup-close: 10;
-@zindex-table-fixed: 20;
 @zindex-modal: 1000;
 @zindex-modal-mask: 1000;
 @zindex-message: 1010;
@@ -306,8 +303,6 @@
 @form-item-trailing-colon: true;
 @form-vertical-label-padding: 0 0 8px;
 @form-vertical-label-margin: 0;
-
-@form-warning-input-bg: @input-bg;
 @form-item-label-colon-margin-right: 8px;
 @form-item-label-colon-margin-left: 2px;
 @form-error-input-bg: @input-bg;
@@ -397,8 +392,13 @@
 
 // Modal
 // --
+@modal-body-padding: 24px;
 @modal-header-bg: @component-background;
-@modal-mask-bg: fade(@black, 65%);
+@modal-header-border-color-split: @border-color-split;
+@modal-heading-color: @heading-color;
+@modal-footer-bg: transparent;
+@modal-footer-border-color-split: @border-color-split;
+@modal-mask-bg: fade(@black, 45%);
 
 // Progress
 // --
@@ -406,7 +406,6 @@
 @progress-remaining-color: @background-color-base;
 @progress-text-color: @text-color;
 @progress-radius: 100px;
-
 
 // Menu
 // ---
@@ -420,6 +419,13 @@
 @menu-item-active-bg: @item-active-bg;
 @menu-item-active-border-width: 3px;
 @menu-item-group-title-color: @text-color-secondary;
+@menu-icon-size: @font-size-base;
+@menu-icon-size-lg: @font-size-lg;
+
+@menu-item-vertical-margin: 4px;
+@menu-item-font-size: @font-size-base;
+@menu-item-boundary-margin: 8px;
+
 // dark theme
 @menu-dark-color: @text-color-secondary-dark;
 @menu-dark-bg: @layout-header-background;
@@ -427,7 +433,9 @@
 @menu-dark-submenu-bg: #000c17;
 @menu-dark-highlight-color: #fff;
 @menu-dark-item-active-bg: @primary-color;
-
+@menu-dark-selected-item-icon-color: @white;
+@menu-dark-selected-item-text-color: @white;
+@menu-dark-item-hover-bg: transparent;
 // Spin
 // ---
 @spin-dot-size-sm: 14px;
@@ -452,7 +460,6 @@
 @table-footer-bg: @background-color-light;
 @table-footer-color: @heading-color;
 @table-header-bg-sm: transparent;
-
 
 // Tag
 // --
@@ -493,9 +500,9 @@
 @card-head-padding: 16px;
 @card-inner-head-padding: 12px;
 @card-padding-base: 24px;
-@card-padding-wider: 32px;
 @card-actions-background: @background-color-light;
-@card-background: #cfd8dc;
+@card-skeleton-bg: #cfd8dc;
+@card-background: @component-background;
 @card-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
 @card-radius: @border-radius-sm;
 
@@ -574,13 +581,6 @@
 @page-header-padding-vertical: 16px;
 @page-header-padding-breadcrumb: 12px;
 @page-header-back-color: #000;
-
-// Pagination
-// ---
-@pagination-item-size: 32px;
-@pagination-item-size-sm: 24px;
-@pagination-font-family: Arial;
-@pagination-font-weight-active: 500;
 
 // Breadcrumb
 // ---
@@ -669,7 +669,6 @@
 @list-footer-background: transparent;
 @list-empty-text-padding: @padding-md;
 @list-item-padding: @padding-sm 0;
-@list-item-content-margin: 0 0 @padding-md 0;
 @list-item-meta-margin-bottom: @padding-md;
 @list-item-meta-avatar-margin-right: @padding-md;
 @list-item-meta-title-margin-bottom: @padding-sm;
@@ -679,4 +678,23 @@
 @statistic-title-font-size: @font-size-base;
 @statistic-content-font-size: 24px;
 @statistic-unit-font-size: 16px;
-@statistic-font-family: Tahoma, 'Helvetica Neue', @font-family;
+@statistic-font-family: @font-family;
+
+// Drawer
+// ---
+@drawer-header-padding: 16px 24px;
+@drawer-body-padding: 24px;
+
+// Timeline
+// ---
+@timeline-width: 2px;
+@timeline-color: @border-color-split;
+@timeline-dot-border-width: 2px;
+@timeline-dot-color: @primary-color;
+@timeline-dot-bg: @component-background;
+
+// Typography
+// ---
+@typography-title-font-weight: 600;
+@typography-title-margin-top: 1.2em;
+@typography-title-margin-bottom: 0.5em;

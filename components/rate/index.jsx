@@ -1,6 +1,6 @@
 import omit from 'omit.js';
 import PropTypes from '../_util/vue-types';
-import { getOptionProps, getComponentFromProp } from '../_util/props-util';
+import { getOptionProps, getComponentFromProp, getListeners } from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider';
 import VcRate from '../vc-rate';
 import Icon from '../icon';
@@ -31,16 +31,16 @@ const Rate = {
     configProvider: { default: () => ConfigConsumerProps },
   },
   methods: {
+    characterRender(node, { index }) {
+      const { tooltips } = this.$props;
+      if (!tooltips) return node;
+      return <Tooltip title={tooltips[index]}>{node}</Tooltip>;
+    },
     focus() {
       this.$refs.refRate.focus();
     },
     blur() {
       this.$refs.refRate.blur();
-    },
-    characterRender(node, { index }) {
-      const { tooltips } = this.$props;
-      if (!tooltips) return node;
-      return <Tooltip title={tooltips[index]}>{node}</Tooltip>;
     },
   },
   render() {
@@ -58,7 +58,7 @@ const Rate = {
         prefixCls,
         ...omit(restProps, ['tooltips']),
       },
-      on: this.$listeners,
+      on: getListeners(this),
       ref: 'refRate',
     };
     return <VcRate {...rateProps} />;

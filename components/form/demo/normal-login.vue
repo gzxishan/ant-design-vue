@@ -1,13 +1,11 @@
 <cn>
 #### 登录框
+
 普通的登录框，可以容纳更多的元素。
 </cn>
-
 <us>
 #### Login Form
-Normal login form which can contain more elements.
 </us>
-
 <template>
   <a-form
     id="components-form-demo-normal-login"
@@ -68,11 +66,6 @@ Normal login form which can contain more elements.
 export default {
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: 'normal_login' });
-  },
-  mounted(){
-  	this.form.setFieldsValue({
-  		remember:false
-  	});
   },
   methods: {
     handleSubmit(e) {
