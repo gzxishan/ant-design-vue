@@ -1,9 +1,10 @@
 import classnames from 'classnames';
+import omit from 'omit.js';
 import VcDrawer from '../vc-drawer/src';
 import PropTypes from '../_util/vue-types';
 import BaseMixin from '../_util/BaseMixin';
 import Icon from '../icon';
-import { getComponentFromProp, getOptionProps } from '../_util/props-util';
+import { getComponentFromProp, getOptionProps, getListeners } from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider';
 import Base from '../base';
 
@@ -18,6 +19,8 @@ const Drawer = {
     maskStyle: PropTypes.object,
     wrapStyle: PropTypes.object,
     bodyStyle: PropTypes.object,
+    headerStyle: PropTypes.object,
+    drawerStyle: PropTypes.object,
     title: PropTypes.any,
     visible: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).def(256),
@@ -28,6 +31,8 @@ const Drawer = {
     level: PropTypes.any.def(null),
     wrapClassName: PropTypes.string, // not use class like react, vue will add class to root dom
     handle: PropTypes.any,
+    afterVisibleChange: PropTypes.func,
+    keyboard: PropTypes.bool.def(true),
   },
   mixins: [BaseMixin],
   data() {
@@ -48,6 +53,14 @@ const Drawer = {
       parentDrawer: this,
     };
   },
+  mounted() {
+    // fix: delete drawer in child and re-render, no push started.
+    // <Drawer>{show && <Drawer />}</Drawer>
+    const { visible } = this;
+    if (visible && this.parentDrawer) {
+      this.parentDrawer.push();
+    }
+  },
   updated() {
     this.$nextTick(() => {
       if (this.preVisible !== this.visible && this.parentDrawer && this.parentDrawer.placement==this.placement) {
@@ -60,19 +73,22 @@ const Drawer = {
       this.preVisible = this.visible;
     });
   },
+  beforeDestroy() {
+    // unmount drawer in child, clear push.
+    if (this.parentDrawer) {
+      this.parentDrawer.pull();
+    }
+  },
   methods: {
     close(e) {
-      if (this.visible !== undefined) {
-        this.$emit('close', e);
-        return;
-      }
+      this.$emit('close', e);
     },
-    onMaskClick(e) {
-      if (!this.maskClosable) {
-        return;
-      }
-      this.close(e);
-    },
+    // onMaskClick(e) {
+    //   if (!this.maskClosable) {
+    //     return;
+    //   }
+    //   this.close(e);
+    // },
     push() {
       this.setState({
         _push: true,
@@ -103,22 +119,23 @@ const Drawer = {
       if (placement === 'left' || placement === 'right') {
         translate = `translateX(${placement === 'left' ? 180 : -180}px)`;
       }
-      
+
       if (placement === 'top' || placement === 'bottom') {
         translate = `translateY(${placement === 'top' ? 180 : -180}px)`;
       }
       return translate;
     },
     getRcDrawerStyle() {
-      const { zIndex, placement } = this.$props;
+      const { zIndex, placement, wrapStyle } = this.$props;
       const { _push: push } = this.$data;
       return {
         zIndex,
         transform: push ? this.getPushTransform(placement) : undefined,
+        ...wrapStyle,
       };
     },
     renderHeader(prefixCls) {
-      const { closable } = this.$props;
+      const { closable, headerStyle } = this.$props;
       const title = getComponentFromProp(this, 'title');
       if (!title && !closable) {
         return null;
@@ -126,17 +143,20 @@ const Drawer = {
 
       const headerClassName = title ? `${prefixCls}-header` : `${prefixCls}-header-no-title`;
       return (
-        <div class={headerClassName}>
+        <div class={headerClassName} style={headerStyle}>
           {title && <div class={`${prefixCls}-title`}>{title}</div>}
           {closable ? this.renderCloseIcon(prefixCls) : null}
         </div>
       );
     },
     renderCloseIcon(prefixCls) {
+      const { closable } = this;
       return (
-        <button key="closer" onClick={this.close} aria-label="Close" class={`${prefixCls}-close`}>
-          <Icon type="close" />
-        </button>
+        closable && (
+          <button key="closer" onClick={this.close} aria-label="Close" class={`${prefixCls}-close`}>
+            <Icon type="close" />
+          </button>
+        )
       );
     },
     // render drawer body dom
@@ -145,15 +165,9 @@ const Drawer = {
         return null;
       }
       this.destroyClose = false;
-      const { placement, bodyStyle, wrapStyle } = this.$props;
+      const { bodyStyle, drawerStyle } = this.$props;
 
-      const containerStyle =
-        placement === 'left' || placement === 'right'
-          ? {
-              overflow: 'auto',
-              height: '100%',
-            }
-          : {};
+      const containerStyle = {};
 
       const isDestroyOnClose = this.getDestroyOnClose();
       if (isDestroyOnClose) {
@@ -165,7 +179,7 @@ const Drawer = {
       return (
         <div
           class={`${prefixCls}-wrapper-body`}
-          style={{...containerStyle, ...wrapStyle}}
+          style={{ ...containerStyle, ...drawerStyle }}
           onTransitionend={this.onDestroyTransitionEnd}
         >
           {this.renderHeader(prefixCls)}
@@ -185,9 +199,10 @@ const Drawer = {
       visible,
       placement,
       wrapClassName,
+      mask,
       ...rest
     } = props;
-    const haveMask = rest.mask ? '' : 'no-mask';
+    const haveMask = mask ? '' : 'no-mask';
     const offsetStyle = {};
     if (placement === 'left' || placement === 'right') {
       offsetStyle.width = typeof width === 'number' ? `${width}px` : width;
@@ -200,12 +215,28 @@ const Drawer = {
 
     const vcDrawerProps = {
       props: {
-        ...rest,
+        ...omit(rest, [
+          'closable',
+          'destroyOnClose',
+          'drawerStyle',
+          'headerStyle',
+          'bodyStyle',
+          'title',
+          'push',
+          'visible',
+          'getPopupContainer',
+          'rootPrefixCls',
+          'getPrefixCls',
+          'renderEmpty',
+          'csp',
+          'pageHeader',
+          'autoInsertSpaceInButton',
+        ]),
         handler,
         ...offsetStyle,
         prefixCls,
         open: visible,
-        showMask: props.mask,
+        showMask: mask,
         placement,
         className: classnames({
           [wrapClassName]: !!wrapClassName,
@@ -214,8 +245,7 @@ const Drawer = {
         wrapStyle: this.getRcDrawerStyle(),
       },
       on: {
-        maskClick: this.onMaskClick,
-        ...this.$listeners,
+        ...getListeners(this),
       },
     };
     return <VcDrawer {...vcDrawerProps}>{this.renderBody(prefixCls)}</VcDrawer>;

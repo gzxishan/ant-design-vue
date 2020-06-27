@@ -2,11 +2,11 @@ import classnames from 'classnames';
 import Vue from 'vue';
 import ref from 'vue-ref';
 import BaseMixin from '../../_util/BaseMixin';
-import { initDefaultProps, getEvents } from '../../_util/props-util';
+import { initDefaultProps, getEvents, getListeners } from '../../_util/props-util';
 import { cloneElement } from '../../_util/vnode';
-import ContainerRender from '../../_util/ContainerRender';
 import getScrollBarSize from '../../_util/getScrollBarSize';
-import drawerProps from './drawerProps';
+import { IDrawerProps } from './IDrawerPropTypes';
+import KeyCode from '../../_util/KeyCode';
 import {
   dataToArray,
   transitionEnd,
@@ -16,6 +16,7 @@ import {
   transformArguments,
   isNumeric,
 } from './utils';
+import Portal from '../../_util/Portal';
 
 function noop() {}
 
@@ -29,7 +30,7 @@ const windowIsUndefined = !(
 Vue.use(ref, { name: 'ant-ref' });
 const Drawer = {
   mixins: [BaseMixin],
-  props: initDefaultProps(drawerProps, {
+  props: initDefaultProps(IDrawerProps, {
     prefixCls: 'drawer',
     placement: 'left',
     getContainer: 'body',
@@ -134,25 +135,19 @@ const Drawer = {
         this.setLevelDomTransform(false, true);
       }
       document.body.style.overflow = '';
-      // 拦不住。。直接删除；
-      if (this.getSelfContainer) {
-        this.container.parentNode.removeChild(this.container);
-      }
     }
     this.sFirstEnter = false;
     clearTimeout(this.timeout);
-    // 需要 didmount 后也会渲染，直接 unmount 将不会渲染，加上判断.
-    if (this.renderComponent) {
-      this.renderComponent({
-        afterClose: this.removeContainer,
-        onClose() {},
-        visible: false,
-      });
-    }
   },
   methods: {
+    onKeyDown(e) {
+      if (e.keyCode === KeyCode.ESC) {
+        e.stopPropagation();
+        this.$emit('close', e);
+      }
+    },
     onMaskTouchEnd(e) {
-      this.$emit('maskClick', e);
+      this.$emit('close', e);
       this.onTouchEnd(e, true);
     },
     onIconTouchEnd(e) {
@@ -170,14 +165,18 @@ const Drawer = {
       });
     },
     onWrapperTransitionEnd(e) {
-      if (e.target === this.contentWrapper) {
+      if (e.target === this.contentWrapper && e.propertyName.match(/transform$/)) {
+        const open = this.getOpen();
         this.dom.style.transition = '';
-        if (!this.sOpen && this.getCurrentDrawerSome()) {
+        if (!open && this.getCurrentDrawerSome()) {
           document.body.style.overflowX = '';
           if (this.maskDom) {
             this.maskDom.style.left = '';
             this.maskDom.style.width = '';
           }
+        }
+        if (this.afterVisibleChange) {
+          this.afterVisibleChange(!!open);
         }
       }
     },
@@ -363,7 +362,7 @@ const Drawer = {
           }
         }
       }
-      const { change } = this.$listeners;
+      const { change } = getListeners(this);
       if (change && this.isOpenChange && this.sFirstEnter) {
         change(open);
         this.isOpenChange = false;
@@ -380,12 +379,15 @@ const Drawer = {
         width,
         height,
         wrapStyle,
+        keyboard,
+        maskClosable,
       } = this.$props;
       const children = this.$slots.default;
       const wrapperClassname = classnames(prefixCls, {
         [`${prefixCls}-${placement}`]: true,
         [`${prefixCls}-open`]: open,
         [className]: !!className,
+        'no-mask': !showMask,
       });
       const isOpenChange = this.isOpenChange;
       const isHorizontal = placement === 'left' || placement === 'right';
@@ -394,7 +396,6 @@ const Drawer = {
       // const defaultValue = !this.contentDom || !level ? '100%' : `${value}px`;
       const placementPos = placement === 'left' || placement === 'top' ? '-100%' : '100%';
       const transform = open ? '' : `${placementName}(${placementPos})`;
-      
       if (isOpenChange === undefined || isOpenChange) {
         const contentValue = this.contentDom
           ? this.contentDom.getBoundingClientRect()[isHorizontal ? 'width' : 'height']
@@ -429,7 +430,6 @@ const Drawer = {
           ],
         });
       }
-
       const domContProps = {
         class: wrapperClassname,
         directives: [
@@ -442,6 +442,7 @@ const Drawer = {
         ],
         on: {
           transitionend: this.onWrapperTransitionEnd,
+          keydown: open && keyboard ? this.onKeyDown : noop,
         },
         style: wrapStyle,
       };
@@ -470,11 +471,11 @@ const Drawer = {
         },
       ];
       return (
-        <div {...domContProps}>
+        <div {...domContProps} tabIndex={-1}>
           {showMask && (
             <div
               class={`${prefixCls}-mask`}
-              onClick={this.onMaskTouchEnd}
+              onClick={maskClosable ? this.onMaskTouchEnd : noop}
               style={maskStyle}
               {...{ directives: directivesMaskDom }}
             />
@@ -597,8 +598,9 @@ const Drawer = {
   },
 
   render() {
-    const { getContainer, wrapperClassName } = this.$props;
+    const { getContainer, wrapperClassName, handler, forceRender } = this.$props;
     const open = this.getOpen();
+    let portal = null;
     currentDrawer[this.drawerId] = open ? this.container : open;
     const children = this.getChildToRender(this.sFirstEnter ? open : false);
     if (!getContainer) {
@@ -619,21 +621,12 @@ const Drawer = {
     if (!this.container || (!open && !this.sFirstEnter)) {
       return null;
     }
-    return (
-      <ContainerRender
-        parent={this}
-        visible
-        autoMount
-        autoDestroy={false}
-        getComponent={() => children}
-        getContainer={this.getSelfContainer}
-        children={({ renderComponent, removeContainer }) => {
-          this.renderComponent = renderComponent;
-          this.removeContainer = removeContainer;
-          return null;
-        }}
-      />
-    );
+    // 如果有 handler 为内置强制渲染；
+    const $forceRender = !!handler || forceRender;
+    if ($forceRender || open || this.dom) {
+      portal = <Portal getContainer={this.getSelfContainer} children={children}></Portal>;
+    }
+    return portal;
   },
 };
 

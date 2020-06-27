@@ -1,14 +1,11 @@
 <cn>
-#### 基础抽屉
+#### 基础抽屉 
+
 基础抽屉，点击触发按钮抽屉从右滑出，点击遮罩区关闭
 </cn>
-
 <us>
 #### Basic
-Basic drawer.
 </us>
-
-```tpl
 <template>
   <div>
     <a-button type="primary" @click="showDrawer">
@@ -18,8 +15,9 @@ Basic drawer.
       title="Basic Drawer"
       placement="right"
       :closable="false"
-      @close="onClose"
       :visible="visible"
+      :after-visible-change="afterVisibleChange"
+      @close="onClose"
     >
       <p>Some contents...</p>
       <p>Some contents...</p>
@@ -28,20 +26,22 @@ Basic drawer.
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        visible: false,
-      };
+export default {
+  data() {
+    return {
+      visible: false,
+    };
+  },
+  methods: {
+    afterVisibleChange(val) {
+      console.log('visible', val);
     },
-    methods: {
-      showDrawer() {
-        this.visible = true;
-      },
-      onClose() {
-        this.visible = false;
-      },
+    showDrawer() {
+      this.visible = true;
     },
-  };
+    onClose() {
+      this.visible = false;
+    },
+  },
+};
 </script>
-```

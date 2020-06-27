@@ -1,18 +1,15 @@
 <cn>
-#### 信息预览抽屉
+#### 信息预览抽屉 
+
 需要快速预览对象概要时使用，点击遮罩区关闭。
 </cn>
-
 <us>
-#### Preview drawer
-Use when you need to quickly preview the outline of the object. Such as list item preview.
+#### Preview Drawer
 </us>
-
-```tpl
 <template>
   <div>
     <a-list
-      :dataSource="[
+      :data-source="[
         {
           name: 'Lily',
         },
@@ -22,10 +19,10 @@ Use when you need to quickly preview the outline of the object. Such as list ite
       ]"
       bordered
     >
-      <a-list-item slot="renderItem" slot-scope="item, index">
+      <a-list-item slot="renderItem" :key="`a-${item.id}`" slot-scope="item, index">
         <a slot="actions" @click="showDrawer">View Profile</a>
-        <a-list-item-meta description="Progresser AFX">
-          <a slot="title" href="https://www.antdv.com/">{{item.name}}</a>
+        <a-list-item-meta description="Progresser XTech">
+          <a slot="title" href="https://www.antdv.com/">{{ item.name }}</a>
           <a-avatar
             slot="avatar"
             src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
@@ -33,9 +30,13 @@ Use when you need to quickly preview the outline of the object. Such as list ite
         </a-list-item-meta>
       </a-list-item>
     </a-list>
-    <a-drawer width="640" placement="right" :closable="false" @close="onClose" :visible="visible">
-      <p :style="[pStyle, pStyle2]">User Profile</p>
-      <p :style="pStyle">Personal</p>
+    <a-drawer width="640" placement="right" :closable="false" :visible="visible" @close="onClose">
+      <p :style="[pStyle, pStyle2]">
+        User Profile
+      </p>
+      <p :style="pStyle">
+        Personal
+      </p>
       <a-row>
         <a-col :span="12">
           <description-item title="Full Name" content="Lily" />
@@ -69,7 +70,9 @@ Use when you need to quickly preview the outline of the object. Such as list ite
         </a-col>
       </a-row>
       <a-divider />
-      <p :style="pStyle">Company</p>
+      <p :style="pStyle">
+        Company
+      </p>
       <a-row>
         <a-col :span="12">
           <description-item title="Position" content="Programmer" />
@@ -80,7 +83,7 @@ Use when you need to quickly preview the outline of the object. Such as list ite
       </a-row>
       <a-row>
         <a-col :span="12">
-          <description-item title="Department" content="AFX" />
+          <description-item title="Department" content="XTech" />
         </a-col>
         <a-col :span="12">
           <description-item title="Supervisor">
@@ -97,7 +100,9 @@ Use when you need to quickly preview the outline of the object. Such as list ite
         </a-col>
       </a-row>
       <a-divider />
-      <p :style="pStyle">Contacts</p>
+      <p :style="pStyle">
+        Contacts
+      </p>
       <a-row>
         <a-col :span="12">
           <description-item title="Email" content="ant-design-vue@example.com" />
@@ -119,35 +124,34 @@ Use when you need to quickly preview the outline of the object. Such as list ite
   </div>
 </template>
 <script>
-  import descriptionItem from './descriptionItem';
+import descriptionItem from './descriptionItem';
 
-  export default {
-    data() {
-      return {
-        visible: false,
-        pStyle: {
-          fontSize: '16px',
-          color: 'rgba(0,0,0,0.85)',
-          lineHeight: '24px',
-          display: 'block',
-          marginBottom: '16px',
-        },
-        pStyle2: {
-          marginBottom: '24px',
-        },
-      };
-    },
-    components: {
-      descriptionItem,
-    },
-    methods: {
-      showDrawer() {
-        this.visible = true;
+export default {
+  components: {
+    descriptionItem,
+  },
+  data() {
+    return {
+      visible: false,
+      pStyle: {
+        fontSize: '16px',
+        color: 'rgba(0,0,0,0.85)',
+        lineHeight: '24px',
+        display: 'block',
+        marginBottom: '16px',
       },
-      onClose() {
-        this.visible = false;
+      pStyle2: {
+        marginBottom: '24px',
       },
+    };
+  },
+  methods: {
+    showDrawer() {
+      this.visible = true;
     },
-  };
+    onClose() {
+      this.visible = false;
+    },
+  },
+};
 </script>
-```
