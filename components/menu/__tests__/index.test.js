@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils';
 import { asyncExpect } from '@/tests/utils';
 import Menu from '..';
 import Icon from '../../icon';
+import mountTest from '../../../tests/shared/mountTest';
 
 jest.mock('mutationobserver-shim', () => {
   global.MutationObserver = function MutationObserver() {
@@ -15,6 +16,17 @@ function $$(className) {
   return document.body.querySelectorAll(className);
 }
 describe('Menu', () => {
+  mountTest({
+    render() {
+      return (
+        <Menu>
+          <Menu.Item />
+          <Menu.ItemGroup />
+          <Menu.SubMenu />
+        </Menu>
+      );
+    },
+  });
   beforeEach(() => {
     document.body.innerHTML = '';
     // jest.useFakeTimers()
@@ -120,7 +132,7 @@ describe('Menu', () => {
         props: {
           openKeys: {
             type: Array,
-            default: function() {
+            default() {
               return ['1'];
             },
           },
@@ -159,7 +171,7 @@ describe('Menu', () => {
         props: {
           openKeys: {
             type: Array,
-            default: function() {
+            default() {
               return ['1'];
             },
           },
@@ -197,7 +209,7 @@ describe('Menu', () => {
         props: {
           openKeys: {
             type: Array,
-            default: function() {
+            default() {
               return ['1'];
             },
           },

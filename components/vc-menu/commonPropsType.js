@@ -5,15 +5,15 @@ export default {
   multiple: PropTypes.bool,
   defaultActiveFirst: PropTypes.bool,
   visible: PropTypes.bool.def(true),
-  activeKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
-  selectedKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number])),
+  activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  selectedKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   defaultSelectedKeys: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   ).def([]),
-  defaultOpenKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number])).def(
+  defaultOpenKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).def(
     [],
   ),
-  openKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number])),
+  openKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   mode: PropTypes.oneOf([
     'horizontal',
@@ -33,7 +33,7 @@ export default {
   forceSubMenuRender: PropTypes.bool,
   selectable: PropTypes.bool,
   isRootMenu: PropTypes.bool.def(true),
-  builtinPlacements: PropTypes.object.def({}),
+  builtinPlacements: PropTypes.object.def(() => ({})),
   itemIcon: PropTypes.any,
   expandIcon: PropTypes.any,
   overflowedIndicator: PropTypes.any,

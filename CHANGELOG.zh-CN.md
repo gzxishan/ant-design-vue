@@ -43,6 +43,7 @@
 - 🌟更新`InputNumber`组件（来自于官方v1.6.2版本），同时增加原生组件maxlength属性
 - 🌟更新`Layout`组件（来自于官方v1.6.2版本）
 - 🌟更新`List`组件（来自于官方v1.6.2版本）
+- 🌟更新`Menu`组件（来自于官方v1.6.2版本），同时给SubMenu增加forceMenuItemRender属性
 - 🌟更新`Message`组件（来自于官方v1.6.2版本）
 - 🌟更新`Modal`组件（来自于官方v1.6.2版本）
 - 🌟更新`Notification`组件（来自于官方v1.6.2版本）

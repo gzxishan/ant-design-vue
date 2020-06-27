@@ -2,7 +2,12 @@ import PropTypes from '../_util/vue-types';
 import { Provider, create } from '../_util/store';
 import { default as SubPopupMenu, getActiveKey } from './SubPopupMenu';
 import BaseMixin from '../_util/BaseMixin';
-import hasProp, { getOptionProps, getComponentFromProp, filterEmpty } from '../_util/props-util';
+import hasProp, {
+  getOptionProps,
+  getComponentFromProp,
+  filterEmpty,
+  getListeners,
+} from '../_util/props-util';
 import commonPropsType from './commonPropsType';
 
 const Menu = {
@@ -60,7 +65,7 @@ const Menu = {
         }
         this.__emit('select', {
           ...selectInfo,
-          selectedKeys: selectedKeys,
+          selectedKeys,
         });
       }
     },
@@ -123,7 +128,7 @@ const Menu = {
         }
         this.__emit('deselect', {
           ...selectInfo,
-          selectedKeys: selectedKeys,
+          selectedKeys,
         });
       }
     },
@@ -168,7 +173,7 @@ const Menu = {
       },
       class: `${props.prefixCls}-root`,
       on: {
-        ...this.$listeners,
+        ...getListeners(this),
         click: this.onClick,
         openChange: this.onOpenChange,
         deselect: this.onDeselect,

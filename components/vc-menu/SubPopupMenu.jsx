@@ -13,6 +13,7 @@ import {
   getPropsData,
   getEvents,
   getComponentFromProp,
+  getListeners,
 } from '../_util/props-util';
 
 function allDisabled(arr) {
@@ -64,7 +65,8 @@ export function getActiveKey(props, originalActiveKey) {
   if (defaultActiveFirst) {
     loopMenuItem(children, (c, i) => {
       const propsData = c.componentOptions.propsData || {};
-      if (!activeKey && c && !propsData.disabled) {
+      const noActiveKey = activeKey === null || activeKey === undefined;
+      if (noActiveKey && c && !propsData.disabled) {
         activeKey = getKeyFromChildrenIndex(c, eventKey, i);
       }
     });
@@ -85,7 +87,7 @@ const SubPopupMenu = {
       prefixCls: PropTypes.string,
       openTransitionName: PropTypes.string,
       openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-      openKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number])),
+      openKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
       visible: PropTypes.bool,
       parentMenu: PropTypes.object,
       eventKey: PropTypes.string,
@@ -95,12 +97,12 @@ const SubPopupMenu = {
       focusable: PropTypes.bool,
       multiple: PropTypes.bool,
       defaultActiveFirst: PropTypes.bool,
-      activeKey: PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
-      selectedKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number])),
+      activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      selectedKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
       defaultSelectedKeys: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number]),
+        PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       ),
-      defaultOpenKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.bool,PropTypes.string, PropTypes.number])),
+      defaultOpenKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
       level: PropTypes.number,
       mode: PropTypes.oneOf([
         'horizontal',
@@ -192,6 +194,7 @@ const SubPopupMenu = {
 
         return 1;
       }
+      return undefined;
     },
 
     onItemHover(e) {
@@ -334,10 +337,8 @@ const SubPopupMenu = {
         },
         on: {
           click: e => {
-            if ('keyPath' in e) {
-              (childListeners.click || noop)(e);
-              this.onClick(e);
-            }
+            (childListeners.click || noop)(e);
+            this.onClick(e);
           },
           itemHover: this.onItemHover,
           openChange: this.onOpenChange,
@@ -390,7 +391,7 @@ const SubPopupMenu = {
       },
       class: className,
       // Otherwise, the propagated click event will trigger another onClick
-      on: omit(this.$listeners || {}, ['click']),
+      on: omit(getListeners(this), ['click']),
     };
     // if (props.id) {
     //   domProps.id = props.id

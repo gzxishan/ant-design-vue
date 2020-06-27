@@ -381,11 +381,11 @@ function parseDoc(htmlStr, dir, isCN, option) {
 
 function parseDocFromFile(name = "test.html", isCN = true, option = {
   category: 'Components',
-  subtitle: '抽屉',
-  type: 'Feedback',
-  zhType: '反馈',
-  cols: 2,
-  title: 'Drawer',
+  subtitle: '导航菜单',
+  type: 'Navigation',
+  zhType: '导航',
+  cols: 1,
+  title: 'Menu',
 }) {
   let htmlStr = fs.readFileSync(`${DIR}/${name}`, 'utf-8');
   parseDoc(htmlStr, `${DIR}`, isCN, option);

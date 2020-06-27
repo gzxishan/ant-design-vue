@@ -4,7 +4,7 @@ import SubMenu from './SubMenu';
 import BaseMixin from '../_util/BaseMixin';
 import { getWidth, setStyle, menuAllProps } from './util';
 import { cloneElement } from '../_util/vnode';
-import { getClass, getPropsData, getEvents } from '../_util/props-util';
+import { getClass, getPropsData, getEvents, getListeners } from '../_util/props-util';
 
 const canUseDOM = !!(
   typeof window !== 'undefined' &&
@@ -85,7 +85,7 @@ const DOMWrap = {
       this.resizeObserver.disconnect();
     }
     if (this.mutationObserver) {
-      this.resizeObserver.disconnect();
+      this.mutationObserver.disconnect();
     }
   },
   methods: {
@@ -98,9 +98,9 @@ const DOMWrap = {
       }
 
       // filter out all overflowed indicator placeholder
-      return [].slice.call(ul.children).filter(node => {
-        return node.className.split(' ').indexOf(`${prefixCls}-overflowed-submenu`) < 0;
-      });
+      return [].slice
+        .call(ul.children)
+        .filter(node => node.className.split(' ').indexOf(`${prefixCls}-overflowed-submenu`) < 0);
     },
 
     getOverflowedSubMenuItem(keyPrefix, overflowedItems, renderPlaceholder) {
@@ -111,10 +111,11 @@ const DOMWrap = {
       // put all the overflowed item inside a submenu
       // with a title of overflow indicator ('...')
       const copy = this.$slots.default[0];
-      const { title, eventKey, ...rest } = getPropsData(copy); // eslint-disable-line no-unused-vars
-
+      const { title, ...rest } = getPropsData(copy); // eslint-disable-line no-unused-vars
+      const events = getEvents(copy);
       let style = {};
       let key = `${keyPrefix}-overflowed-indicator`;
+      let eventKey = `${keyPrefix}-overflowed-indicator`;
 
       if (overflowedItems.length === 0 && renderPlaceholder !== true) {
         style = {
@@ -127,13 +128,20 @@ const DOMWrap = {
           position: 'absolute',
         };
         key = `${key}-placeholder`;
+        eventKey = `${eventKey}-placeholder`;
       }
 
       const popupClassName = theme ? `${prefixCls}-${theme}` : '';
       const props = {};
+      const on = {};
       menuAllProps.props.forEach(k => {
         if (rest[k] !== undefined) {
           props[k] = rest[k];
+        }
+      });
+      menuAllProps.on.forEach(k => {
+        if (events[k] !== undefined) {
+          on[k] = events[k];
         }
       });
       const subMenuProps = {
@@ -141,13 +149,13 @@ const DOMWrap = {
           title: overflowedIndicator,
           popupClassName,
           ...props,
-          eventKey: `${keyPrefix}-overflowed-indicator`,
+          eventKey,
           disabled: false,
         },
         class: `${prefixCls}-overflowed-submenu`,
         key,
         style,
-        on: getEvents(copy),
+        on,
       };
 
       return <SubMenu {...subMenuProps}>{overflowedItems}</SubMenu>;
@@ -226,7 +234,7 @@ const DOMWrap = {
         this.menuItemSizes.forEach(liWidth => {
           currentSumWidth += liWidth;
           if (currentSumWidth + this.overflowedIndicatorWidth <= width) {
-            lastVisibleIndex++;
+            lastVisibleIndex += 1;
           }
         });
       }
@@ -251,7 +259,7 @@ const DOMWrap = {
                 {
                   style: { display: 'none' },
                   props: { eventKey: `${eventKey}-hidden` },
-                  class: { ...getClass(childNode), [MENUITEM_OVERFLOWED_CLASSNAME]: true },
+                  class: MENUITEM_OVERFLOWED_CLASSNAME,
                 },
               );
             }
@@ -261,7 +269,10 @@ const DOMWrap = {
                   c,
                   // children[index].key will become '.$key' in clone by default,
                   // we have to overwrite with the correct key explicitly
-                  { key: getPropsData(c).eventKey, props: { mode: 'vertical-left' } },
+                  {
+                    key: getPropsData(c).eventKey,
+                    props: { mode: 'vertical-left' },
+                  },
                 );
               });
 
@@ -285,7 +296,7 @@ const DOMWrap = {
   render() {
     const Tag = this.$props.tag;
     const tagProps = {
-      on: this.$listeners,
+      on: getListeners(this),
     };
     return <Tag {...tagProps}>{this.renderChildren(this.$slots.default)}</Tag>;
   },
