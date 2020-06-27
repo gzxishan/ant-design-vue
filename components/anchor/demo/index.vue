@@ -1,42 +1,55 @@
 <script>
-import Basic from './basic';
-import Static from './static';
-import OnClick from './onClick';
+import CBasic from './basic';
+import CBasicString from '!raw-loader!./basic';
+import CCustomizeTheClickEvent from './customize-the-click-event';
+import CCustomizeTheClickEventString from '!raw-loader!./customize-the-click-event';
+import CListeningForAnchorLinkChange from './listening-for-anchor-link-change';
+import CListeningForAnchorLinkChangeString from '!raw-loader!./listening-for-anchor-link-change';
+import CStatic from './static';
+import CStaticString from '!raw-loader!./static';
+import CCustomizeTheAnchorHighlight from './customize-the-anchor-highlight';
+import CCustomizeTheAnchorHighlightString from '!raw-loader!./customize-the-anchor-highlight';
+import CSetAnchorScrollOffset from './set-anchor-scroll-offset';
+import CSetAnchorScrollOffsetString from '!raw-loader!./set-anchor-scroll-offset';
+import CN from '../index.zh-CN';
+import US from '../index.en-US';
 
-import CN from '../index.zh-CN.md';
-import US from '../index.en-US.md';
 const md = {
-  cn: `# Anchor 锚点
-          用于跳转到页面指定位置。
+us:``,
+cn:`# Anchor 锚点
+
+用于跳转到页面指定位置。
 
 ## 何时使用
 
 需要展现当前页面上可供跳转的锚点链接，以及快速在锚点之间跳转。
-          ## 代码演示`,
-  us: `# Anchor
 
-Hyperlinks to scroll on one page.
-
-## When To Use
-
-For displaying anchor hyperlinks on page and jumping between them.
-## Examples
-`,
+## 代码演示`
 };
+
 export default {
   category: 'Components',
   subtitle: '锚点',
-  cols: 2,
   type: 'Other',
   zhType: '其他',
+  cols: 2,
   title: 'Anchor',
   render() {
     return (
-      <div id="components-anchor-demo">
+      <div>
         <md cn={md.cn} us={md.us} />
-        <Basic />
-        <Static />
-        <OnClick />
+        <demo-container code={CBasicString}><CBasic /></demo-container>
+
+<demo-container code={CCustomizeTheClickEventString}><CCustomizeTheClickEvent /></demo-container>
+
+<demo-container code={CListeningForAnchorLinkChangeString}><CListeningForAnchorLinkChange /></demo-container>
+
+<demo-container code={CStaticString}><CStatic /></demo-container>
+
+<demo-container code={CCustomizeTheAnchorHighlightString}><CCustomizeTheAnchorHighlight /></demo-container>
+
+<demo-container code={CSetAnchorScrollOffsetString}><CSetAnchorScrollOffset /></demo-container>
+
         <api>
           <CN slot="cn" />
           <US />
@@ -46,8 +59,3 @@ export default {
   },
 };
 </script>
-<style>
-#components-anchor-demo .ant-affix {
-  z-index: 11;
-}
-</style>

@@ -1,57 +1,74 @@
 <script>
-import Basic from './basic';
-import ButtonGroup from './button-group';
-import Disabled from './disabled';
-import Ghost from './ghost';
-import Icon from './icon';
-import Loading from './loading';
-import Multiple from './multiple';
-import Size from './size';
-import Block from './block';
-import CN from '../index.zh-CN.md';
-import US from '../index.en-US.md';
+import CType from './type';
+import CTypeString from '!raw-loader!./type';
+import CDisabled from './disabled';
+import CDisabledString from '!raw-loader!./disabled';
+import CIcon from './icon';
+import CIconString from '!raw-loader!./icon';
+import CMultipleButtons from './multiple-buttons';
+import CMultipleButtonsString from '!raw-loader!./multiple-buttons';
+import CBlockButton from './block-button';
+import CBlockButtonString from '!raw-loader!./block-button';
+import CButtonGroup from './button-group';
+import CButtonGroupString from '!raw-loader!./button-group';
+import CGhostButton from './ghost-button';
+import CGhostButtonString from '!raw-loader!./ghost-button';
+import CLoading from './loading';
+import CLoadingString from '!raw-loader!./loading';
+import CSize from './size';
+import CSizeString from '!raw-loader!./size';
+import CN from '../index.zh-CN';
+import US from '../index.en-US';
+
 const md = {
-  cn: `# Button 按钮
-          按钮用于开始一个即时操作。
-          ## 何时使用
-          标记了一个（或封装一组）操作命令，响应用户点击行为，触发相应的业务逻辑。
-          ## 组件注册
-          \`\`\`js
-          import { Button } from 'ant-design-vue';
-          Vue.use(Button);
-          \`\`\`
-          ## 代码演示`,
-  us: `# Button
-          To trigger an operation.
-          ## When To Use
-          A button means an operation (or a series of operations). Clicking a button will trigger corresponding business logic.
-          ## Component Registration
-          \`\`\`js
-          import { Button } from 'ant-design-vue';
-          Vue.use(Button);
-          \`\`\`
-          ## Examples
-          `,
+us:``,
+cn:`# Button 按钮
+
+按钮用于开始一个即时操作。
+
+## 何时使用
+
+标记了一个（或封装一组）操作命令，响应用户点击行为，触发相应的业务逻辑。
+
+## 组件注册
+
+\`\`\`
+import { Button } from 'ant-design-vue';
+Vue.use(Button);
+\`\`\`
+
+## 代码演示`
 };
+
 export default {
   category: 'Components',
+  subtitle: '按钮',
   type: 'General',
   zhType: '通用',
+  cols: 2,
   title: 'Button',
-  subtitle: '按钮',
   render() {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <Basic />
-        <ButtonGroup />
-        <Disabled />
-        <Ghost />
-        <Icon />
-        <Loading />
-        <Multiple />
-        <Size />
-        <Block />
+        <demo-container code={CTypeString}><CType /></demo-container>
+
+<demo-container code={CDisabledString}><CDisabled /></demo-container>
+
+<demo-container code={CIconString}><CIcon /></demo-container>
+
+<demo-container code={CMultipleButtonsString}><CMultipleButtons /></demo-container>
+
+<demo-container code={CBlockButtonString}><CBlockButton /></demo-container>
+
+<demo-container code={CButtonGroupString}><CButtonGroup /></demo-container>
+
+<demo-container code={CGhostButtonString}><CGhostButton /></demo-container>
+
+<demo-container code={CLoadingString}><CLoading /></demo-container>
+
+<demo-container code={CSizeString}><CSize /></demo-container>
+
         <api>
           <CN slot="cn" />
           <US />
@@ -61,12 +78,3 @@ export default {
   },
 };
 </script>
-<style>
-[id^='components-button-demo-'] .ant-btn {
-  margin-right: 8px;
-  margin-bottom: 12px;
-}
-[id^='components-button-demo-'] .ant-btn-group > .ant-btn {
-  margin-right: 0;
-}
-</style>

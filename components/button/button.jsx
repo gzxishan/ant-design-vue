@@ -1,7 +1,7 @@
 import Wave from '../_util/wave';
 import Icon from '../icon';
 import buttonTypes from './buttonTypes';
-import { filterEmpty } from '../_util/props-util';
+import { filterEmpty, getListeners } from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider';
 
 const rxTwoCNChar = /^[\u4e00-\u9fa5]{2}$/;
@@ -36,7 +36,6 @@ export default {
         sLoading,
         ghost,
         block,
-        sizeMap,
         icon,
         $slots,
       } = this;
@@ -44,7 +43,19 @@ export default {
       const prefixCls = getPrefixCls('btn', customizePrefixCls);
       const autoInsertSpace = this.configProvider.autoInsertSpaceInButton !== false;
 
-      const sizeCls = sizeMap[size] || '';
+      // large => lg
+      // small => sm
+      let sizeCls = '';
+      switch (size) {
+        case 'large':
+          sizeCls = 'lg';
+          break;
+        case 'small':
+          sizeCls = 'sm';
+          break;
+        default:
+          break;
+      }
       const iconType = sLoading ? 'loading' : icon;
       const children = filterEmpty($slots.default);
       return {
@@ -95,7 +106,7 @@ export default {
       if (!node) {
         return;
       }
-      const buttonText = node.textContent || node.innerText;
+      const buttonText = node.textContent;
       if (this.isNeedInserted() && isTwoCNChar(buttonText)) {
         if (!this.hasTwoCNChar) {
           this.hasTwoCNChar = true;
@@ -123,23 +134,12 @@ export default {
       return child;
     },
     isNeedInserted() {
-      const { icon, $slots } = this;
-      return $slots.default && $slots.default.length === 1 && !icon;
+      const { icon, $slots, type } = this;
+      return $slots.default && $slots.default.length === 1 && !icon && type !== 'link';
     },
   },
   render() {
-    const {
-      type,
-      htmlType,
-      classes,
-      icon,
-      disabled,
-      handleClick,
-      sLoading,
-      $slots,
-      $attrs,
-      $listeners,
-    } = this;
+    const { type, htmlType, classes, icon, disabled, handleClick, sLoading, $slots, $attrs } = this;
     const buttonProps = {
       attrs: {
         ...$attrs,
@@ -147,7 +147,7 @@ export default {
       },
       class: classes,
       on: {
-        ...$listeners,
+        ...getListeners(this),
         click: handleClick,
       },
     };
