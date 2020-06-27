@@ -135,7 +135,7 @@ const mdUtils = {
       node.children().each((index, e) => {
         let li = $(e);
         let rs = this._parseContent(li, "");
-        mds.push((index+1)+". " + rs.text);
+        mds.push((index + 1) + ". " + rs.text);
       });
 
       return {
@@ -218,10 +218,10 @@ function parseDemos(nodes, dir, type, isCN, demos) {
 
     let name = child(section, 0, 0).attr("id");
 
-    if(name){
-      name=name.substring(`components-${type}-demo-`.length).replace(/[\/,&]/g,"_");
-    }else{
-      name=anchorId;
+    if (name) {
+      name = name.substring(`components-${type}-demo-`.length).replace(/[\/,&]/g, "_");
+    } else {
+      name = anchorId;
     }
 
     let anchorNames = anchorId.split("-");
@@ -283,7 +283,7 @@ function mkdirsSync(dirname) {
  */
 function parseDoc(htmlStr, dir, isCN, option) {
 
-  dir = `${dir}/out`;
+  dir = `${dir}/build`;
   mkdirsSync(`${dir}/demo`);
 
   let names = [];
@@ -367,21 +367,25 @@ function parseDoc(htmlStr, dir, isCN, option) {
   //底部api
   let mdApi = parseMarkdown(child(rdom, 2, 1)); //跳过广告
   let apiName;
+  let emptyApiName;
   if (isCN) {
     apiName = "index.zh-CN.md";
+    emptyApiName = "index.en-US.md";
   } else {
     apiName = "index.en-US.md";
+    emptyApiName = "index.zh-CN.md";
   }
   writeFile(`${dir}/${apiName}`, mdApi);
+  writeFile(`${dir}/${emptyApiName}`, "");
 }
 
 function parseDocFromFile(name = "test.html", isCN = true, option = {
- category: 'Components',
- subtitle: '表格',
- type: 'Data Display',
- zhType: '数据展示',
- cols: 1,
- title: 'Table',
+  category: 'Components',
+  subtitle: '按钮',
+  type: 'General',
+  zhType: '通用',
+  cols: 2,
+  title: 'Button',
 }) {
   let htmlStr = fs.readFileSync(`${DIR}/${name}`, 'utf-8');
   parseDoc(htmlStr, `${DIR}`, isCN, option);
