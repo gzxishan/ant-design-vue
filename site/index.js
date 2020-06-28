@@ -71,7 +71,16 @@ const store = new Vuex.Store({
   },
 });
 
+const pathName=location.protocol+"//"+location.host+location.pathname;
+
 new Vue({
+  provide: {
+    iframeDemo: {
+      "components-layout-demo-fixed-sider": pathName+"/iframe/layout#fixed-sider",
+      "components-layout-demo-fixed": pathName+"/iframe/layout#fixed",
+      "components-layout-demo-side": pathName+"/iframe/layout#side",
+    }
+  },
   el: '#app',
   i18n,
   router,

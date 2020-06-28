@@ -40,7 +40,7 @@ export default {
   title: 'Badge',
   render() {
     return (
-      <div>
+      <div id="components-badge-demo">
         <md cn={md.cn} us={md.us} />
         <a-row style="margin-left: -8px;margin-right: -8px;">
           <a-col span={12} class="code-boxes-col-2-1">
@@ -65,3 +65,12 @@ export default {
   },
 };
 </script>
+
+<style>
+  #components-badge-demo-dot .anticon-notification[data-v-195a2a3e]{width:16px;height:16px;line-height:16px;font-size:16px}
+  #components-badge-demo-title .ant-badge[data-v-6f8b4e4f]:not(.ant-badge-status){margin-right:20px}
+  .head-example[data-v-6f8b4e4f]{width:42px;height:42px;border-radius:4px;background:#eee;display:inline-block}
+  #components-badge-demo .ant-badge:not(.ant-badge-not-a-wrapper){margin-right:20px}
+  #components-badge-demo .head-example{width:42px;height:42px;border-radius:4px;background:#eee;display:inline-block;vertical-align:middle}
+  #components-badge-demo .ant-badge-not-a-wrapper:not(.ant-badge-status){margin-right:8px}
+</style>

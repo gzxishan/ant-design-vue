@@ -418,36 +418,35 @@ function parseDocFromFile(name = "test.html", isCN = true, option = {
   parseDoc(htmlStr, `${DIR}`, isCN, option);
 }
 
-// parseDocFromFile();
+parseDocFromFile();
 
 
-const pathName = `E:/workspace/idea2020/ant-design-vue/components`;
-fs.readdir(pathName, function(err, files) {
-  files.forEach((name) => {
-    fs.stat(pathName + "/" + name, function(err, stats) {
-      if (stats.isDirectory()&&!["alert","icon","locale-provider"].includes()) {
-        fs.exists(pathName + "/" + name + "/demo", function(exists) {
-          if (exists) {
-            fs.readdir(pathName + "/" + name + "/demo", function(err, tfiles) {
-              tfiles.forEach((fname) => {
-                if (fname.endsWith(".md")) {
-                    let path=pathName + "/" + name + "/demo/"+fname;
-                    fs.renameSync(path,path.substring(path.length-2)+".vue");
-                    // let content = fs.readFileSync(path,{encoding:'utf8'});
-                    // let index=content.indexOf("<template>");
-
-                    // let desc=content.substring(0,index);
-                    // let tpl=content.substring(index);
-                    // // tpl.replace(/`/g,"\\`");
-
-                    // content=desc+"\n```tpl\n"+tpl+"\n```";
-                    // writeFile(path, content);
-                }
-              });
-            });
-          }
-        });
-      }
-    });
-  })
-})
+// const pathName = `E:/workspace/idea2020/ant-design-vue/components`;
+// fs.readdir(pathName, function(err, files) {
+//   files.forEach((name) => {
+//     fs.stat(pathName + "/" + name, function(err, stats) {
+//       if (stats.isDirectory() && !["alert", "icon", "locale-provider"].includes(name)) {
+//         fs.exists(pathName + "/" + name + "/demo", function(exists) {
+//           if (exists) {
+//             fs.readdir(pathName + "/" + name + "/demo", function(err, tfiles) {
+//               tfiles.forEach((fname) => {
+//                 let path = pathName + "/" + name + "/demo/" + fname;
+//                 if (fname.endsWith(".md")) {
+//                   console.log("rename:", path, " to ", path.substring(0, path.length - 2) +
+//                     "vue");
+//                   fs.renameSync(path, path.substring(0, path.length - 2) + "vue");
+//                 } else if (fname.endsWith(".vue") && fname != "index.vue") {
+//                   let content = fs.readFileSync(path, {
+//                     encoding: 'utf8'
+//                   });
+//                   content=content.replace(/(\n```tpl)|(```\s*$)/g,"");
+//                   writeFile(path, content);
+//                 }
+//               });
+//             });
+//           }
+//         });
+//       }
+//     });
+//   })
+// })

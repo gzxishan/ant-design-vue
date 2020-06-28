@@ -54,7 +54,6 @@ export default {
     subtitle: '卡片',
     type: 'Data Display',
     title: 'Card',
-    cols: 1,
   },
   checkbox: {
     category: 'Components',
@@ -92,7 +91,6 @@ export default {
     subtitle: '提及',
     type: 'Data Entry',
     zhType: '数据录入',
-    cols: 2,
     title: 'Mentions',
   },
   menu: {
@@ -140,7 +138,6 @@ export default {
     subtitle: '评分',
     type: 'Data Entry',
     title: 'Rate',
-    cols: 1,
   },
   result: {
     category: 'Components',
