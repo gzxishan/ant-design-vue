@@ -425,7 +425,7 @@ const pathName = `E:/workspace/idea2020/ant-design-vue/components`;
 fs.readdir(pathName, function(err, files) {
   files.forEach((name) => {
     fs.stat(pathName + "/" + name, function(err, stats) {
-      if (stats.isDirectory()) {
+      if (stats.isDirectory()&&!["alert","icon","locale-provider"].includes()) {
         fs.exists(pathName + "/" + name + "/demo", function(exists) {
           if (exists) {
             fs.readdir(pathName + "/" + name + "/demo", function(err, tfiles) {

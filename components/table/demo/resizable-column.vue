@@ -7,7 +7,7 @@
 #### Resizable Column
 </us>
 
-```tpl
+
 <template>
   <a-table bordered :columns="columns" :components="components" :data-source="data">
     <template v-slot:action>
@@ -140,4 +140,3 @@ export default {
   }
 }
 </style>
-```

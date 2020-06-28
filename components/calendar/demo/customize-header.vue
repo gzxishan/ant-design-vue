@@ -7,7 +7,7 @@
 #### Customize Header
 </us>
 
-```tpl
+
 <template>
   <div style="width: 300px; border: 1px solid #d9d9d9; border-radius: 4px">
     <a-calendar :fullscreen="false" :header-render="headerRender" @panelChange="onPanelChange" />
@@ -96,4 +96,4 @@ export default {
   },
 };
 </script>
-```
+
