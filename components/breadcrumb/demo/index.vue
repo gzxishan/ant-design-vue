@@ -3,8 +3,8 @@ import CBasicUsage from './basic-usage-';
 import CBasicUsageString from '!raw-loader!./basic-usage-';
 import CConfiguringTheSeparator from './configuring-the-separator';
 import CConfiguringTheSeparatorString from '!raw-loader!./configuring-the-separator';
-import CConfiguringTheSeparator from './configuring-the-separator';
-import CConfiguringTheSeparatorString from '!raw-loader!./configuring-the-separator';
+import CConfiguringTheSeparator_1 from './configuring-the-separator_1';
+import CConfiguringTheSeparator_1String from '!raw-loader!./configuring-the-separator_1';
 import CWithAnIcon from './with-an-icon';
 import CWithAnIconString from '!raw-loader!./with-an-icon';
 import CVueRouterIntegration from './vue-router-integration';
@@ -42,7 +42,7 @@ export default {
 
 <demo-container code={CConfiguringTheSeparatorString}><CConfiguringTheSeparator /></demo-container>
 
-<demo-container code={CConfiguringTheSeparatorString}><CConfiguringTheSeparator /></demo-container>
+<demo-container code={CConfiguringTheSeparator_1String}><CConfiguringTheSeparator_1 /></demo-container>
 
 <demo-container code={CWithAnIconString}><CWithAnIcon /></demo-container>
 

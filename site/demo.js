@@ -147,7 +147,6 @@ export default {
     subtitle: '结果',
     type: 'Feedback',
     zhType: '反馈',
-    cols: 2,
     title: 'Result',
   },
   tabs: {
@@ -217,7 +216,6 @@ export default {
     subtitle: '自动完成',
     type: 'Data Entry',
     title: 'AutoComplete',
-    cols: 2,
   },
   affix: {
     category: 'Components',
@@ -318,7 +316,7 @@ export default {
     subtitle: '穿梭框',
     type: 'Data Entry',
     title: 'Transfer',
-    cols: '1',
+    cols: 1,
   },
   upload: {
     category: 'Components',
@@ -370,7 +368,6 @@ export default {
     subtitle: '锚点',
     type: 'Other',
     title: 'Anchor',
-    cols: 2,
   },
   list: {
     category: 'Components',

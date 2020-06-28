@@ -212,16 +212,25 @@ function writeFile(path, data) {
 //转换实例
 function parseDemos(nodes, dir, type, isCN, demos) {
   let items = [];
+  let namesMap = {};
+  const REG_NAME=/[\/,&\.]/g;
+
   nodes.find("section.code-box").each((index, e) => {
     let section = $(e);
-    let anchorId = section.attr("id").substring(`components-${type}-demo-`.length).replace(/[\/,&]/g, "_");
+    let anchorId = section.attr("id").substring(`components-${type}-demo-`.length).replace(REG_NAME, "_");
 
     let name = child(section, 0, 0).attr("id");
 
     if (name) {
-      name = name.substring(`components-${type}-demo-`.length).replace(/[\/,&]/g, "_");
+      name = name.substring(`components-${type}-demo-`.length).replace(REG_NAME, "_");
     } else {
       name = anchorId;
+    }
+
+    if (namesMap[name]!==undefined) {
+      name += "_"+namesMap[name]++;
+    } else {
+      namesMap[name] = 1;
     }
 
     let anchorNames = anchorId.split("-");
@@ -381,11 +390,11 @@ function parseDoc(htmlStr, dir, isCN, option) {
 
 function parseDocFromFile(name = "test.html", isCN = true, option = {
   category: 'Components',
-  subtitle: '导航菜单',
-  type: 'Navigation',
-  zhType: '导航',
-  cols: 1,
-  title: 'Menu',
+  subtitle: '单选框',
+  type: 'Data Entry',
+  zhType: '数据录入',
+  cols: 2,
+  title: 'Radio',
 }) {
   let htmlStr = fs.readFileSync(`${DIR}/${name}`, 'utf-8');
   parseDoc(htmlStr, `${DIR}`, isCN, option);

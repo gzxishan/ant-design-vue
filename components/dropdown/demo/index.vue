@@ -13,8 +13,8 @@ import CContextMenu from './context-menu';
 import CContextMenuString from '!raw-loader!./context-menu';
 import CClickEvent from './click-event';
 import CClickEventString from '!raw-loader!./click-event';
-import CTheWayOfHidingMenu. from './the-way-of-hiding-menu.';
-import CTheWayOfHidingMenu.String from '!raw-loader!./the-way-of-hiding-menu.';
+import CTheWayOfHidingMenu_ from './the-way-of-hiding-menu_';
+import CTheWayOfHidingMenu_String from '!raw-loader!./the-way-of-hiding-menu_';
 import CCascadingMenu from './cascading-menu';
 import CCascadingMenuString from '!raw-loader!./cascading-menu';
 import CN from '../index.zh-CN';
@@ -58,7 +58,7 @@ export default {
 
 <demo-container code={CClickEventString}><CClickEvent /></demo-container>
 
-<demo-container code={CTheWayOfHidingMenu.String}><CTheWayOfHidingMenu. /></demo-container>
+<demo-container code={CTheWayOfHidingMenu_String}><CTheWayOfHidingMenu_ /></demo-container>
 
 <demo-container code={CCascadingMenuString}><CCascadingMenu /></demo-container>
 

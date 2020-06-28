@@ -5,8 +5,8 @@ import CRadioStyle from './radio-style';
 import CRadioStyleString from '!raw-loader!./radio-style';
 import CVerticalRadiogroup from './vertical-radiogroup';
 import CVerticalRadiogroupString from '!raw-loader!./vertical-radiogroup';
-import CRadio.groupWithName from './radio.group-with-name';
-import CRadio.groupWithNameString from '!raw-loader!./radio.group-with-name';
+import CRadio_groupWithName from './radio_group-with-name';
+import CRadio_groupWithNameString from '!raw-loader!./radio_group-with-name';
 import CSize from './size';
 import CSizeString from '!raw-loader!./size';
 import CDisabled from './disabled';
@@ -49,7 +49,7 @@ export default {
 
 <demo-container code={CVerticalRadiogroupString}><CVerticalRadiogroup /></demo-container>
 
-<demo-container code={CRadio.groupWithNameString}><CRadio.groupWithName /></demo-container>
+<demo-container code={CRadio_groupWithNameString}><CRadio_groupWithName /></demo-container>
 
 <demo-container code={CSizeString}><CSize /></demo-container>
 
