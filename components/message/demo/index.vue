@@ -39,18 +39,18 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CNormalPromptString}><CNormalPrompt /></demo-container>
-
-<demo-container code={CMessageWithLoadingIndicatorString}><CMessageWithLoadingIndicator /></demo-container>
-
-<demo-container code={CPromiseInterfaceString}><CPromiseInterface /></demo-container>
-
-<demo-container code={CCustomizeDurationString}><CCustomizeDuration /></demo-container>
-
-<demo-container code={COtherTypesOfMessageString}><COtherTypesOfMessage /></demo-container>
-
-<demo-container code={CUpdateMessageContentString}><CUpdateMessageContent /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CNormalPromptString}><CNormalPrompt /></demo-container>
+            <demo-container code={CMessageWithLoadingIndicatorString}><CMessageWithLoadingIndicator /></demo-container>
+            <demo-container code={CPromiseInterfaceString}><CPromiseInterface /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CCustomizeDurationString}><CCustomizeDuration /></demo-container>
+            <demo-container code={COtherTypesOfMessageString}><COtherTypesOfMessage /></demo-container>
+            <demo-container code={CUpdateMessageContentString}><CUpdateMessageContent /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

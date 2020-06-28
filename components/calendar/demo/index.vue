@@ -36,16 +36,15 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CCardString}><CCard /></demo-container>
-
-<demo-container code={CNoticeCalendarString}><CNoticeCalendar /></demo-container>
-
-<demo-container code={CSelectableCalendarString}><CSelectableCalendar /></demo-container>
-
-<demo-container code={CCustomizeHeaderString}><CCustomizeHeader /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CCardString}><CCard /></demo-container>
+            <demo-container code={CNoticeCalendarString}><CNoticeCalendar /></demo-container>
+            <demo-container code={CSelectableCalendarString}><CSelectableCalendar /></demo-container>
+            <demo-container code={CCustomizeHeaderString}><CCustomizeHeader /></demo-container>
+</a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

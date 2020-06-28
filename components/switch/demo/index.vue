@@ -37,16 +37,17 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
-
-<demo-container code={CText_IconString}><CText_Icon /></demo-container>
-
-<demo-container code={CLoadingString}><CLoading /></demo-container>
-
-<demo-container code={CDisabledString}><CDisabled /></demo-container>
-
-<demo-container code={CTwoSizesString}><CTwoSizes /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
+            <demo-container code={CText_IconString}><CText_Icon /></demo-container>
+            <demo-container code={CLoadingString}><CLoading /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CDisabledString}><CDisabled /></demo-container>
+            <demo-container code={CTwoSizesString}><CTwoSizes /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

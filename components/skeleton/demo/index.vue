@@ -39,16 +39,15 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CComplexCombinationString}><CComplexCombination /></demo-container>
-
-<demo-container code={CActiveAnimationString}><CActiveAnimation /></demo-container>
-
-<demo-container code={CContainsSubComponentString}><CContainsSubComponent /></demo-container>
-
-<demo-container code={CListString}><CList /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CComplexCombinationString}><CComplexCombination /></demo-container>
+            <demo-container code={CActiveAnimationString}><CActiveAnimation /></demo-container>
+            <demo-container code={CContainsSubComponentString}><CContainsSubComponent /></demo-container>
+            <demo-container code={CListString}><CList /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

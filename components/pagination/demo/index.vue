@@ -47,26 +47,20 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CMoreString}><CMore /></demo-container>
-
-<demo-container code={CChangerString}><CChanger /></demo-container>
-
-<demo-container code={CCustomDropdownOptionsString}><CCustomDropdownOptions /></demo-container>
-
-<demo-container code={CJumperString}><CJumper /></demo-container>
-
-<demo-container code={CMiniString}><CMini /></demo-container>
-
-<demo-container code={CSimpleModeString}><CSimpleMode /></demo-container>
-
-<demo-container code={CControlledString}><CControlled /></demo-container>
-
-<demo-container code={CTotalNumberString}><CTotalNumber /></demo-container>
-
-<demo-container code={CPrevAndNextString}><CPrevAndNext /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CMoreString}><CMore /></demo-container>
+            <demo-container code={CChangerString}><CChanger /></demo-container>
+            <demo-container code={CCustomDropdownOptionsString}><CCustomDropdownOptions /></demo-container>
+            <demo-container code={CJumperString}><CJumper /></demo-container>
+            <demo-container code={CMiniString}><CMini /></demo-container>
+            <demo-container code={CSimpleModeString}><CSimpleMode /></demo-container>
+            <demo-container code={CControlledString}><CControlled /></demo-container>
+            <demo-container code={CTotalNumberString}><CTotalNumber /></demo-container>
+            <demo-container code={CPrevAndNextString}><CPrevAndNext /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

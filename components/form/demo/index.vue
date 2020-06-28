@@ -79,38 +79,26 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CCoordinatedControlsString}><CCoordinatedControls /></demo-container>
-
-<demo-container code={CDynamicRulesString}><CDynamicRules /></demo-container>
-
-<demo-container code={CInlineLoginFormString}><CInlineLoginForm /></demo-container>
-
-<demo-container code={CFormLayoutString}><CFormLayout /></demo-container>
-
-<demo-container code={CCustomizedValidationString}><CCustomizedValidation /></demo-container>
-
-<demo-container code={CHandleFormDataManuallyString}><CHandleFormDataManually /></demo-container>
-
-<demo-container code={CAdvancedSearchString}><CAdvancedSearch /></demo-container>
-
-<demo-container code={CCustomizedFormControlsString}><CCustomizedFormControls /></demo-container>
-
-<demo-container code={CDynamicFormItemString}><CDynamicFormItem /></demo-container>
-
-<demo-container code={CFormInModalToCreateString}><CFormInModalToCreate /></demo-container>
-
-<demo-container code={CGlobalStateString}><CGlobalState /></demo-container>
-
-<demo-container code={CVuexString}><CVuex /></demo-container>
-
-<demo-container code={CNormalLoginString}><CNormalLogin /></demo-container>
-
-<demo-container code={CRegistrationString}><CRegistration /></demo-container>
-
-<demo-container code={CTimeRelatedControlsString}><CTimeRelatedControls /></demo-container>
-
-<demo-container code={CValidateOtherString}><CValidateOther /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CCoordinatedControlsString}><CCoordinatedControls /></demo-container>
+            <demo-container code={CDynamicRulesString}><CDynamicRules /></demo-container>
+            <demo-container code={CInlineLoginFormString}><CInlineLoginForm /></demo-container>
+            <demo-container code={CFormLayoutString}><CFormLayout /></demo-container>
+            <demo-container code={CCustomizedValidationString}><CCustomizedValidation /></demo-container>
+            <demo-container code={CHandleFormDataManuallyString}><CHandleFormDataManually /></demo-container>
+            <demo-container code={CAdvancedSearchString}><CAdvancedSearch /></demo-container>
+            <demo-container code={CCustomizedFormControlsString}><CCustomizedFormControls /></demo-container>
+            <demo-container code={CDynamicFormItemString}><CDynamicFormItem /></demo-container>
+            <demo-container code={CFormInModalToCreateString}><CFormInModalToCreate /></demo-container>
+            <demo-container code={CGlobalStateString}><CGlobalState /></demo-container>
+            <demo-container code={CVuexString}><CVuex /></demo-container>
+            <demo-container code={CNormalLoginString}><CNormalLogin /></demo-container>
+            <demo-container code={CRegistrationString}><CRegistration /></demo-container>
+            <demo-container code={CTimeRelatedControlsString}><CTimeRelatedControls /></demo-container>
+            <demo-container code={CValidateOtherString}><CValidateOther /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />
@@ -120,3 +108,7 @@ export default {
   },
 };
 </script>
+
+<style>
+  .ant-advanced-search-form{padding:24px;background:#fbfbfb;border:1px solid #d9d9d9;border-radius:6px}.ant-advanced-search-form .ant-form-item{display:flex}.ant-advanced-search-form .ant-form-item-control-wrapper{flex:1}#components-form-demo-advanced-search .ant-form{max-width:none}#components-form-demo-advanced-search .search-result-list{margin-top:16px;border:1px dashed #e9e9e9;border-radius:6px;background-color:#fafafa;min-height:200px;text-align:center;padding-top:80px}.dynamic-delete-button{cursor:pointer;position:relative;top:4px;font-size:24px;color:#999;transition:all .3s}.dynamic-delete-button:hover{color:#777}.dynamic-delete-button[disabled]{cursor:not-allowed;opacity:.5}#components-form-demo-global-state .language-bash,#components-form-demo-vuex .language-bash{max-width:400px;border-radius:6px;margin-top:24px}#components-form-demo-normal-login .login-form{max-width:300px}#components-form-demo-normal-login .login-form-forgot{float:right}#components-form-demo-normal-login .login-form-button{width:100%}#components-form-demo-validate-other .dropbox{height:180px;line-height:1.5}.code-box-demo .ant-form:not(.ant-form-inline):not(.ant-form-vertical){max-width:600px}
+</style>

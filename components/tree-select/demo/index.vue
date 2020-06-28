@@ -36,18 +36,18 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CMultipleSelectionString}><CMultipleSelection /></demo-container>
-
-<demo-container code={CSuffixString}><CSuffix /></demo-container>
-
-<demo-container code={CCheckableString}><CCheckable /></demo-container>
-
-<demo-container code={CGenerateFormTreeDataString}><CGenerateFormTreeData /></demo-container>
-
-<demo-container code={CAsynchronousLoadingString}><CAsynchronousLoading /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CMultipleSelectionString}><CMultipleSelection /></demo-container>
+            <demo-container code={CSuffixString}><CSuffix /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CCheckableString}><CCheckable /></demo-container>
+            <demo-container code={CGenerateFormTreeDataString}><CGenerateFormTreeData /></demo-container>
+            <demo-container code={CAsynchronousLoadingString}><CAsynchronousLoading /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

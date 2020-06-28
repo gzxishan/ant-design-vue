@@ -42,22 +42,20 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={COverflowCountString}><COverflowCount /></demo-container>
-
-<demo-container code={CStatusString}><CStatus /></demo-container>
-
-<demo-container code={CTitleString}><CTitle /></demo-container>
-
-<demo-container code={CStandaloneString}><CStandalone /></demo-container>
-
-<demo-container code={CDotString}><CDot /></demo-container>
-
-<demo-container code={CDynamicString}><CDynamic /></demo-container>
-
-<demo-container code={CColorfulBadgeString}><CColorfulBadge /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={COverflowCountString}><COverflowCount /></demo-container>
+            <demo-container code={CStatusString}><CStatus /></demo-container>
+            <demo-container code={CTitleString}><CTitle /></demo-container>
+</a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CStandaloneString}><CStandalone /></demo-container>
+            <demo-container code={CDotString}><CDot /></demo-container>
+            <demo-container code={CDynamicString}><CDynamic /></demo-container>
+            <demo-container code={CColorfulBadgeString}><CColorfulBadge /></demo-container>
+</a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

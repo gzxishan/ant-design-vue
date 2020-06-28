@@ -42,22 +42,20 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CSuccessString}><CSuccess /></demo-container>
-
-<demo-container code={CWarningString}><CWarning /></demo-container>
-
-<demo-container code={C404String}><C404 /></demo-container>
-
-<demo-container code={CErrorString}><CError /></demo-container>
-
-<demo-container code={CInfoString}><CInfo /></demo-container>
-
-<demo-container code={C403String}><C403 /></demo-container>
-
-<demo-container code={C500String}><C500 /></demo-container>
-
-<demo-container code={CCustomIconString}><CCustomIcon /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CSuccessString}><CSuccess /></demo-container>
+            <demo-container code={CWarningString}><CWarning /></demo-container>
+            <demo-container code={C404String}><C404 /></demo-container>
+            <demo-container code={CErrorString}><CError /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CInfoString}><CInfo /></demo-container>
+            <demo-container code={C403String}><C403 /></demo-container>
+            <demo-container code={C500String}><C500 /></demo-container>
+            <demo-container code={CCustomIconString}><CCustomIcon /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

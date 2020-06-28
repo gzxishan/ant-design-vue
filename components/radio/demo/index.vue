@@ -43,24 +43,21 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CRadioStyleString}><CRadioStyle /></demo-container>
-
-<demo-container code={CVerticalRadiogroupString}><CVerticalRadiogroup /></demo-container>
-
-<demo-container code={CRadio_groupWithNameString}><CRadio_groupWithName /></demo-container>
-
-<demo-container code={CSizeString}><CSize /></demo-container>
-
-<demo-container code={CDisabledString}><CDisabled /></demo-container>
-
-<demo-container code={CSolidRadioButtonString}><CSolidRadioButton /></demo-container>
-
-<demo-container code={CRadiogroupGroupOptionalString}><CRadiogroupGroupOptional /></demo-container>
-
-<demo-container code={CRadioGroupString}><CRadioGroup /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CRadioStyleString}><CRadioStyle /></demo-container>
+            <demo-container code={CVerticalRadiogroupString}><CVerticalRadiogroup /></demo-container>
+            <demo-container code={CRadio_groupWithNameString}><CRadio_groupWithName /></demo-container>
+            <demo-container code={CSizeString}><CSize /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CDisabledString}><CDisabled /></demo-container>
+            <demo-container code={CSolidRadioButtonString}><CSolidRadioButton /></demo-container>
+            <demo-container code={CRadiogroupGroupOptionalString}><CRadiogroupGroupOptional /></demo-container>
+            <demo-container code={CRadioGroupString}><CRadioGroup /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

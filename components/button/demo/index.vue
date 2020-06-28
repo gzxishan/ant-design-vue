@@ -32,7 +32,7 @@ cn:`# Button 按钮
 
 ## 组件注册
 
-\`\`\`
+\`\`\`js
 import { Button } from 'ant-design-vue';
 Vue.use(Button);
 \`\`\`
@@ -51,24 +51,22 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CTypeString}><CType /></demo-container>
 
-<demo-container code={CDisabledString}><CDisabled /></demo-container>
-
-<demo-container code={CIconString}><CIcon /></demo-container>
-
-<demo-container code={CMultipleButtonsString}><CMultipleButtons /></demo-container>
-
-<demo-container code={CBlockButtonString}><CBlockButton /></demo-container>
-
-<demo-container code={CButtonGroupString}><CButtonGroup /></demo-container>
-
-<demo-container code={CGhostButtonString}><CGhostButton /></demo-container>
-
-<demo-container code={CLoadingString}><CLoading /></demo-container>
-
-<demo-container code={CSizeString}><CSize /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CTypeString} ><CType /></demo-container>
+            <demo-container code={CDisabledString} ><CDisabled /></demo-container>
+            <demo-container code={CIconString} ><CIcon /></demo-container>
+            <demo-container code={CMultipleButtonsString} ><CMultipleButtons /></demo-container>
+            <demo-container code={CBlockButtonString} ><CBlockButton /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CButtonGroupString} ><CButtonGroup /></demo-container>
+            <demo-container code={CGhostButtonString} ><CGhostButton /></demo-container>
+            <demo-container code={CLoadingString} ><CLoading /></demo-container>
+            <demo-container code={CSizeString} ><CSize /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />
@@ -78,3 +76,29 @@ export default {
   },
 };
 </script>
+
+<style>
+  #components-button-demo-button-group>h4 {
+    margin: 16px 0;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 400
+  }
+
+  #components-button-demo-button-group>h4:first-child {
+    margin-top: 0
+  }
+
+  #components-button-demo-button-group .ant-btn-group {
+    margin-right: 8px
+  }
+
+  [id^=components-button-demo-] .ant-btn {
+    margin-right: 8px;
+    margin-bottom: 12px
+  }
+
+  [id^=components-button-demo-] .ant-btn-group>.ant-btn {
+    margin-right: 0
+  }
+</style>

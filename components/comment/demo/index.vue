@@ -32,14 +32,14 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicCommentString}><CBasicComment /></demo-container>
-
-<demo-container code={CUsageWithListString}><CUsageWithList /></demo-container>
-
-<demo-container code={CNestedCommentsString}><CNestedComments /></demo-container>
-
-<demo-container code={CReplyEditorString}><CReplyEditor /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicCommentString}><CBasicComment /></demo-container>
+            <demo-container code={CUsageWithListString}><CUsageWithList /></demo-container>
+            <demo-container code={CNestedCommentsString}><CNestedComments /></demo-container>
+            <demo-container code={CReplyEditorString}><CReplyEditor /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

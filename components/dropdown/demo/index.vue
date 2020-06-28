@@ -44,24 +44,21 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CButtonWithDropdownMenuString}><CButtonWithDropdownMenu /></demo-container>
-
-<demo-container code={COtherElementsString}><COtherElements /></demo-container>
-
-<demo-container code={CPlacementString}><CPlacement /></demo-container>
-
-<demo-container code={CTriggerModeString}><CTriggerMode /></demo-container>
-
-<demo-container code={CContextMenuString}><CContextMenu /></demo-container>
-
-<demo-container code={CClickEventString}><CClickEvent /></demo-container>
-
-<demo-container code={CTheWayOfHidingMenu_String}><CTheWayOfHidingMenu_ /></demo-container>
-
-<demo-container code={CCascadingMenuString}><CCascadingMenu /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CButtonWithDropdownMenuString}><CButtonWithDropdownMenu /></demo-container>
+            <demo-container code={COtherElementsString}><COtherElements /></demo-container>
+            <demo-container code={CPlacementString}><CPlacement /></demo-container>
+            <demo-container code={CTriggerModeString}><CTriggerMode /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CContextMenuString}><CContextMenu /></demo-container>
+            <demo-container code={CClickEventString}><CClickEvent /></demo-container>
+            <demo-container code={CTheWayOfHidingMenu_String}><CTheWayOfHidingMenu_ /></demo-container>
+            <demo-container code={CCascadingMenuString}><CCascadingMenu /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

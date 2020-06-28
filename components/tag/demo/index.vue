@@ -39,18 +39,18 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
-
-<demo-container code={CColorfulTagString}><CColorfulTag /></demo-container>
-
-<demo-container code={CHotTagsString}><CHotTags /></demo-container>
-
-<demo-container code={CCheckableString}><CCheckable /></demo-container>
-
-<demo-container code={CAdd_RemoveDynamicallyString}><CAdd_RemoveDynamically /></demo-container>
-
-<demo-container code={CControlledString}><CControlled /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
+            <demo-container code={CColorfulTagString}><CColorfulTag /></demo-container>
+            <demo-container code={CHotTagsString}><CHotTags /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CCheckableString}><CCheckable /></demo-container>
+            <demo-container code={CAdd_RemoveDynamicallyString}><CAdd_RemoveDynamically /></demo-container>
+            <demo-container code={CControlledString}><CControlled /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

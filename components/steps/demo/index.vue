@@ -48,28 +48,21 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CMiniVersionString}><CMiniVersion /></demo-container>
-
-<demo-container code={CWithIconString}><CWithIcon /></demo-container>
-
-<demo-container code={CSwitchStepString}><CSwitchStep /></demo-container>
-
-<demo-container code={CVerticalString}><CVertical /></demo-container>
-
-<demo-container code={CVerticalMiniVersionString}><CVerticalMiniVersion /></demo-container>
-
-<demo-container code={CErrorStatusString}><CErrorStatus /></demo-container>
-
-<demo-container code={CDotStyleString}><CDotStyle /></demo-container>
-
-<demo-container code={CCustomizedDotStyleString}><CCustomizedDotStyle /></demo-container>
-
-<demo-container code={CClickableString}><CClickable /></demo-container>
-
-<demo-container code={CNavigationStepsString}><CNavigationSteps /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CMiniVersionString}><CMiniVersion /></demo-container>
+            <demo-container code={CWithIconString}><CWithIcon /></demo-container>
+            <demo-container code={CSwitchStepString}><CSwitchStep /></demo-container>
+            <demo-container code={CVerticalString}><CVertical /></demo-container>
+            <demo-container code={CVerticalMiniVersionString}><CVerticalMiniVersion /></demo-container>
+            <demo-container code={CErrorStatusString}><CErrorStatus /></demo-container>
+            <demo-container code={CDotStyleString}><CDotStyle /></demo-container>
+            <demo-container code={CCustomizedDotStyleString}><CCustomizedDotStyle /></demo-container>
+            <demo-container code={CClickableString}><CClickable /></demo-container>
+            <demo-container code={CNavigationStepsString}><CNavigationSteps /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

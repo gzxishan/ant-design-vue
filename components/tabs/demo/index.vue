@@ -54,28 +54,21 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
-
-<demo-container code={CDisabledString}><CDisabled /></demo-container>
-
-<demo-container code={CIconString}><CIcon /></demo-container>
-
-<demo-container code={CSlideString}><CSlide /></demo-container>
-
-<demo-container code={CExtraContentString}><CExtraContent /></demo-container>
-
-<demo-container code={CSizeString}><CSize /></demo-container>
-
-<demo-container code={CPositionString}><CPosition /></demo-container>
-
-<demo-container code={CCardTypeTabString}><CCardTypeTab /></demo-container>
-
-<demo-container code={CAdd_CloseTabString}><CAdd_CloseTab /></demo-container>
-
-<demo-container code={CContainerOfCardTypeTabString}><CContainerOfCardTypeTab /></demo-container>
-
-<demo-container code={CCustomizedTriggerOfNewTabString}><CCustomizedTriggerOfNewTab /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
+            <demo-container code={CDisabledString}><CDisabled /></demo-container>
+            <demo-container code={CIconString}><CIcon /></demo-container>
+            <demo-container code={CSlideString}><CSlide /></demo-container>
+            <demo-container code={CExtraContentString}><CExtraContent /></demo-container>
+            <demo-container code={CSizeString}><CSize /></demo-container>
+            <demo-container code={CPositionString}><CPosition /></demo-container>
+            <demo-container code={CCardTypeTabString}><CCardTypeTab /></demo-container>
+            <demo-container code={CAdd_CloseTabString}><CAdd_CloseTab /></demo-container>
+            <demo-container code={CContainerOfCardTypeTabString}><CContainerOfCardTypeTab /></demo-container>
+            <demo-container code={CCustomizedTriggerOfNewTabString}><CCustomizedTriggerOfNewTab /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

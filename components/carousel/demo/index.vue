@@ -38,18 +38,16 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CPositionString}><CPosition /></demo-container>
-
-<demo-container code={CFadeInString}><CFadeIn /></demo-container>
-
-<demo-container code={CScrollAutomaticallyString}><CScrollAutomatically /></demo-container>
-
-<demo-container code={CCustomPagingString}><CCustomPaging /></demo-container>
-
-<demo-container code={CCustomArrowsString}><CCustomArrows /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CPositionString}><CPosition /></demo-container>
+            <demo-container code={CFadeInString}><CFadeIn /></demo-container>
+            <demo-container code={CScrollAutomaticallyString}><CScrollAutomatically /></demo-container>
+            <demo-container code={CCustomPagingString}><CCustomPaging /></demo-container>
+            <demo-container code={CCustomArrowsString}><CCustomArrows /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

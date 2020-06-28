@@ -77,52 +77,29 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
-
-<demo-container code={CEllipsisColumnString}><CEllipsisColumn /></demo-container>
-
-<demo-container code={CAjaxString}><CAjax /></demo-container>
-
-<demo-container code={CBorder_TitleAndFooterString}><CBorder_TitleAndFooter /></demo-container>
-
-<demo-container code={CColspanAndRowspanString}><CColspanAndRowspan /></demo-container>
-
-<demo-container code={CCustomizedFilterPanelString}><CCustomizedFilterPanel /></demo-container>
-
-<demo-container code={CEditableCellsString}><CEditableCells /></demo-container>
-
-<demo-container code={CEditableRowsString}><CEditableRows /></demo-container>
-
-<demo-container code={CTreeDataString}><CTreeData /></demo-container>
-
-<demo-container code={CExpandableRowString}><CExpandableRow /></demo-container>
-
-<demo-container code={CFixedColumnsAndHeaderString}><CFixedColumnsAndHeader /></demo-container>
-
-<demo-container code={CFixedColumnsString}><CFixedColumns /></demo-container>
-
-<demo-container code={CFixedHeaderString}><CFixedHeader /></demo-container>
-
-<demo-container code={CGroupingTableHeadString}><CGroupingTableHead /></demo-container>
-
-<demo-container code={CFilterAndSorterString}><CFilterAndSorter /></demo-container>
-
-<demo-container code={CNestedTablesString}><CNestedTables /></demo-container>
-
-<demo-container code={CResetFiltersAndSortersString}><CResetFiltersAndSorters /></demo-container>
-
-<demo-container code={CSelectionAndOperationString}><CSelectionAndOperation /></demo-container>
-
-<demo-container code={CCustomSelectionString}><CCustomSelection /></demo-container>
-
-<demo-container code={CSelectionString}><CSelection /></demo-container>
-
-<demo-container code={CSizeString}><CSize /></demo-container>
-
-<demo-container code={CTemplateStyleApiString}><CTemplateStyleApi /></demo-container>
-
-<demo-container code={CResizableColumnString}><CResizableColumn /></demo-container>
-
+            <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
+            <demo-container code={CEllipsisColumnString}><CEllipsisColumn /></demo-container>
+            <demo-container code={CAjaxString}><CAjax /></demo-container>
+            <demo-container code={CBorder_TitleAndFooterString}><CBorder_TitleAndFooter /></demo-container>
+            <demo-container code={CColspanAndRowspanString}><CColspanAndRowspan /></demo-container>
+            <demo-container code={CCustomizedFilterPanelString}><CCustomizedFilterPanel /></demo-container>
+            <demo-container code={CEditableCellsString}><CEditableCells /></demo-container>
+            <demo-container code={CEditableRowsString}><CEditableRows /></demo-container>
+            <demo-container code={CTreeDataString}><CTreeData /></demo-container>
+            <demo-container code={CExpandableRowString}><CExpandableRow /></demo-container>
+            <demo-container code={CFixedColumnsAndHeaderString}><CFixedColumnsAndHeader /></demo-container>
+            <demo-container code={CFixedColumnsString}><CFixedColumns /></demo-container>
+            <demo-container code={CFixedHeaderString}><CFixedHeader /></demo-container>
+            <demo-container code={CGroupingTableHeadString}><CGroupingTableHead /></demo-container>
+            <demo-container code={CFilterAndSorterString}><CFilterAndSorter /></demo-container>
+            <demo-container code={CNestedTablesString}><CNestedTables /></demo-container>
+            <demo-container code={CResetFiltersAndSortersString}><CResetFiltersAndSorters /></demo-container>
+            <demo-container code={CSelectionAndOperationString}><CSelectionAndOperation /></demo-container>
+            <demo-container code={CCustomSelectionString}><CCustomSelection /></demo-container>
+            <demo-container code={CSelectionString}><CSelection /></demo-container>
+            <demo-container code={CSizeString}><CSize /></demo-container>
+            <demo-container code={CTemplateStyleApiString}><CTemplateStyleApi /></demo-container>
+            <demo-container code={CResizableColumnString}><CResizableColumn /></demo-container>
         <api>
           <CN slot="cn" />
           <US />

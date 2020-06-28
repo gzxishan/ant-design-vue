@@ -38,18 +38,18 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
-
-<demo-container code={CCustomizeInputComponentString}><CCustomizeInputComponent /></demo-container>
-
-<demo-container code={CCustomizedString}><CCustomized /></demo-container>
-
-<demo-container code={CLookupPatternsCertainCategoryString}><CLookupPatternsCertainCategory /></demo-container>
-
-<demo-container code={CNonCaseSensitiveAutocompleteString}><CNonCaseSensitiveAutocomplete /></demo-container>
-
-<demo-container code={CLookupPatternsUncertainCategoryString}><CLookupPatternsUncertainCategory /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
+            <demo-container code={CCustomizeInputComponentString}><CCustomizeInputComponent /></demo-container>
+            <demo-container code={CCustomizedString}><CCustomized /></demo-container>
+</a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CLookupPatternsCertainCategoryString}><CLookupPatternsCertainCategory /></demo-container>
+            <demo-container code={CNonCaseSensitiveAutocompleteString}><CNonCaseSensitiveAutocomplete /></demo-container>
+            <demo-container code={CLookupPatternsUncertainCategoryString}><CLookupPatternsUncertainCategory /></demo-container>
+</a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

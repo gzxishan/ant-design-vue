@@ -48,28 +48,23 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CAsynchronouslyCloseString}><CAsynchronouslyClose /></demo-container>
-
-<demo-container code={CConfirmationModalDialogUsePromiseString}><CConfirmationModalDialogUsePromise /></demo-container>
-
-<demo-container code={CCustomizedFooterString}><CCustomizedFooter /></demo-container>
-
-<demo-container code={CInternationalizationString}><CInternationalization /></demo-container>
-
-<demo-container code={CPositionString}><CPosition /></demo-container>
-
-<demo-container code={CDestroyConfirmationModalDialogString}><CDestroyConfirmationModalDialog /></demo-container>
-
-<demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CConfirmationModalDialogString}><CConfirmationModalDialog /></demo-container>
-
-<demo-container code={CInformationModalDialogString}><CInformationModalDialog /></demo-container>
-
-<demo-container code={CManualToUpdateDestroyString}><CManualToUpdateDestroy /></demo-container>
-
-<demo-container code={CCustomizeFooterButtonsPropsString}><CCustomizeFooterButtonsProps /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CAsynchronouslyCloseString}><CAsynchronouslyClose /></demo-container>
+            <demo-container code={CConfirmationModalDialogUsePromiseString}><CConfirmationModalDialogUsePromise /></demo-container>
+            <demo-container code={CCustomizedFooterString}><CCustomizedFooter /></demo-container>
+            <demo-container code={CInternationalizationString}><CInternationalization /></demo-container>
+            <demo-container code={CPositionString}><CPosition /></demo-container>
+            <demo-container code={CDestroyConfirmationModalDialogString}><CDestroyConfirmationModalDialog /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CConfirmationModalDialogString}><CConfirmationModalDialog /></demo-container>
+            <demo-container code={CInformationModalDialogString}><CInformationModalDialog /></demo-container>
+            <demo-container code={CManualToUpdateDestroyString}><CManualToUpdateDestroy /></demo-container>
+            <demo-container code={CCustomizeFooterButtonsPropsString}><CCustomizeFooterButtonsProps /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

@@ -213,7 +213,7 @@ function writeFile(path, data) {
 function parseDemos(nodes, dir, type, isCN, demos) {
   let items = [];
   let namesMap = {};
-  const REG_NAME=/[\/,&\.]/g;
+  const REG_NAME = /[\/,&\.]/g;
 
   nodes.find("section.code-box").each((index, e) => {
     let section = $(e);
@@ -227,8 +227,8 @@ function parseDemos(nodes, dir, type, isCN, demos) {
       name = anchorId;
     }
 
-    if (namesMap[name]!==undefined) {
-      name += "_"+namesMap[name]++;
+    if (namesMap[name] !== undefined) {
+      name += "_" + namesMap[name]++;
     } else {
       namesMap[name] = 1;
     }
@@ -319,20 +319,38 @@ function parseDoc(htmlStr, dir, isCN, option) {
   let demos = []; //例子文件名
   //中间实例
   parseDemos(child(rdom, 1), `${dir}/demo`, type, isCN, demos);
-  let demoContainers = [];
+  let demoContainers = [`<a-row style="margin-left: -8px;margin-right: -8px;">`];
   let indexVue = `<script>\n`;
   demos.forEach(({
     name,
     usName
-  }) => {
+  }, index) => {
+
+    if (index == 0) {
+      if (option.cols == 2) {
+        demoContainers.push(`\t\t\t\t\t<a-col props={{span:24}} class="code-boxes-col-2-1">`);
+      } else {
+        demoContainers.push(`\t\t\t\t\t<a-col props={{span:24}} class="code-boxes-col-1-1">`);
+      }
+    }
+
     let subNames = name.split("-");
     for (let i = 0; i < subNames.length; i++) {
       subNames[i] = subNames[i].substring(0, 1).toUpperCase() + subNames[i].substring(1);
     }
     let uname = subNames.join("");
     indexVue += `import C${uname} from './${name}';\nimport C${uname}String from '!raw-loader!./${name}';\n`;
-    demoContainers.push(`<demo-container code={C${uname}String}><C${uname} /></demo-container>\n`);
+    demoContainers.push(`\t\t\t\t\t\t<demo-container code={C${uname}String}><C${uname} /></demo-container>`);
+
+    if (option.cols == 2 && (
+        demos.length % 2 == 0 && demos.length / 2 == (index + 1) ||
+        demos.length % 2 == 1 && (demos.length + 1) / 2 == (index + 1))) {
+      demoContainers.push('\t\t\t\t\t</a-col>');
+      demoContainers.push(`\t\t\t\t\t<a-col props={{span:12}} class="code-boxes-col-2-1">`);
+    }
   });
+  demoContainers.push('\t\t\t\t\t</a-col>');
+  demoContainers.push('\t\t\t\t</a-row>');
 
   indexVue += `import CN from '../index.zh-CN';\nimport US from '../index.en-US';\n\nconst md = {\n`;
 
@@ -400,4 +418,36 @@ function parseDocFromFile(name = "test.html", isCN = true, option = {
   parseDoc(htmlStr, `${DIR}`, isCN, option);
 }
 
-parseDocFromFile();
+// parseDocFromFile();
+
+
+const pathName = `E:/workspace/idea2020/ant-design-vue/components`;
+fs.readdir(pathName, function(err, files) {
+  files.forEach((name) => {
+    fs.stat(pathName + "/" + name, function(err, stats) {
+      if (stats.isDirectory()) {
+        fs.exists(pathName + "/" + name + "/demo", function(exists) {
+          if (exists) {
+            fs.readdir(pathName + "/" + name + "/demo", function(err, tfiles) {
+              tfiles.forEach((fname) => {
+                if (fname.endsWith(".md")) {
+                    let path=pathName + "/" + name + "/demo/"+fname;
+                    fs.renameSync(path,path.substring(path.length-2)+".vue");
+                    // let content = fs.readFileSync(path,{encoding:'utf8'});
+                    // let index=content.indexOf("<template>");
+
+                    // let desc=content.substring(0,index);
+                    // let tpl=content.substring(index);
+                    // // tpl.replace(/`/g,"\\`");
+
+                    // content=desc+"\n```tpl\n"+tpl+"\n```";
+                    // writeFile(path, content);
+                }
+              });
+            });
+          }
+        });
+      }
+    });
+  })
+})

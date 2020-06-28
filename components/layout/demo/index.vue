@@ -87,24 +87,19 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CCustomTriggerString}><CCustomTrigger /></demo-container>
-
-<demo-container code={CTopSide2String}><CTopSide2 /></demo-container>
-
-<demo-container code={CTopSideString}><CTopSide /></demo-container>
-
-<demo-container code={CTopString}><CTop /></demo-container>
-
-<demo-container code={CResponsiveString}><CResponsive /></demo-container>
-
-<demo-container code={CFixedSiderString}><CFixedSider /></demo-container>
-
-<demo-container code={CFixedHeaderString}><CFixedHeader /></demo-container>
-
-<demo-container code={CSiderString}><CSider /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CCustomTriggerString}><CCustomTrigger /></demo-container>
+            <demo-container code={CTopSide2String}><CTopSide2 /></demo-container>
+            <demo-container code={CTopSideString}><CTopSide /></demo-container>
+            <demo-container code={CTopString}><CTop /></demo-container>
+            <demo-container code={CResponsiveString}><CResponsive /></demo-container>
+            <demo-container code={CFixedSiderString}><CFixedSider /></demo-container>
+            <demo-container code={CFixedHeaderString}><CFixedHeader /></demo-container>
+            <demo-container code={CSiderString}><CSider /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

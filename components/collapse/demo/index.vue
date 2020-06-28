@@ -41,20 +41,17 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CCollapseString}><CCollapse /></demo-container>
-
-<demo-container code={CAccordionString}><CAccordion /></demo-container>
-
-<demo-container code={CNestedPanelString}><CNestedPanel /></demo-container>
-
-<demo-container code={CBorderlessString}><CBorderless /></demo-container>
-
-<demo-container code={CCustomPanelString}><CCustomPanel /></demo-container>
-
-<demo-container code={CNoArrowString}><CNoArrow /></demo-container>
-
-<demo-container code={CExtraNodeString}><CExtraNode /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CCollapseString}><CCollapse /></demo-container>
+            <demo-container code={CAccordionString}><CAccordion /></demo-container>
+            <demo-container code={CNestedPanelString}><CNestedPanel /></demo-container>
+            <demo-container code={CBorderlessString}><CBorderless /></demo-container>
+            <demo-container code={CCustomPanelString}><CCustomPanel /></demo-container>
+            <demo-container code={CNoArrowString}><CNoArrow /></demo-container>
+            <demo-container code={CExtraNodeString}><CExtraNode /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

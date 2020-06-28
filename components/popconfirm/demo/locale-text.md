@@ -1,0 +1,16 @@
+<cn>
+#### 国际化 
+
+使用 `okText` 和 `cancelText` 自定义按钮文字。
+</cn>
+<us>
+#### Locale Text
+</us>
+
+```tpl
+<template>
+  <a-popconfirm title="Are you sure？" ok-text="Yes" cancel-text="No">
+    <a href="#">Delete</a>
+  </a-popconfirm>
+</template>
+```

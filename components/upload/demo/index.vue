@@ -48,28 +48,23 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CUploadByClickingString}><CUploadByClicking /></demo-container>
-
-<demo-container code={CDefaultFilesString}><CDefaultFiles /></demo-container>
-
-<demo-container code={CCompleteControlOverFileListString}><CCompleteControlOverFileList /></demo-container>
-
-<demo-container code={CPicturesWithListStyleString}><CPicturesWithListStyle /></demo-container>
-
-<demo-container code={CUploadDirectoryString}><CUploadDirectory /></demo-container>
-
-<demo-container code={CTransformFileBeforeRequestString}><CTransformFileBeforeRequest /></demo-container>
-
-<demo-container code={CAvatarString}><CAvatar /></demo-container>
-
-<demo-container code={CPicturesWallString}><CPicturesWall /></demo-container>
-
-<demo-container code={CDragAndDropString}><CDragAndDrop /></demo-container>
-
-<demo-container code={CUploadManuallyString}><CUploadManually /></demo-container>
-
-<demo-container code={CCustomizePreviewFileString}><CCustomizePreviewFile /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CUploadByClickingString}><CUploadByClicking /></demo-container>
+            <demo-container code={CDefaultFilesString}><CDefaultFiles /></demo-container>
+            <demo-container code={CCompleteControlOverFileListString}><CCompleteControlOverFileList /></demo-container>
+            <demo-container code={CPicturesWithListStyleString}><CPicturesWithListStyle /></demo-container>
+            <demo-container code={CUploadDirectoryString}><CUploadDirectory /></demo-container>
+            <demo-container code={CTransformFileBeforeRequestString}><CTransformFileBeforeRequest /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CAvatarString}><CAvatar /></demo-container>
+            <demo-container code={CPicturesWallString}><CPicturesWall /></demo-container>
+            <demo-container code={CDragAndDropString}><CDragAndDrop /></demo-container>
+            <demo-container code={CUploadManuallyString}><CUploadManually /></demo-container>
+            <demo-container code={CCustomizePreviewFileString}><CCustomizePreviewFile /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

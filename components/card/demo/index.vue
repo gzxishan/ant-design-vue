@@ -46,26 +46,22 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicCardString}><CBasicCard /></demo-container>
-
-<demo-container code={CCustomizedContentString}><CCustomizedContent /></demo-container>
-
-<demo-container code={CCardInColumnString}><CCardInColumn /></demo-container>
-
-<demo-container code={CLoadingCardString}><CLoadingCard /></demo-container>
-
-<demo-container code={CSimpleCardString}><CSimpleCard /></demo-container>
-
-<demo-container code={CNoBorderString}><CNoBorder /></demo-container>
-
-<demo-container code={CGridCardString}><CGridCard /></demo-container>
-
-<demo-container code={CInnerCardString}><CInnerCard /></demo-container>
-
-<demo-container code={CSupportMoreContentConfigurationString}><CSupportMoreContentConfiguration /></demo-container>
-
-<demo-container code={CWithTabsString}><CWithTabs /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicCardString}><CBasicCard /></demo-container>
+            <demo-container code={CCustomizedContentString}><CCustomizedContent /></demo-container>
+            <demo-container code={CCardInColumnString}><CCardInColumn /></demo-container>
+            <demo-container code={CLoadingCardString}><CLoadingCard /></demo-container>
+            <demo-container code={CSimpleCardString}><CSimpleCard /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CNoBorderString}><CNoBorder /></demo-container>
+            <demo-container code={CGridCardString}><CGridCard /></demo-container>
+            <demo-container code={CInnerCardString}><CInnerCard /></demo-container>
+            <demo-container code={CSupportMoreContentConfigurationString}><CSupportMoreContentConfiguration /></demo-container>
+            <demo-container code={CWithTabsString}><CWithTabs /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

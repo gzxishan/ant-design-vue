@@ -36,14 +36,16 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CArrowPointingAtTheCenterString}><CArrowPointingAtTheCenter /></demo-container>
-
-<demo-container code={COPlacementString}><COPlacement /></demo-container>
-
-<demo-container code={CAdjustPlacementAutomaticallyString}><CAdjustPlacementAutomatically /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CArrowPointingAtTheCenterString}><CArrowPointingAtTheCenter /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={COPlacementString}><COPlacement /></demo-container>
+            <demo-container code={CAdjustPlacementAutomaticallyString}><CAdjustPlacementAutomatically /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

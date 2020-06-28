@@ -42,22 +42,18 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicListString}><CBasicList /></demo-container>
-
-<demo-container code={CGridString}><CGrid /></demo-container>
-
-<demo-container code={CLoadMoreString}><CLoadMore /></demo-container>
-
-<demo-container code={CResponsiveGridListString}><CResponsiveGridList /></demo-container>
-
-<demo-container code={CSimpleListString}><CSimpleList /></demo-container>
-
-<demo-container code={CVerticalString}><CVertical /></demo-container>
-
-<demo-container code={CScrollingLoadedString}><CScrollingLoaded /></demo-container>
-
-<demo-container code={CInfinite_VirtualizedString}><CInfinite_Virtualized /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicListString}><CBasicList /></demo-container>
+            <demo-container code={CGridString}><CGrid /></demo-container>
+            <demo-container code={CLoadMoreString}><CLoadMore /></demo-container>
+            <demo-container code={CResponsiveGridListString}><CResponsiveGridList /></demo-container>
+            <demo-container code={CSimpleListString}><CSimpleList /></demo-container>
+            <demo-container code={CVerticalString}><CVertical /></demo-container>
+            <demo-container code={CScrollingLoadedString}><CScrollingLoaded /></demo-container>
+            <demo-container code={CInfinite_VirtualizedString}><CInfinite_Virtualized /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

@@ -38,18 +38,18 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
-
-<demo-container code={CConfiguringTheSeparatorString}><CConfiguringTheSeparator /></demo-container>
-
-<demo-container code={CConfiguringTheSeparator_1String}><CConfiguringTheSeparator_1 /></demo-container>
-
-<demo-container code={CWithAnIconString}><CWithAnIcon /></demo-container>
-
-<demo-container code={CVueRouterIntegrationString}><CVueRouterIntegration /></demo-container>
-
-<demo-container code={CBreadCrumbsWithDropDownMenuString}><CBreadCrumbsWithDropDownMenu /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
+            <demo-container code={CConfiguringTheSeparatorString}><CConfiguringTheSeparator /></demo-container>
+            <demo-container code={CConfiguringTheSeparator_1String}><CConfiguringTheSeparator_1 /></demo-container>
+</a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CWithAnIconString}><CWithAnIcon /></demo-container>
+            <demo-container code={CVueRouterIntegrationString}><CVueRouterIntegration /></demo-container>
+            <demo-container code={CBreadCrumbsWithDropDownMenuString}><CBreadCrumbsWithDropDownMenu /></demo-container>
+</a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

@@ -34,14 +34,16 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CTypeString}><CType /></demo-container>
-
-<demo-container code={CWithBadgeString}><CWithBadge /></demo-container>
-
-<demo-container code={CAutosetFontSizeString}><CAutosetFontSize /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CTypeString}><CType /></demo-container>
+</a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CWithBadgeString}><CWithBadge /></demo-container>
+            <demo-container code={CAutosetFontSizeString}><CAutosetFontSize /></demo-container>
+</a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

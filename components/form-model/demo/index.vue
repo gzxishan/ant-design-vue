@@ -59,18 +59,16 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicFormString}><CBasicForm /></demo-container>
-
-<demo-container code={CInlineLoginFormString}><CInlineLoginForm /></demo-container>
-
-<demo-container code={CFormLayoutString}><CFormLayout /></demo-container>
-
-<demo-container code={CValidationString}><CValidation /></demo-container>
-
-<demo-container code={CCustomValidationRulesString}><CCustomValidationRules /></demo-container>
-
-<demo-container code={CDynamicFormItemString}><CDynamicFormItem /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicFormString}><CBasicForm /></demo-container>
+            <demo-container code={CInlineLoginFormString}><CInlineLoginForm /></demo-container>
+            <demo-container code={CFormLayoutString}><CFormLayout /></demo-container>
+            <demo-container code={CValidationString}><CValidation /></demo-container>
+            <demo-container code={CCustomValidationRulesString}><CCustomValidationRules /></demo-container>
+            <demo-container code={CDynamicFormItemString}><CDynamicFormItem /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />
@@ -80,3 +78,6 @@ export default {
   },
 };
 </script>
+<style>
+  .dynamic-delete-button{cursor:pointer;position:relative;top:4px;font-size:24px;color:#999;transition:all .3s}.dynamic-delete-button:hover{color:#777}.dynamic-delete-button[disabled]{cursor:not-allowed;opacity:.5}.form-model-demo .code-box-demo .ant-form:not(.ant-form-inline):not(.ant-form-vertical){max-width:700px}
+</style>

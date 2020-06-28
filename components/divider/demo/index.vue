@@ -33,12 +33,13 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CVerticalString}><CVertical /></demo-container>
-
-<demo-container code={CHorizontalString}><CHorizontal /></demo-container>
-
-<demo-container code={CDividerWithTitleString}><CDividerWithTitle /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CVerticalString}><CVertical /></demo-container>
+            <demo-container code={CHorizontalString}><CHorizontal /></demo-container>
+            <demo-container code={CDividerWithTitleString}><CDividerWithTitle /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

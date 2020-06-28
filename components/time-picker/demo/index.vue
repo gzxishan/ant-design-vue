@@ -44,24 +44,21 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={C12HoursString}><C12Hours /></demo-container>
-
-<demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CHourAndMinuteString}><CHourAndMinute /></demo-container>
-
-<demo-container code={CThreeSizesString}><CThreeSizes /></demo-container>
-
-<demo-container code={CSuffixString}><CSuffix /></demo-container>
-
-<demo-container code={CAddonString}><CAddon /></demo-container>
-
-<demo-container code={CDisabledString}><CDisabled /></demo-container>
-
-<demo-container code={CIntervalOptionString}><CIntervalOption /></demo-container>
-
-<demo-container code={CUnderControlString}><CUnderControl /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={C12HoursString}><C12Hours /></demo-container>
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CHourAndMinuteString}><CHourAndMinute /></demo-container>
+            <demo-container code={CThreeSizesString}><CThreeSizes /></demo-container>
+            <demo-container code={CSuffixString}><CSuffix /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CAddonString}><CAddon /></demo-container>
+            <demo-container code={CDisabledString}><CDisabled /></demo-container>
+            <demo-container code={CIntervalOptionString}><CIntervalOption /></demo-container>
+            <demo-container code={CUnderControlString}><CUnderControl /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

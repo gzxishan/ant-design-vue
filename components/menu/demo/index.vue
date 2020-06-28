@@ -42,22 +42,18 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CTopNavigationString}><CTopNavigation /></demo-container>
-
-<demo-container code={CInlineMenuString}><CInlineMenu /></demo-container>
-
-<demo-container code={CCollapsedInlineMenuString}><CCollapsedInlineMenu /></demo-container>
-
-<demo-container code={COpenCurrentSubmenuOnlyString}><COpenCurrentSubmenuOnly /></demo-container>
-
-<demo-container code={CVerticalMenuString}><CVerticalMenu /></demo-container>
-
-<demo-container code={CMenuThemesString}><CMenuThemes /></demo-container>
-
-<demo-container code={CSwitchTheMenuTypeString}><CSwitchTheMenuType /></demo-container>
-
-<demo-container code={CSingleFileRecursiveMenuString}><CSingleFileRecursiveMenu /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CTopNavigationString}><CTopNavigation /></demo-container>
+            <demo-container code={CInlineMenuString}><CInlineMenu /></demo-container>
+            <demo-container code={CCollapsedInlineMenuString}><CCollapsedInlineMenu /></demo-container>
+            <demo-container code={COpenCurrentSubmenuOnlyString}><COpenCurrentSubmenuOnly /></demo-container>
+            <demo-container code={CVerticalMenuString}><CVerticalMenu /></demo-container>
+            <demo-container code={CMenuThemesString}><CMenuThemes /></demo-container>
+            <demo-container code={CSwitchTheMenuTypeString}><CSwitchTheMenuType /></demo-container>
+            <demo-container code={CSingleFileRecursiveMenuString}><CSingleFileRecursiveMenu /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

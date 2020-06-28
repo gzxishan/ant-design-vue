@@ -40,18 +40,18 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CControllingTheCloseOfTheDialogString}><CControllingTheCloseOfTheDialog /></demo-container>
-
-<demo-container code={CThreeWaysToTriggerString}><CThreeWaysToTrigger /></demo-container>
-
-<demo-container code={CArrowPointingString}><CArrowPointing /></demo-container>
-
-<demo-container code={CPlacementString}><CPlacement /></demo-container>
-
-<demo-container code={CHoverWithClickPopoverString}><CHoverWithClickPopover /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CControllingTheCloseOfTheDialogString}><CControllingTheCloseOfTheDialog /></demo-container>
+            <demo-container code={CThreeWaysToTriggerString}><CThreeWaysToTrigger /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CArrowPointingString}><CArrowPointing /></demo-container>
+            <demo-container code={CPlacementString}><CPlacement /></demo-container>
+            <demo-container code={CHoverWithClickPopoverString}><CHoverWithClickPopover /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

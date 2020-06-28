@@ -37,18 +37,18 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CShowCopywritingString}><CShowCopywriting /></demo-container>
-
-<demo-container code={CClearStarString}><CClearStar /></demo-container>
-
-<demo-container code={CHalfStarString}><CHalfStar /></demo-container>
-
-<demo-container code={CReadOnlyString}><CReadOnly /></demo-container>
-
-<demo-container code={COtherCharacterString}><COtherCharacter /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CShowCopywritingString}><CShowCopywriting /></demo-container>
+            <demo-container code={CClearStarString}><CClearStar /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CHalfStarString}><CHalfStar /></demo-container>
+            <demo-container code={CReadOnlyString}><CReadOnly /></demo-container>
+            <demo-container code={COtherCharacterString}><COtherCharacter /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

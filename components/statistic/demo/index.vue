@@ -35,14 +35,16 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CInCardString}><CInCard /></demo-container>
-
-<demo-container code={CUnitString}><CUnit /></demo-container>
-
-<demo-container code={CCountdownString}><CCountdown /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CInCardString}><CInCard /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CUnitString}><CUnit /></demo-container>
+            <demo-container code={CCountdownString}><CCountdown /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

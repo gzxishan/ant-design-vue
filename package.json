@@ -57,7 +57,7 @@
   "homepage": "https://www.antdv.com/",
   "husky": {
     "hooks": {
-      // "pre-commit": "pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "peerDependencies": {

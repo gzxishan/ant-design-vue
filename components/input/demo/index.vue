@@ -49,29 +49,24 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
-
-<demo-container code={CPrefixAndSuffixString}><CPrefixAndSuffix /></demo-container>
-
-<demo-container code={CSearchBoxWithLoadingString}><CSearchBoxWithLoading /></demo-container>
-
-<demo-container code={CInputGroupString}><CInputGroup /></demo-container>
-
-<demo-container code={CPre_PostTabString}><CPre_PostTab /></demo-container>
-
-<demo-container code={CWithClearIconString}><CWithClearIcon /></demo-container>
-
-<demo-container code={CAutosizingTheHeightToFitTheContentString}><CAutosizingTheHeightToFitTheContent /></demo-container>
-
-<demo-container code={CSearchBoxString}><CSearchBox /></demo-container>
-
-<demo-container code={CThreeSizesOfInputString}><CThreeSizesOfInput /></demo-container>
-
-<demo-container code={CTextareaString}><CTextarea /></demo-container>
-
-<demo-container code={CFormatTooltipInputString}><CFormatTooltipInput /></demo-container>
-
-<demo-container code={CPasswordBoxString}><CPasswordBox /></demo-container>
+		<a-row style="margin-left: -8px;margin-right: -8px;">
+		  <a-col span={12} class="code-boxes-col-2-1">
+			<demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
+			<demo-container code={CPrefixAndSuffixString}><CPrefixAndSuffix /></demo-container>
+			<demo-container code={CSearchBoxWithLoadingString}><CSearchBoxWithLoading /></demo-container>
+			<demo-container code={CInputGroupString}><CInputGroup /></demo-container>
+			<demo-container code={CPre_PostTabString}><CPre_PostTab /></demo-container>
+			<demo-container code={CWithClearIconString}><CWithClearIcon /></demo-container>
+		  </a-col>
+		  <a-col span={12} class="code-boxes-col-2-1">
+        <demo-container code={CAutosizingTheHeightToFitTheContentString}><CAutosizingTheHeightToFitTheContent /></demo-container>
+        <demo-container code={CSearchBoxString}><CSearchBox /></demo-container>
+        <demo-container code={CThreeSizesOfInputString}><CThreeSizesOfInput /></demo-container>
+        <demo-container code={CTextareaString}><CTextarea /></demo-container>
+        <demo-container code={CFormatTooltipInputString}><CFormatTooltipInput /></demo-container>
+        <demo-container code={CPasswordBoxString}><CPasswordBox /></demo-container>
+		  </a-col>
+		</a-row>
 
         <api>
           <CN slot="cn" />

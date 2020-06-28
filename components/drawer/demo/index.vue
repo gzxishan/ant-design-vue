@@ -41,18 +41,18 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CSubmitFormInDrawerString}><CSubmitFormInDrawer /></demo-container>
-
-<demo-container code={CMultiLevelDrawerString}><CMultiLevelDrawer /></demo-container>
-
-<demo-container code={CCustomPlacementString}><CCustomPlacement /></demo-container>
-
-<demo-container code={CPreviewDrawerString}><CPreviewDrawer /></demo-container>
-
-<demo-container code={CRenderInCurrentDomString}><CRenderInCurrentDom /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CSubmitFormInDrawerString}><CSubmitFormInDrawer /></demo-container>
+            <demo-container code={CMultiLevelDrawerString}><CMultiLevelDrawer /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CCustomPlacementString}><CCustomPlacement /></demo-container>
+            <demo-container code={CPreviewDrawerString}><CPreviewDrawer /></demo-container>
+            <demo-container code={CRenderInCurrentDomString}><CRenderInCurrentDom /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

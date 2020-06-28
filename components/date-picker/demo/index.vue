@@ -52,32 +52,25 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CDisabledDate_TimeString}><CDisabledDate_Time /></demo-container>
-
-<demo-container code={CExtraFooterString}><CExtraFooter /></demo-container>
-
-<demo-container code={CControlledPanelsString}><CControlledPanels /></demo-container>
-
-<demo-container code={CThreeSizesString}><CThreeSizes /></demo-container>
-
-<demo-container code={CChooseTimeString}><CChooseTime /></demo-container>
-
-<demo-container code={CSuffixString}><CSuffix /></demo-container>
-
-<demo-container code={CCustomizedDateRenderingString}><CCustomizedDateRendering /></demo-container>
-
-<demo-container code={CDisabledString}><CDisabled /></demo-container>
-
-<demo-container code={CDateFormatString}><CDateFormat /></demo-container>
-
-<demo-container code={CPresetRangesString}><CPresetRanges /></demo-container>
-
-<demo-container code={CCustomizedRangePickerString}><CCustomizedRangePicker /></demo-container>
-
-<demo-container code={CCustumTimeString}><CCustumTime /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CDisabledDate_TimeString}><CDisabledDate_Time /></demo-container>
+            <demo-container code={CExtraFooterString}><CExtraFooter /></demo-container>
+            <demo-container code={CControlledPanelsString}><CControlledPanels /></demo-container>
+            <demo-container code={CThreeSizesString}><CThreeSizes /></demo-container>
+            <demo-container code={CChooseTimeString}><CChooseTime /></demo-container>
+            <demo-container code={CSuffixString}><CSuffix /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CCustomizedDateRenderingString}><CCustomizedDateRendering /></demo-container>
+            <demo-container code={CDisabledString}><CDisabled /></demo-container>
+            <demo-container code={CDateFormatString}><CDateFormat /></demo-container>
+            <demo-container code={CPresetRangesString}><CPresetRanges /></demo-container>
+            <demo-container code={CCustomizedRangePickerString}><CCustomizedRangePicker /></demo-container>
+            <demo-container code={CCustumTimeString}><CCustumTime /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

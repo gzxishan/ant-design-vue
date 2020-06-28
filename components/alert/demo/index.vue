@@ -30,19 +30,26 @@ export default {
   subtitle: '警告提示',
   type: 'Feedback',
   zhType: '反馈',
+  cols:2,
   title: 'Alert',
   render() {
     return (
       <div id="components-alert-demo">
         <md cn={md.cn} us={md.us} />
-        <Banner />
-        <Basic />
-        <Closable />
-        <CloseText />
-        <Description />
-        <Icon />
-        <Style />
-        <SmoothClosed />
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <Banner />
+            <Basic />
+            <Closable />
+            <CloseText />
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <Description />
+            <Icon />
+            <Style />
+            <SmoothClosed />
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

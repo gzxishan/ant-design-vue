@@ -44,26 +44,22 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CControlledTreeString}><CControlledTree /></demo-container>
-
-<demo-container code={CReplacefieldsString}><CReplacefields /></demo-container>
-
-<demo-container code={CDraggableString}><CDraggable /></demo-container>
-
-<demo-container code={CTreeWithLineString}><CTreeWithLine /></demo-container>
-
-<demo-container code={CDirectoryString}><CDirectory /></demo-container>
-
-<demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CCustomizeIconString}><CCustomizeIcon /></demo-container>
-
-<demo-container code={CLoadDataAsynchronouslyString}><CLoadDataAsynchronously /></demo-container>
-
-<demo-container code={CSearchableString}><CSearchable /></demo-container>
-
-<demo-container code={CCustomizeCollapse_expandIconString}><CCustomizeCollapse_expandIcon /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CControlledTreeString}><CControlledTree /></demo-container>
+            <demo-container code={CReplacefieldsString}><CReplacefields /></demo-container>
+            <demo-container code={CDraggableString}><CDraggable /></demo-container>
+            <demo-container code={CTreeWithLineString}><CTreeWithLine /></demo-container>
+            <demo-container code={CDirectoryString}><CDirectory /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CCustomizeIconString}><CCustomizeIcon /></demo-container>
+            <demo-container code={CLoadDataAsynchronouslyString}><CLoadDataAsynchronously /></demo-container>
+            <demo-container code={CSearchableString}><CSearchable /></demo-container>
+            <demo-container code={CCustomizeCollapse_expandIconString}><CCustomizeCollapse_expandIcon /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

@@ -37,18 +37,18 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CDisabledString}><CDisabled /></demo-container>
-
-<demo-container code={CCheckboxGroupString}><CCheckboxGroup /></demo-container>
-
-<demo-container code={CCheckAllString}><CCheckAll /></demo-container>
-
-<demo-container code={CControlledCheckboxString}><CControlledCheckbox /></demo-container>
-
-<demo-container code={CUseWithGridString}><CUseWithGrid /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CDisabledString}><CDisabled /></demo-container>
+            <demo-container code={CCheckboxGroupString}><CCheckboxGroup /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CCheckAllString}><CCheckAll /></demo-container>
+            <demo-container code={CControlledCheckboxString}><CControlledCheckbox /></demo-container>
+            <demo-container code={CUseWithGridString}><CUseWithGrid /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

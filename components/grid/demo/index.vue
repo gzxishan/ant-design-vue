@@ -54,26 +54,20 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicGridString}><CBasicGrid /></demo-container>
-
-<demo-container code={CFlexAlignmentString}><CFlexAlignment /></demo-container>
-
-<demo-container code={CFlexOrderString}><CFlexOrder /></demo-container>
-
-<demo-container code={CFlexLayoutString}><CFlexLayout /></demo-container>
-
-<demo-container code={CGridGutterString}><CGridGutter /></demo-container>
-
-<demo-container code={CAColumnOffsetString}><CAColumnOffset /></demo-container>
-
-<demo-container code={CMoreResponsiveString}><CMoreResponsive /></demo-container>
-
-<demo-container code={C响应式布局String}><C响应式布局 /></demo-container>
-
-<demo-container code={CGridSortString}><CGridSort /></demo-container>
-
-<demo-container code={CPlaygroundString}><CPlayground /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicGridString}><CBasicGrid /></demo-container>
+            <demo-container code={CFlexAlignmentString}><CFlexAlignment /></demo-container>
+            <demo-container code={CFlexOrderString}><CFlexOrder /></demo-container>
+            <demo-container code={CFlexLayoutString}><CFlexLayout /></demo-container>
+            <demo-container code={CGridGutterString}><CGridGutter /></demo-container>
+            <demo-container code={CAColumnOffsetString}><CAColumnOffset /></demo-container>
+            <demo-container code={CMoreResponsiveString}><CMoreResponsive /></demo-container>
+            <demo-container code={C响应式布局String}><C响应式布局 /></demo-container>
+            <demo-container code={CGridSortString}><CGridSort /></demo-container>
+            <demo-container code={CPlaygroundString}><CPlayground /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

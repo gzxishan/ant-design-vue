@@ -44,23 +44,21 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CSliderWithIconString}><CSliderWithIcon /></demo-container>
-
-<demo-container code={CEventString}><CEvent /></demo-container>
-
-<demo-container code={CVerticalString}><CVertical /></demo-container>
-
-<demo-container code={CReverseString}><CReverse /></demo-container>
-
-<demo-container code={CSliderWithInputnumberString}><CSliderWithInputnumber /></demo-container>
-
-<demo-container code={CCustomizeTooltipString}><CCustomizeTooltip /></demo-container>
-
-<demo-container code={CMarkString}><CMark /></demo-container>
-
-<demo-container code={CControlVisibleOfTooltipString}><CControlVisibleOfTooltip /></demo-container>
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CSliderWithIconString}><CSliderWithIcon /></demo-container>
+            <demo-container code={CEventString}><CEvent /></demo-container>
+            <demo-container code={CVerticalString}><CVertical /></demo-container>
+            <demo-container code={CReverseString}><CReverse /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CSliderWithInputnumberString}><CSliderWithInputnumber /></demo-container>
+            <demo-container code={CCustomizeTooltipString}><CCustomizeTooltip /></demo-container>
+            <demo-container code={CMarkString}><CMark /></demo-container>
+            <demo-container code={CControlVisibleOfTooltipString}><CControlVisibleOfTooltip /></demo-container>
+          </a-col>
+        </a-row>
 
         <api>
           <CN slot="cn" />

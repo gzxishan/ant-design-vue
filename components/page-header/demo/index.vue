@@ -36,16 +36,15 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicPageHeaderString}><CBasicPageHeader /></demo-container>
-
-<demo-container code={CUseWithBreadcrumbsString}><CUseWithBreadcrumbs /></demo-container>
-
-<demo-container code={CVariousFormsOfPageheaderString}><CVariousFormsOfPageheader /></demo-container>
-
-<demo-container code={CResponsiveString}><CResponsive /></demo-container>
-
-<demo-container code={CWhiteBackgroundModeString}><CWhiteBackgroundMode /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={24} class="code-boxes-col-1-1">
+            <demo-container code={CBasicPageHeaderString}><CBasicPageHeader /></demo-container>
+            <demo-container code={CUseWithBreadcrumbsString}><CUseWithBreadcrumbs /></demo-container>
+            <demo-container code={CVariousFormsOfPageheaderString}><CVariousFormsOfPageheader /></demo-container>
+            <demo-container code={CResponsiveString}><CResponsive /></demo-container>
+            <demo-container code={CWhiteBackgroundModeString}><CWhiteBackgroundMode /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

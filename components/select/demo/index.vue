@@ -57,36 +57,27 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
-
-<demo-container code={CTagsString}><CTags /></demo-container>
-
-<demo-container code={CGetValueOfSelectedItemString}><CGetValueOfSelectedItem /></demo-container>
-
-<demo-container code={CCoordinateString}><CCoordinate /></demo-container>
-
-<demo-container code={CSearchBoxString}><CSearchBox /></demo-container>
-
-<demo-container code={CSearchAndSelectUsersString}><CSearchAndSelectUsers /></demo-container>
-
-<demo-container code={CHideAlreadySelectedString}><CHideAlreadySelected /></demo-container>
-
-<demo-container code={CCustomSelectionRenderString}><CCustomSelectionRender /></demo-container>
-
-<demo-container code={CSizesString}><CSizes /></demo-container>
-
-<demo-container code={CAutomaticTokenizationString}><CAutomaticTokenization /></demo-container>
-
-<demo-container code={CMultipleSelectionString}><CMultipleSelection /></demo-container>
-
-<demo-container code={COptionGroupString}><COptionGroup /></demo-container>
-
-<demo-container code={CSelectWithSearchFieldString}><CSelectWithSearchField /></demo-container>
-
-<demo-container code={CSuffixString}><CSuffix /></demo-container>
-
-<demo-container code={CCustomDropdownString}><CCustomDropdown /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicUsageString}><CBasicUsage /></demo-container>
+            <demo-container code={CTagsString}><CTags /></demo-container>
+            <demo-container code={CGetValueOfSelectedItemString}><CGetValueOfSelectedItem /></demo-container>
+            <demo-container code={CCoordinateString}><CCoordinate /></demo-container>
+            <demo-container code={CSearchBoxString}><CSearchBox /></demo-container>
+            <demo-container code={CSearchAndSelectUsersString}><CSearchAndSelectUsers /></demo-container>
+            <demo-container code={CHideAlreadySelectedString}><CHideAlreadySelected /></demo-container>
+            <demo-container code={CCustomSelectionRenderString}><CCustomSelectionRender /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CSizesString}><CSizes /></demo-container>
+            <demo-container code={CAutomaticTokenizationString}><CAutomaticTokenization /></demo-container>
+            <demo-container code={CMultipleSelectionString}><CMultipleSelection /></demo-container>
+            <demo-container code={COptionGroupString}><COptionGroup /></demo-container>
+            <demo-container code={CSelectWithSearchFieldString}><CSelectWithSearchField /></demo-container>
+            <demo-container code={CSuffixString}><CSuffix /></demo-container>
+            <demo-container code={CCustomDropdownString}><CCustomDropdown /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

@@ -50,30 +50,24 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CBasicString}><CBasic /></demo-container>
-
-<demo-container code={CCustomRenderString}><CCustomRender /></demo-container>
-
-<demo-container code={CDefaultValueString}><CDefaultValue /></demo-container>
-
-<demo-container code={CHoverString}><CHover /></demo-container>
-
-<demo-container code={CSearchString}><CSearch /></demo-container>
-
-<demo-container code={CCustomFieldNamesString}><CCustomFieldNames /></demo-container>
-
-<demo-container code={CChangeOnSelectString}><CChangeOnSelect /></demo-container>
-
-<demo-container code={CCustomTriggerString}><CCustomTrigger /></demo-container>
-
-<demo-container code={CDisabledOptionString}><CDisabledOption /></demo-container>
-
-<demo-container code={CLoadOptionsLazilyString}><CLoadOptionsLazily /></demo-container>
-
-<demo-container code={CSizeString}><CSize /></demo-container>
-
-<demo-container code={CSuffixString}><CSuffix /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CBasicString}><CBasic /></demo-container>
+            <demo-container code={CCustomRenderString}><CCustomRender /></demo-container>
+            <demo-container code={CDefaultValueString}><CDefaultValue /></demo-container>
+            <demo-container code={CHoverString}><CHover /></demo-container>
+            <demo-container code={CSearchString}><CSearch /></demo-container>
+            <demo-container code={CCustomFieldNamesString}><CCustomFieldNames /></demo-container>
+            <demo-container code={CChangeOnSelectString}><CChangeOnSelect /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CCustomTriggerString}><CCustomTrigger /></demo-container>
+            <demo-container code={CDisabledOptionString}><CDisabledOption /></demo-container>
+            <demo-container code={CLoadOptionsLazilyString}><CLoadOptionsLazily /></demo-container>
+            <demo-container code={CSizeString}><CSize /></demo-container>
+            <demo-container code={CSuffixString}><CSuffix /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />

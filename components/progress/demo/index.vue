@@ -49,28 +49,23 @@ export default {
     return (
       <div>
         <md cn={md.cn} us={md.us} />
-        <demo-container code={CProgressBarString}><CProgressBar /></demo-container>
-
-<demo-container code={CMiniSizeProgressBarString}><CMiniSizeProgressBar /></demo-container>
-
-<demo-container code={CDynamicCircularProgressBarString}><CDynamicCircularProgressBar /></demo-container>
-
-<demo-container code={CDynamicString}><CDynamic /></demo-container>
-
-<demo-container code={CProgressBarWithSuccessSegmentString}><CProgressBarWithSuccessSegment /></demo-container>
-
-<demo-container code={CCustomLineGradientString}><CCustomLineGradient /></demo-container>
-
-<demo-container code={CCircularProgressBarString}><CCircularProgressBar /></demo-container>
-
-<demo-container code={CMiniSizeCircularProgressBarString}><CMiniSizeCircularProgressBar /></demo-container>
-
-<demo-container code={CCustomTextFormatString}><CCustomTextFormat /></demo-container>
-
-<demo-container code={CDashboardString}><CDashboard /></demo-container>
-
-<demo-container code={CSquareLinecapsString}><CSquareLinecaps /></demo-container>
-
+        <a-row style="margin-left: -8px;margin-right: -8px;">
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CProgressBarString}><CProgressBar /></demo-container>
+            <demo-container code={CMiniSizeProgressBarString}><CMiniSizeProgressBar /></demo-container>
+            <demo-container code={CDynamicCircularProgressBarString}><CDynamicCircularProgressBar /></demo-container>
+            <demo-container code={CDynamicString}><CDynamic /></demo-container>
+            <demo-container code={CProgressBarWithSuccessSegmentString}><CProgressBarWithSuccessSegment /></demo-container>
+            <demo-container code={CCustomLineGradientString}><CCustomLineGradient /></demo-container>
+          </a-col>
+          <a-col span={12} class="code-boxes-col-2-1">
+            <demo-container code={CCircularProgressBarString}><CCircularProgressBar /></demo-container>
+            <demo-container code={CMiniSizeCircularProgressBarString}><CMiniSizeCircularProgressBar /></demo-container>
+            <demo-container code={CCustomTextFormatString}><CCustomTextFormat /></demo-container>
+            <demo-container code={CDashboardString}><CDashboard /></demo-container>
+            <demo-container code={CSquareLinecapsString}><CSquareLinecaps /></demo-container>
+          </a-col>
+        </a-row>
         <api>
           <CN slot="cn" />
           <US />
