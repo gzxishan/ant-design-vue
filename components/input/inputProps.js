@@ -30,7 +30,6 @@ export default {
     default: true,
     type: Boolean,
   },
-  maxLength: PropTypes.number,
   maxlength: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   loading: PropTypes.bool,
   className: PropTypes.string,

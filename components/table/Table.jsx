@@ -200,6 +200,9 @@ export default {
         selectionDirty: false,
       });
       this.CheckboxPropsCache = {};
+      this.$nextTick(()=>{
+        this.scrollToFirstRow();
+      });
     },
 
     columns(val) {

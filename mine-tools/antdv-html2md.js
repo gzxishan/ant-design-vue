@@ -149,7 +149,7 @@ const mdUtils = {
     if (node.get(0).tagName == "blockquote") {
       let rs = this._parseContent(node);
       return {
-        text: "> " + rs.text.trim()
+        text: "> " + rs.text.trim()+"\n"
       }
     } else {
       return false;
