@@ -62,6 +62,7 @@ CustomizedForm = Form.create({})(CustomizedForm);
 经过 `Form.create` 包装的组件将会自带 `this.form` 属性，`this.form` 提供的 API 如下：
 
 > 注意：使用 `getFieldsValue` `getFieldValue` `setFieldsValue` 等时，应确保对应的 field 已经用 `getFieldDecorator` 或 `v-decorator` 注册过了。
+
 | 方法 | 说明 | 类型 |
 | --- | --- | --- |
 | getFieldDecorator | 用于和表单进行双向绑定，单文件 template 可以使用指令`v-decorator`进行绑定，详见下方描述 |  |
