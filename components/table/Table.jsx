@@ -496,6 +496,9 @@ export default {
       // Use undefined to let rc component use default logic.
       return scroll && table ? () => table.getTableNode() : undefined;
     },
+	handleWindowResize(){
+		this.$refs.vcTable.handleWindowResize();
+	},
     scrollToFirstRow() {
       const { scroll } = this.$props;
       if (scroll && scroll.scrollToFirstRowOnChange !== false) {

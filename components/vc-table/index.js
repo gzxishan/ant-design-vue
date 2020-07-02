@@ -58,6 +58,9 @@ const Table = {
       });
       return columns;
     },
+    handleWindowResize(){
+      this.$refs.table.handleWindowResize();
+    }
   },
   render() {
     const { $slots, normalize } = this;

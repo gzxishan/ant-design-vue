@@ -84,6 +84,9 @@ const Table = {
       });
       return columns;
     },
+    handleWindowResize(){
+      this.$refs.table.handleWindowResize();
+    }
   },
   render() {
     const { $slots, normalize, $scopedSlots } = this;
@@ -106,6 +109,7 @@ const Table = {
         expandedRowRender,
       },
       on: getListeners(this),
+      ref:"table"
     };
     return <T {...tProps} />;
   },

@@ -34,6 +34,12 @@
 | getPopupContainer | 设置表格内各类浮层的渲染节点，如筛选菜单 | (triggerNode) => HTMLElement | `() => TableHtmlElement` | 1.5.0 |
 | transformCellText | 数据渲染前可以再次改变，一般用户空数据的默认配置，可以通过 [ConfigProvider](/components/config-provider-cn/) 全局统一配置 | Function({ text, column, record, index }) => any | - | 1.5.4 |
 
+### 函数 
+
+| 函数名称 | 说明 |
+| --- | --- |
+| handleWindowResize | 调整固定列高度与滚动条 |
+
 ### 事件 
 
 | 事件名称 | 说明 | 回调参数 |
