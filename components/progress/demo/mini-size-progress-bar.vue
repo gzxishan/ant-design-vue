@@ -6,7 +6,8 @@
 <us>
 #### Mini Size Progress Bar
 </us>
-
+
+
 <template>
   <div style="width: 170px">
     <a-progress :percent="30" size="small" />

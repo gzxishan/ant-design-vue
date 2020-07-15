@@ -6,7 +6,8 @@
 <us>
 #### Mini Version
 </us>
-
+
+
 <template>
   <a-steps :current="1" size="small">
     <a-step title="Finished" />

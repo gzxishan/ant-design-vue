@@ -6,7 +6,8 @@
 <us>
 #### Update Message Content
 </us>
-
+
+
 <template>
   <a-button type="primary" @click="openMessage">
     Open the message box

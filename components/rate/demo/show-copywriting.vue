@@ -6,7 +6,8 @@
 <us>
 #### Show Copywriting
 </us>
-
+
+
 <template>
   <span>
     <a-rate v-model="value" :tooltips="desc" />

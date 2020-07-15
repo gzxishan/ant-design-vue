@@ -6,7 +6,8 @@
 <us>
 #### Ghost Button
 </us>
-
+
+
 <template>
   <div :style="{ background: 'rgb(190, 200, 200)', padding: '26px 16px 16px' }">
     <a-button type="primary" ghost>

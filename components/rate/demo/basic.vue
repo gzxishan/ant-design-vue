@@ -6,7 +6,8 @@
 <us>
 #### Basic
 </us>
-
+
+
 <template>
   <a-rate v-model="value" />
 </template>

@@ -6,7 +6,8 @@
 <us>
 #### Formatter
 </us>
-
+
+
 <template>
   <div>
     <a-input-number

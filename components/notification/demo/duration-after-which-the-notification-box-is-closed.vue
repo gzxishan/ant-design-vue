@@ -6,7 +6,8 @@
 <us>
 #### Duration After Which The Notification Box Is Closed
 </us>
-
+
+
 <template>
   <a-button type="primary" @click="openNotification">
     Open the notification box

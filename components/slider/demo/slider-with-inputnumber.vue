@@ -6,7 +6,8 @@
 <us>
 #### Slider With Inputnumber
 </us>
-
+
+
 <template>
   <div>
     <a-row>

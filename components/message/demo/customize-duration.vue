@@ -6,7 +6,8 @@
 <us>
 #### Customize Duration
 </us>
-
+
+
 <template>
   <a-button @click="success">
     Customized display duration

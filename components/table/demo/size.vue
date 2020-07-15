@@ -6,7 +6,8 @@
 <us>
 #### Size
 </us>
-
+
+
 <template>
   <div id="components-table-demo-size">
     <h4>Middle size table</h4>

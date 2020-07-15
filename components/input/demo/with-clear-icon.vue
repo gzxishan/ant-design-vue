@@ -6,7 +6,8 @@
 <us>
 #### With Clear Icon
 </us>
-
+
+
 <template>
   <div>
     <a-input placeholder="input with clear icon" allow-clear @change="onChange" />

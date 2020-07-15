@@ -6,7 +6,8 @@
 <us>
 #### Other Types Of Message
 </us>
-
+
+
 <template>
   <div>
     <a-button @click="success">

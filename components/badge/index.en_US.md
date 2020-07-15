@@ -15,7 +15,7 @@
 | color | Customize Badge dot color | string | - | 1.5.0 |
 | count | Number to show in badge | number\|string \| slot |  |  |
 | dot | Whether to display a red dot instead of `count` | boolean | `false` |  |
-| offset | set offset of the badge dot, like [x, y] | [number\|string, number\|string] | - |  |
+| offset | set offset of the badge dot, like `[`x, y`]` | `[`number\|string, number\|string`]` | - |  |
 | overflowCount | Max count to show | number | 99 |  |
 | showZero | Whether to show badge when `count` is zero | boolean | `false` |  |
 | status | Set Badge as a status dot | `success` \| `processing` \| `default` \| `error` \| `warning` | `''` |  |

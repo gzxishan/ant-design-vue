@@ -6,7 +6,8 @@
 <us>
 #### Switch The Menu Type
 </us>
-
+
+
 <template>
   <div>
     <a-switch :default-checked="false" @change="changeMode" /> Change Mode

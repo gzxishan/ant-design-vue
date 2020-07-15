@@ -6,7 +6,8 @@
 <us>
 #### Custom Trigger
 </us>
-
+
+
 <template>
   <span>
     {{ text }} &nbsp;

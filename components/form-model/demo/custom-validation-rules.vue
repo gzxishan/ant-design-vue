@@ -7,7 +7,8 @@
 <us>
 #### Custom Validation Rules
 </us>
-
+
+
 <template>
   <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules" v-bind="layout">
     <a-form-model-item has-feedback label="Password" prop="pass">

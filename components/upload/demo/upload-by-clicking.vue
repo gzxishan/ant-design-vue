@@ -6,7 +6,8 @@
 <us>
 #### Upload By Clicking
 </us>
-
+
+
 <template>
   <a-upload
     name="file"

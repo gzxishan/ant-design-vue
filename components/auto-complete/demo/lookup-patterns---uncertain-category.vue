@@ -6,7 +6,8 @@
 <us>
 #### Lookup Patterns   Uncertain Category
 </us>
-
+
+
 <template>
   <div class="global-search-wrapper" style="width: 300px">
     <a-auto-complete

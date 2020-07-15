@@ -9,7 +9,8 @@
 <us>
 #### Fixed Columns
 </us>
-
+
+
 <template>
   <a-table :columns="columns" :data-source="data" :scroll="{ x: 1300 }">
     <a slot="action" slot-scope="text" href="javascript:;">action</a>

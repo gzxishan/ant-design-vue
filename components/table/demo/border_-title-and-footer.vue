@@ -6,7 +6,8 @@
 <us>
 #### Border_ Title And Footer
 </us>
-
+
+
 <template>
   <a-table :columns="columns" :data-source="data" bordered>
     <template slot="name" slot-scope="text">

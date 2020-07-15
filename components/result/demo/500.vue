@@ -6,7 +6,8 @@
 <us>
 #### 500
 </us>
-
+
+
 <template>
   <a-result status="500" title="500" sub-title="Sorry, the server is wrong.">
     <template #extra>

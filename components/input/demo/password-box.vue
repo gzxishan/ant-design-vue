@@ -6,7 +6,8 @@
 <us>
 #### Password Box
 </us>
-
+
+
 <template>
   <a-input-password placeholder="input password" />
 </template>

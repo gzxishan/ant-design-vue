@@ -6,7 +6,8 @@ tags select，随意输入的内容（scroll the menu）
 <us>
 #### Tags
 </us>
-
+
+
 <template>
   <a-select mode="tags" style="width: 100%" placeholder="Tags Mode" @change="handleChange">
     <a-select-option v-for="i in 25" :key="(i + 9).toString(36) + i">

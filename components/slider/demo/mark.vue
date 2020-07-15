@@ -6,7 +6,8 @@
 <us>
 #### Graduated Slider
 </us>
-
+
+
 <template>
   <div id="components-slider-demo-mark">
     <h4>included=true</h4>

@@ -6,7 +6,8 @@
 <us>
 #### Mini Size Circular Progress Bar
 </us>
-
+
+
 <template>
   <div>
     <a-progress type="circle" :percent="30" :width="80" />

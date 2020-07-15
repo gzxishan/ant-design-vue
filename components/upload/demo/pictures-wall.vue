@@ -6,7 +6,8 @@
 <us>
 #### Pictures Wall
 </us>
-
+
+
 <template>
   <div class="clearfix">
     <a-upload

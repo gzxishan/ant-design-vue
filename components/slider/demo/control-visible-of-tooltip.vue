@@ -6,7 +6,8 @@
 <us>
 #### Control Visible Of Tooltip
 </us>
-
+
+
 <template>
   <a-slider :default-value="30" :tooltip-visible="true" />
 </template>

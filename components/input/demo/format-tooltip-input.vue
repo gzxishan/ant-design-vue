@@ -6,7 +6,8 @@
 <us>
 #### Format Tooltip Input
 </us>
-
+
+
 <template>
   <a-tooltip :trigger="['focus']" placement="topLeft" overlay-class-name="numeric-input">
     <span v-if="value" slot="title" class="numeric-input-title">

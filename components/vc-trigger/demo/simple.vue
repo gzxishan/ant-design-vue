@@ -1,4 +1,5 @@
-
+
+
 <script>
 import Trigger from '../index';
 import '../assets/index.less';

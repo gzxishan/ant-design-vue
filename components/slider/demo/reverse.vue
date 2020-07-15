@@ -6,7 +6,8 @@
 <us>
 #### Reverse
 </us>
-
+
+
 <template>
   <div>
     <a-slider :default-value="30" :reverse="reverse" />

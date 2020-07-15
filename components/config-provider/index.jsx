@@ -72,6 +72,7 @@ const ConfigProvider = {
       );
     },
   },
+
   render() {
     return (
       <LocaleReceiver

@@ -8,7 +8,8 @@
 <us>
 #### Selection
 </us>
-
+
+
 <template>
   <a-table :row-selection="rowSelection" :columns="columns" :data-source="data">
     <a slot="name" slot-scope="text">{{ text }}</a>

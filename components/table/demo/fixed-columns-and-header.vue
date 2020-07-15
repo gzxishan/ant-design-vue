@@ -9,7 +9,8 @@
 <us>
 #### Fixed Columns And Header
 </us>
-
+
+
 <template>
   <a-table :columns="columns" :data-source="data" :scroll="{ x: 1500, y: 300 }">
     <a slot="action" slot-scope="text">action</a>

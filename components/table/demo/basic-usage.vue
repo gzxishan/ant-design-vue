@@ -6,7 +6,8 @@
 <us>
 #### Basic Usage
 </us>
-
+
+
 <template>
   <a-table :columns="columns" :data-source="data">
     <a slot="name" slot-scope="text">{{ text }}</a>

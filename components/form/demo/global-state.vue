@@ -6,7 +6,8 @@
 <us>
 #### Store Form Data Into Upper Component
 </us>
-
+
+
 <template>
   <div id="components-form-demo-global-state">
     <customized-form :username="fields.username" @change="handleFormChange" />

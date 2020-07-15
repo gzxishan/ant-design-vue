@@ -6,7 +6,8 @@
 <us>
 #### Mini Size
 </us>
-
+
+
 <template>
   <div id="components-pagination-demo-mini">
     <a-pagination size="small" :total="50" />

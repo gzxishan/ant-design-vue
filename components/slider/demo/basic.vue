@@ -6,7 +6,8 @@
 <us>
 #### Basic
 </us>
-
+
+
 <template>
   <div>
     <a-slider id="test" :default-value="30" :disabled="disabled" />

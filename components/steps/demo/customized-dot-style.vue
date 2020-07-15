@@ -6,7 +6,8 @@
 <us>
 #### Customized Dot Style
 </us>
-
+
+
 <template>
   <div>
     <a-steps :current="1">

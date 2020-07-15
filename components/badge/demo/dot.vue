@@ -6,7 +6,8 @@
 <us>
 #### Red Badge
 </us>
-
+
+
 <template>
   <div id="components-badge-demo-dot">
     <a-badge dot>

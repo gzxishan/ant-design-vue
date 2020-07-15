@@ -6,7 +6,8 @@
 <us>
 #### Avatar
 </us>
-
+
+
 <template>
   <a-upload
     name="avatar"

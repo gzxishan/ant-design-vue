@@ -6,7 +6,8 @@
 <us>
 #### Customize Tooltip
 </us>
-
+
+
 <template>
   <div>
     <a-slider :tip-formatter="formatter" />

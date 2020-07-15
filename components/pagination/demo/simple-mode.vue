@@ -6,7 +6,8 @@
 <us>
 #### Simple Mode
 </us>
-
+
+
 <template>
   <a-pagination simple :default-current="2" :total="50" />
 </template>

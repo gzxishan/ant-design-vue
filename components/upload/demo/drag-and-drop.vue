@@ -7,7 +7,8 @@
 <us>
 #### Drag And Drop
 </us>
-
+
+
 <template>
   <a-upload-dragger
     name="file"

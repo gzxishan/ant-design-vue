@@ -6,7 +6,8 @@
 <us>
 #### Progress Bar
 </us>
-
+
+
 <template>
   <div>
     <a-progress :percent="30" />

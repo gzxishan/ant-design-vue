@@ -6,7 +6,8 @@
 <us>
 #### Upload Manually
 </us>
-
+
+
 <template>
   <div class="clearfix">
     <a-upload :file-list="fileList" :remove="handleRemove" :before-upload="beforeUpload">

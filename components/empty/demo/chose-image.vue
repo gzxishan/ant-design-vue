@@ -6,7 +6,8 @@
 <us>
 #### Chose Image
 </us>
-
+
+
 <template>
   <a-empty :image="simpleImage" />
 </template>

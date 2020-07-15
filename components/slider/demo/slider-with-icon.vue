@@ -6,7 +6,8 @@
 <us>
 #### Slider With Icon
 </us>
-
+
+
 <template>
   <div class="icon-wrapper">
     <a-icon :style="{ color: preColor }" type="frown-o" />

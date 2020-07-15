@@ -6,7 +6,8 @@
 <us>
 #### Disabled
 </us>
-
+
+
 <template>
   <div>
     <a-input-number :min="1" :max="10" :disabled="disabled" :default-value="3" />

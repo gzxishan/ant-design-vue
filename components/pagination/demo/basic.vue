@@ -6,7 +6,8 @@
 <us>
 #### Basic
 </us>
-
+
+
 <template>
   <a-pagination v-model="current" :total="50" show-less-items />
 </template>

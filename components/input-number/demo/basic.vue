@@ -6,7 +6,8 @@
 <us>
 #### Basic
 </us>
-
+
+
 <template>
   <div>
     <a-input-number id="inputNumber" v-model="value" :min="1" :max="1000" maxlength="2" placeholder="maxlength=2" @change="onChange" />

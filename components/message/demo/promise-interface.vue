@@ -6,7 +6,8 @@
 <us>
 #### Promise Interface
 </us>
-
+
+
 <template>
   <a-button @click="success">
     Display a sequence of message

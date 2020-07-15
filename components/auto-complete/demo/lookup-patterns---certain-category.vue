@@ -6,7 +6,8 @@
 <us>
 #### Lookup Patterns   Certain Category
 </us>
-
+
+
 <template>
   <div class="certain-category-search-wrapper" style="width: 250px">
     <a-auto-complete

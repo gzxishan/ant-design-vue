@@ -8,7 +8,8 @@
 <us>
 #### Reset Filters And Sorters
 </us>
-
+
+
 <template>
   <div>
     <div class="table-operations">

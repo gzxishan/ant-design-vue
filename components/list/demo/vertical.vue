@@ -6,7 +6,8 @@
 <us>
 #### Vertical
 </us>
-
+
+
 <template>
   <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="listData">
     <div slot="footer"><b>ant design vue</b> footer part</div>

@@ -6,7 +6,8 @@
 <us>
 #### Collapsed Inline Menu
 </us>
-
+
+
 <template>
   <div style="width: 256px">
     <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">

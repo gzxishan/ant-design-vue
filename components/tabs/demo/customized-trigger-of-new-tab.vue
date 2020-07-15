@@ -6,7 +6,8 @@
 <us>
 #### Customized Trigger Of New Tab
 </us>
-
+
+
 <template>
   <div>
     <div :style="{ marginBottom: '16px' }">

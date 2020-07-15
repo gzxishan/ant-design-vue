@@ -6,7 +6,8 @@
 <us>
 #### Decimals
 </us>
-
+
+
 <template>
   <a-input-number :min="0" :max="10" :step="0.1" @change="onChange" />
 </template>

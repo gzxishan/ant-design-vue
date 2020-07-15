@@ -6,7 +6,8 @@
 <us>
 #### Container Of Card Type Tab
 </us>
-
+
+
 <template>
   <div class="card-container">
     <a-tabs type="card">

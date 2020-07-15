@@ -6,7 +6,8 @@
 <us>
 #### Sizes
 </us>
-
+
+
 <template>
   <div>
     <a-input-number size="large" :min="1" :max="100000" :default-value="3" @change="onChange" />

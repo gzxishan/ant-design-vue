@@ -6,7 +6,8 @@
 <us>
 #### Card Type Tab
 </us>
-
+
+
 <template>
   <a-tabs type="card" @change="callback">
     <a-tab-pane key="1" tab="Tab 1">

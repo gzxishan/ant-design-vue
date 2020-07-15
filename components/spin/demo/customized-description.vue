@@ -13,7 +13,8 @@
   padding: 30px;
 }
 </style>
-
+
+
 <template>
   <div>
     <a-spin tip="Loading...">

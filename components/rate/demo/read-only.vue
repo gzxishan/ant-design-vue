@@ -6,7 +6,8 @@
 <us>
 #### Read Only
 </us>
-
+
+
 <template>
   <a-rate :default-value="2" disabled />
 </template>

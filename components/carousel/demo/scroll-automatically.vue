@@ -6,7 +6,8 @@
 <us>
 #### Scroll Automatically
 </us>
-
+
+
 <template>
   <a-carousel autoplay>
     <div><h3>1</h3></div>

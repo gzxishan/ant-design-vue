@@ -6,7 +6,8 @@
 <us>
 #### Custom Paging
 </us>
-
+
+
 <template>
   <a-carousel arrows dots-class="slick-dots slick-thumb">
     <a slot="customPaging" slot-scope="props">

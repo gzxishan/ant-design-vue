@@ -6,7 +6,8 @@
 <us>
 #### Registration
 </us>
-
+
+
 <template>
   <a-form :form="form" @submit="handleSubmit">
     <a-form-item v-bind="formItemLayout" label="E-mail">

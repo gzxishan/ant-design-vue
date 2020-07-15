@@ -6,7 +6,8 @@
 <us>
 #### Vertical Mini Version
 </us>
-
+
+
 <template>
   <a-steps direction="vertical" size="small" :current="1">
     <a-step title="Finished" description="This is a description." />

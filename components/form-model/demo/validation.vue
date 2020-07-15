@@ -6,7 +6,8 @@ Form 组件提供了表单验证的功能，只需要通过 `rules` 属性传入
 <us>
 #### Validation
 </us>
-
+
+
 <template>
   <a-form-model
     ref="ruleForm"

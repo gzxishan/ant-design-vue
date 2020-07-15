@@ -6,7 +6,8 @@
 <us>
 #### Adjust Placement Automatically
 </us>
-
+
+
 <template>
   <div :style="wrapStyles">
     <a-tooltip placement="left" title="Prompt Text" :get-popup-container="getPopupContainer">

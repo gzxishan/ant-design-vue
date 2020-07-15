@@ -6,7 +6,8 @@
 <us>
 #### Other Character
 </us>
-
+
+
 <template>
   <div>
     <a-rate allow-half>

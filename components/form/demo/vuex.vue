@@ -6,7 +6,8 @@
 <us>
 #### Store Form Data Into Vuex Store
 </us>
-
+
+
 <template>
   <div id="components-form-demo-vuex">
     <a-form :form="form" @submit="handleSubmit">

@@ -6,7 +6,8 @@
 <us>
 #### Controlled
 </us>
-
+
+
 <template>
   <a-pagination :current="current" :total="50" @change="onChange" />
 </template>

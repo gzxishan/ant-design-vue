@@ -8,7 +8,8 @@
 <us>
 #### Checkable
 </us>
-
+
+
 <template>
   <div>
     <a-checkable-tag v-model="checked1" @change="handleChange">

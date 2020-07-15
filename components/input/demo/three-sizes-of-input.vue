@@ -6,7 +6,8 @@
 <us>
 #### Three Sizes Of Input
 </us>
-
+
+
 <template>
   <div class="components-input-demo-size">
     <a-input size="large" placeholder="large size" />

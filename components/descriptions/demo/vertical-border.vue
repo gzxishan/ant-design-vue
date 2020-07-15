@@ -6,7 +6,8 @@
 <us>
 #### Vertical Border
 </us>
-
+
+
 <template>
   <a-descriptions title="User Info" layout="vertical" bordered>
     <a-descriptions-item label="Product">

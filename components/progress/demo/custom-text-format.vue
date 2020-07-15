@@ -6,7 +6,8 @@
 <us>
 #### Custom Text Format
 </us>
-
+
+
 <template>
   <div>
     <a-progress type="circle" :percent="75" :format="percent => `${percent} Days`" />
