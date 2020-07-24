@@ -5,7 +5,7 @@ import isNil from 'lodash/isNil';
 
 export const TimeType = {
   validator(value) {
-    return typeof value === 'string' || isNil(value) || moment.isMoment(value);
+    return typeof value === 'string' || typeof value=="number" || isNil(value) || moment.isMoment(value);
   },
 };
 
@@ -15,6 +15,7 @@ export const TimesType = {
       return (
         value.length === 0 ||
         value.findIndex(val => typeof val !== 'string') === -1 ||
+        value.findIndex(val => typeof val !== 'number') === -1 ||
         value.findIndex(val => !isNil(val) && !moment.isMoment(val)) === -1
       );
     }
@@ -28,10 +29,11 @@ export const TimeOrTimesType = {
       return (
         value.length === 0 ||
         value.findIndex(val => typeof val !== 'string') === -1 ||
+        value.findIndex(val => typeof val !== 'number') === -1 ||
         value.findIndex(val => !isNil(val) && !moment.isMoment(val)) === -1
       );
     } else {
-      return typeof value === 'string' || isNil(value) || moment.isMoment(value);
+      return typeof value === 'string' || typeof value=="number" || isNil(value) || moment.isMoment(value);
     }
   },
 };
@@ -42,13 +44,13 @@ export function checkValidate(componentName, value, propName, valueFormat) {
     if (!val) return;
     valueFormat &&
       warning(
-        interopDefault(moment)(val, valueFormat).isValid(),
+        typeof val === 'number' || interopDefault(moment)(val, valueFormat).isValid(),
         componentName,
         `When set \`valueFormat\`, \`${propName}\` should provides invalidate string time. `,
       );
     !valueFormat &&
       warning(
-        interopDefault(moment).isMoment(val) && val.isValid(),
+        typeof val === 'number' || interopDefault(moment).isMoment(val) && val.isValid(),
         componentName,
         `\`${propName}\` provides invalidate moment time. If you want to set empty value, use \`null\` instead.`,
       );
@@ -56,13 +58,30 @@ export function checkValidate(componentName, value, propName, valueFormat) {
 }
 export const stringToMoment = (value, valueFormat) => {
   if (Array.isArray(value)) {
-    return value.map(val =>
-      typeof val === 'string' && val ? interopDefault(moment)(val, valueFormat) : val || null,
+    return value.map(val =>{
+        let rt;
+        if(typeof val === 'string'){
+          rt= val ? interopDefault(moment)(val, valueFormat) : val || null;
+        }else if(typeof val === 'number'){
+          let d=interopDefault(moment)(val);
+          if(d.isValid()){
+            rt=d;
+          }
+        }
+        return rt;
+      }
     );
   } else {
-    return typeof value === 'string' && value
-      ? interopDefault(moment)(value, valueFormat)
-      : value || null;
+    let rt;
+    if(typeof value === 'string'){
+      rt= value ? interopDefault(moment)(value, valueFormat) : value || null;
+    }else if(typeof value === 'number'){
+      let d=interopDefault(moment)(value);
+      if(d.isValid()){
+        rt=d;
+      }
+    }
+    return rt;
   }
 };
 

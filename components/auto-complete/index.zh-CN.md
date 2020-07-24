@@ -21,6 +21,8 @@
 | value(v-model) | 指定当前选中的条目 | string|string[]|{ key: string, label: string|vNodes }|Array<{ key: string, label: string|vNodes }> | 无 |  |
 | defaultOpen | 是否默认展开下拉菜单 | boolean | - |  |
 | open | 是否展开下拉菜单 | boolean | - |  |
+| dropdownClassName | 下拉菜单样式类 | string | - |  |
+
 
 ### 事件 
 

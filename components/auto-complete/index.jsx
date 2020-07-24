@@ -32,6 +32,7 @@ const AutoCompleteProps = {
   value: SelectValue,
   defaultValue: SelectValue,
   dataSource: PropTypes.array,
+  dropdownClassName: PropTypes.string,
   dropdownMenuStyle: PropTypes.object,
   optionLabelProp: String,
   dropdownMatchSelectWidth: PropTypes.bool,

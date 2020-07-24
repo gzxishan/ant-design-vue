@@ -12,10 +12,10 @@ const TimeType = {
   validator(value) {
     if (Array.isArray(value)) {
       return (
-        value.length === 0 || value.findIndex(val => !isNil(val) && !moment.isMoment(val)) === -1
+        value.length === 0 || value.findIndex(val => !isNil(val) && (typeof val !== "number") && !moment.isMoment(val)) === -1
       );
     } else {
-      return isNil(value) || moment.isMoment(value);
+      return isNil(value) || typeof value==="number" || moment.isMoment(value);
     }
   },
 };

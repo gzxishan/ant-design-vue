@@ -12,3 +12,9 @@
 #### `Table`
 - 增加`handleWindowResize()`函数
 
+#### `DatePicker`
+- 日期可以是毫秒数
+
+#### `AutoComplete`
+- 增加dropdownClassName属性。
+

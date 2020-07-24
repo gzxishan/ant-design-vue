@@ -17,6 +17,11 @@ import { goStartMonth, goEndMonth, goTime } from './util/toTime';
 const getMomentObjectIfValid = date => {
   if (moment.isMoment(date) && date.isValid()) {
     return date;
+  }else if(typeof date == "number"){
+    date = moment(date);
+    if(date.isValid()){
+      return date;
+    }
   }
   return false;
 };
@@ -29,10 +34,10 @@ const Calendar = {
     visible: PropTypes.bool.def(true),
     prefixCls: PropTypes.string.def('rc-calendar'),
     // prefixCls: PropTypes.string,
-    defaultValue: PropTypes.object,
-    value: PropTypes.object,
-    selectedValue: PropTypes.object,
-    defaultSelectedValue: PropTypes.object,
+    defaultValue:PropTypes.oneOfType([PropTypes.object,PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.object,PropTypes.number]),
+    selectedValue: PropTypes.oneOfType([PropTypes.object,PropTypes.number]),
+    defaultSelectedValue: PropTypes.oneOfType([PropTypes.object,PropTypes.number]),
     mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
     // locale: PropTypes.object,
     showDateInput: PropTypes.bool.def(true),
