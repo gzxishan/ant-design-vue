@@ -23,7 +23,15 @@ module.exports = merge(baseWebpackConfig, {
           MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',
-          { loader: 'less-loader', options: { javascriptEnabled: true } },
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                sourceMap: true,
+                javascriptEnabled: true,
+              },
+            },
+          },
         ],
       },
       {

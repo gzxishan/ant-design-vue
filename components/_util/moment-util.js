@@ -41,47 +41,40 @@ export const TimeOrTimesType = {
 export function checkValidate(componentName, value, propName, valueFormat) {
   const values = Array.isArray(value) ? value : [value];
   values.forEach(val => {
-    if (!val) return;
+    if (typeof val === 'number' || !val) return;
     valueFormat &&
       warning(
-        typeof val === 'number' || interopDefault(moment)(val, valueFormat).isValid(),
+        interopDefault(moment)(val, valueFormat).isValid(),
         componentName,
         `When set \`valueFormat\`, \`${propName}\` should provides invalidate string time. `,
       );
     !valueFormat &&
       warning(
-        typeof val === 'number' || interopDefault(moment).isMoment(val) && val.isValid(),
+        interopDefault(moment).isMoment(val) && val.isValid(),
         componentName,
         `\`${propName}\` provides invalidate moment time. If you want to set empty value, use \`null\` instead.`,
       );
   });
 }
+
+function toMoment(value, valueFormat){
+  if(typeof value === 'string' && value){
+    return interopDefault(moment)(value, valueFormat);
+  }else if(typeof value == "number"){
+    let d=interopDefault(moment)(value);
+    if(d.isValid()){
+     return d;
+    }
+  }
+  return value || null;
+}
+
 export const stringToMoment = (value, valueFormat) => {
   if (Array.isArray(value)) {
-    return value.map(val =>{
-        let rt;
-        if(typeof val === 'string'){
-          rt= val ? interopDefault(moment)(val, valueFormat) : val || null;
-        }else if(typeof val === 'number'){
-          let d=interopDefault(moment)(val);
-          if(d.isValid()){
-            rt=d;
-          }
-        }
-        return rt;
-      }
+    return value.map(val =>toMoment(val, valueFormat),
     );
   } else {
-    let rt;
-    if(typeof value === 'string'){
-      rt= value ? interopDefault(moment)(value, valueFormat) : value || null;
-    }else if(typeof value === 'number'){
-      let d=interopDefault(moment)(value);
-      if(d.isValid()){
-        rt=d;
-      }
-    }
-    return rt;
+    return toMoment(value, valueFormat);
   }
 };
 

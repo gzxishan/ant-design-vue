@@ -1,6 +1,8 @@
-const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const webpack = require('webpack');
+const WebpackBar = require('webpackbar');
+const path = require('path');
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base.config');
 const pkgConfig = require('./package');
@@ -17,6 +19,47 @@ module.exports = merge(baseWebpackConfig, {
   module: {
     rules: [
       {
+        test: /\.(vue|md)$/,
+        loader: 'vue-loader',
+      },
+      {
+        test: /\.(js|jsx)$/,
+        loader: 'babel-loader',
+        exclude: /pickr.*js/,
+        options: {
+          presets: [
+            [
+              'env',
+              {
+                targets: {
+                  browsers: [
+                    'last 2 versions',
+                    'Firefox ESR',
+                    '> 1%',
+                    'ie >= 9',
+                    'iOS >= 8',
+                    'Android >= 4',
+                  ],
+                },
+              },
+            ],
+          ],
+          plugins: [
+            'transform-vue-jsx',
+            'transform-object-assign',
+            'transform-object-rest-spread',
+            'transform-class-properties',
+          ],
+        },
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]?[hash]',
+        },
+      },
+      {
         test: /\.less$/,
         use: [
           { loader: 'vue-style-loader' },
@@ -24,7 +67,15 @@ module.exports = merge(baseWebpackConfig, {
             loader: 'css-loader',
             options: { sourceMap: true },
           },
-          { loader: 'less-loader', options: { sourceMap: true, javascriptEnabled: true } },
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                sourceMap: true,
+                javascriptEnabled: true,
+              },
+            },
+          },
         ],
       },
       {
@@ -32,6 +83,13 @@ module.exports = merge(baseWebpackConfig, {
         use: ['vue-style-loader', 'css-loader'],
       },
     ],
+  },
+  resolve: {
+    alias: {
+      'ant-design-vue': path.join(__dirname, './components'),
+      vue$: 'vue/dist/vue.esm.js',
+    },
+    extensions: ['.js', '.jsx', '.vue', '.md'],
   },
   devServer: {
     port: 3000,
@@ -42,22 +100,18 @@ module.exports = merge(baseWebpackConfig, {
       rewrites: [{ from: /./, to: '/index.html' }],
     },
     disableHostCheck: true,
-    headers: { 'Access-Control-Allow-Origin': '*' },
-  },
-  performance: {
-    hints: false,
+    hot: true,
+    open: true,
   },
   devtool: '#source-map',
   plugins: [
-  	new webpack.DefinePlugin({
-      'process.env': {
-        VERSION:`"${VERSION}"`
-      },
-    }),
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      template: 'site/index.html',
+      template: 'examples/index.html',
       filename: 'index.html',
       inject: true,
     }),
+    new VueLoaderPlugin(),
+    new WebpackBar(),
   ],
 });

@@ -72,15 +72,13 @@ import { default as LocaleProvider } from './locale-provider';
 
 import { default as message } from './message';
 
-import { default as Mentions } from './mentions'
-
 import { default as Menu } from './menu';
+
+import { default as Mentions } from './mentions';
 
 import { default as Modal } from './modal';
 
 import { default as notification } from './notification';
-
-import { default as PageHeader } from './page-header';
 
 import { default as Pagination } from './pagination';
 
@@ -95,8 +93,6 @@ import { default as Radio } from './radio';
 import { default as Rate } from './rate';
 
 import { default as Row } from './row';
-
-import { default as Result } from './result';
 
 import { default as Select } from './select';
 
@@ -128,6 +124,8 @@ import { default as Timeline } from './timeline';
 
 import { default as Tooltip } from './tooltip';
 
+// import { default as Mention } from './mention'
+
 import { default as Upload } from './upload';
 
 import { default as version } from './version';
@@ -138,11 +136,16 @@ import { default as Skeleton } from './skeleton';
 
 import { default as Comment } from './comment';
 
+// import { default as ColorPicker } from './color-picker';
+
 import { default as ConfigProvider } from './config-provider';
 
 import { default as Empty } from './empty';
 
+import { default as Result } from './result';
+
 import { default as Descriptions } from './descriptions';
+import { default as PageHeader } from './page-header';
 
 const components = [
   Base,
@@ -163,7 +166,6 @@ const components = [
   Checkbox,
   Col,
   DatePicker,
-  Descriptions,
   Divider,
   Dropdown,
   Form,
@@ -174,17 +176,15 @@ const components = [
   Layout,
   List,
   LocaleProvider,
-  Mentions,
   Menu,
+  Mentions,
   Modal,
-  PageHeader,
   Pagination,
   Popconfirm,
   Popover,
   Progress,
   Radio,
   Rate,
-  Result,
   Row,
   Select,
   Slider,
@@ -205,8 +205,12 @@ const components = [
   Drawer,
   Skeleton,
   Comment,
+  // ColorPicker,
   ConfigProvider,
   Empty,
+  Result,
+  Descriptions,
+  PageHeader,
 ];
 
 const install = function(Vue) {
@@ -252,7 +256,6 @@ export {
   Checkbox,
   Col,
   DatePicker,
-  Descriptions,
   Divider,
   Dropdown,
   Form,
@@ -263,17 +266,15 @@ export {
   Layout,
   List,
   LocaleProvider,
-  Mentions,
   Menu,
+  Mentions,
   Modal,
-  PageHeader,
   Pagination,
   Popconfirm,
   Popover,
   Progress,
   Radio,
   Rate,
-  Result,
   Row,
   Select,
   Slider,
@@ -294,8 +295,12 @@ export {
   Drawer,
   Skeleton,
   Comment,
+  // ColorPicker,
   ConfigProvider,
   Empty,
+  Result,
+  Descriptions,
+  PageHeader,
 };
 
 export default {

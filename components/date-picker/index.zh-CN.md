@@ -145,8 +145,8 @@
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
-| defaultValue | 默认日期 | [moment](http://momentjs.com/)[]\|[Number] | 无 |  |
-| defaultPickerValue | 默认面板日期 | [moment](http://momentjs.com/)[]\|[Number] | 无 |  |
+| defaultValue | 默认日期 | [moment](http://momentjs.com/)[]\|Number[] | 无 |  |
+| defaultPickerValue | 默认面板日期 | [moment](http://momentjs.com/)[]\|Number[] | 无 |  |
 | disabledTime | 不可选择的时间 | function(dates: [moment, moment], partial: `'start'|'end'`) | 无 |  |
 | format | 展示的日期格式 | string | "YYYY-MM-DD HH:mm:ss" |  |
 | ranges | 预设时间范围快捷选择 | { [range: string]: [moment](http://momentjs.com/)[] } | { [range: string]: () => [moment](http://momentjs.com/)[] } | 无 |  |
@@ -154,7 +154,7 @@
 | separator | 设置分隔符 | string | '~' | 1.5.0 |
 | showTime | 增加时间选择功能 | Object|boolean | [TimePicker Options](/components/time-picker-cn/#API) |  |
 | showTime.defaultValue | 设置用户选择日期时默认的时分秒 | [moment](http://momentjs.com/)[] | [moment(), moment()] |  |
-| value(v-model) | 日期 | [moment](http://momentjs.com/)[]\|[Number] | 无 |  |
+| value(v-model) | 日期 | [moment](http://momentjs.com/)[]\|Number[] | 无 |  |
 
 ### RangePicker 事件 
 
