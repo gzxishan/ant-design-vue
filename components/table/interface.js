@@ -198,7 +198,7 @@ export const SelectionBoxProps = {
 export const FilterMenuProps = {
   _propsSymbol: PropTypes.any,
   locale: TableLocale,
-  selectedKeys: PropTypes.arrayOf([PropTypes.string, PropTypes.number]),
+  selectedKeys: PropTypes.array,
   column: PropTypes.object,
   confirmFilter: PropTypes.func,
   prefixCls: PropTypes.string,

@@ -1,6 +1,6 @@
-## API 
+## API
 
-### Table 
+### Table
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
@@ -19,9 +19,9 @@
 | expandIconColumnIndex | 展开的图标显示在哪一列，如果没有 `rowSelection`，默认显示在第一列，否则显示在选择框后面 | `number` |  |  |
 | footer | 表格尾部 | Function(currentPageData)|slot-scope |  |  |
 | indentSize | 展示树形数据时，每层缩进的宽度，以 px 为单位 | number | 15 |  |
-| loading | 页面是否加载中 | boolean|[object](/components/spin-cn) | false |  |
+| loading | 页面是否加载中 | boolean|[object](#/components/spin-cn) | false |  |
 | locale | 默认文案设置，目前包括排序、过滤、空数据文案 | object | filterConfirm: '确定'  filterReset: '重置'  emptyText: '暂无数据' |  |
-| pagination | 分页器，参考[配置项](#pagination)或 [pagination](/components/pagination-cn/)文档，设为 false 时不展示和进行分页 | object |  |  |
+| pagination | 分页器，参考[配置项](#pagination)或 [pagination](#/components/pagination-cn/)文档，设为 false 时不展示和进行分页 | object |  |  |
 | rowClassName | 表格行的类名 | Function(record, index):string | - |  |
 | rowKey | 表格行 key 的取值，可以是字符串或一个函数 | string|Function(record):string | 'key' |  |
 | rowSelection | 列表项是否可选择，[配置项](#rowSelection) | object | null |  |
@@ -32,15 +32,15 @@
 | customHeaderRow | 设置头部行属性 | Function(column, index) | - |  |
 | customRow | 设置行属性 | Function(record, index) | - |  |
 | getPopupContainer | 设置表格内各类浮层的渲染节点，如筛选菜单 | (triggerNode) => HTMLElement | `() => TableHtmlElement` | 1.5.0 |
-| transformCellText | 数据渲染前可以再次改变，一般用户空数据的默认配置，可以通过 [ConfigProvider](/components/config-provider-cn/) 全局统一配置 | Function({ text, column, record, index }) => any | - | 1.5.4 |
+| transformCellText | 数据渲染前可以再次改变，一般用户空数据的默认配置，可以通过 [ConfigProvider](#/components/config-provider-cn/) 全局统一配置 | Function({ text, column, record, index }) => any | - | 1.5.4 |
 
-### 函数 
+### 函数
 
 | 函数名称 | 说明 |
 | --- | --- |
 | handleWindowResize | 调整固定列高度与滚动条 |
 
-### 事件 
+### 事件
 
 | 事件名称 | 说明 | 回调参数 |
 | --- | --- | --- |
@@ -48,7 +48,7 @@
 | change | 分页、排序、筛选变化时触发 | Function(pagination, filters, sorter, { currentDataSource }) |
 | expand | 点击展开图标时触发 | Function(expanded, record) |
 
-#### customRow 用法 
+#### customRow 用法
 
 适用于 `customRow` `customHeaderRow` `customCell` `customHeaderCell`。遵循[Vue jsx](https://github.com/vuejs/babel-plugin-transform-vue-jsx)语法。
 
@@ -79,7 +79,7 @@
 />
 ```
 
-### Column 
+### Column
 
 列描述数据对象，是 columns 中的一项，Column 使用相同的 API。
 
@@ -112,14 +112,14 @@
 | slots | 使用 columns 时，可以通过该属性配置支持 slot 的属性，如 `slots: { filterIcon: 'XXX'}` | object | - |  |
 | scopedSlots | 使用 columns 时，可以通过该属性配置支持 slot-scope 的属性，如 `scopedSlots: { customRender: 'XXX'}` | object | - |  |
 
-### ColumnGroup 
+### ColumnGroup
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | title | 列头显示文字 | string|slot | - |
 | slots | 使用 columns 时，可以通过该属性配置支持 slot 的属性，如 `slots: { title: 'XXX'}` | object | - |
 
-### pagination 
+### pagination
 
 分页的配置项。
 
@@ -127,9 +127,9 @@
 | --- | --- | --- | --- |
 | position | 指定分页显示的位置 | 'top' | 'bottom' | 'both' | 'bottom' |
 
-更多配置项，请查看 [Pagination](/components/pagination/)。
+更多配置项，请查看 [Pagination](#/components/pagination/)。
 
-### rowSelection 
+### rowSelection
 
 选择功能的配置。
 
@@ -148,7 +148,7 @@
 | onSelectAll | 用户手动选择/取消选择所有列的回调 | Function(selected, selectedRows, changeRows) | - |
 | onSelectInvert | 用户手动选择反选的回调 | Function(selectedRows) | - |
 
-### scroll 
+### scroll
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
@@ -156,7 +156,7 @@
 | y | 设置纵向滚动，也可用于指定滚动区域的宽和高，可以设置为像素值，百分比，true 和 ['max-content'](https://developer.mozilla.org/zh-CN/docs/Web/CSS/width#max-content) | number | true | - |  |
 | scrollToFirstRowOnChange | 当分页、排序、筛选变化后是否滚动到表格顶部 | boolean | - | 1.5.0 |
 
-### selection 
+### selection
 
 自定义选择配置项
 
@@ -166,7 +166,7 @@
 | text | 选择项显示的文字 | string|VNode | - |
 | onSelect | 选择项点击回调 | Function(changeableRowKeys) | - |
 
-## 注意 
+## 注意
 
 在 Table 中，`dataSource` 和 `columns` 里的数据值都需要指定 `key` 值。对于 `dataSource` 默认将每列数据的 `key` 属性作为唯一的标识。
 

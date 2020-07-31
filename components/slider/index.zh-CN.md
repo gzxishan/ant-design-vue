@@ -1,4 +1,4 @@
-## API 
+## API
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
@@ -16,18 +16,18 @@
 | tipFormatter | Slider 会把当前值传给 `tipFormatter`，并在 Tooltip 中显示 `tipFormatter` 的返回值，若为 null，则隐藏 Tooltip。 | Function|null | IDENTITY |  |
 | value(v-model) | 设置当前取值。当 `range` 为 `false` 时，使用 `number`，否则用 `[number, number]` | number|number[] |  |  |
 | vertical | 值为 `true` 时，Slider 为垂直方向 | Boolean | false |  |
-| tooltipPlacement | 设置 Tooltip 展示位置。参考 [Tooltip](/components/tooltip/)。 | string |  | 1.5.0 |
+| tooltipPlacement | 设置 Tooltip 展示位置。参考 [Tooltip](#/components/tooltip/)。 | string |  | 1.5.0 |
 | tooltipVisible | 值为`true`时，Tooltip 将会始终显示；否则始终不显示，哪怕在拖拽及移入时。 | Boolean |  |  |
 | getTooltipPopupContainer | Tooltip 渲染父节点，默认渲染到 body 上。 | Function | () => document.body | 1.5.0 |
 
-### 事件 
+### 事件
 
 | 事件名称 | 说明 | 回调参数 |
 | --- | --- | --- |
 | afterChange | 与 `mouseup` 触发时机一致，把当前值作为参数传入。 | Function(value) |
 | change | 当 Slider 的值发生改变时，会触发 change 事件，并把改变后的值作为参数传入。 | Function(value) |
 
-## 方法 
+## 方法
 
 | 名称 | 描述 |
 | --- | --- |

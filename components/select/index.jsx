@@ -48,6 +48,7 @@ const Value = PropTypes.shape({
 }).loose;
 
 const SelectValue = PropTypes.oneOfType([
+  PropTypes.bool,
   PropTypes.string,
   PropTypes.number,
   PropTypes.arrayOf(PropTypes.oneOfType([Value, PropTypes.bool, PropTypes.string, PropTypes.number])),

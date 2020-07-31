@@ -1,4 +1,4 @@
-## API 
+## API
 
 ```
 <a-select>
@@ -6,7 +6,7 @@
 </a-select>
 ```
 
-### Select props 
+### Select props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -47,7 +47,7 @@
 | open | 是否展开下拉菜单 | boolean | - |
 
 > 注意，如果发现下拉菜单跟随页面滚动，或者需要在其他弹层中触发 Select，请尝试使用 `getPopupContainer={triggerNode => triggerNode.parentNode}` 将下拉弹层渲染节点固定在触发器的父元素中。
-### 事件 
+### 事件
 
 | 事件名称 | 说明 | 回调参数 |
 | --- | --- | --- |
@@ -63,14 +63,14 @@
 | select | 被选中时调用，参数为选中项的 value (或 key) 值 | function(value, option:Option) |
 | dropdownVisibleChange | 展开下拉菜单的回调 | function(open) |
 
-### Select Methods 
+### Select Methods
 
 | 名称 | 说明 |
 | --- | --- |
 | blur() | 取消焦点 |
 | focus() | 获取焦点 |
 
-### Option props 
+### Option props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -80,15 +80,15 @@
 | value | 默认根据此属性值进行筛选 | string|number | - |
 | class | Option 器类名 | string | - |
 
-### OptGroup props 
+### OptGroup props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | key |  | string | - |
 | label | 组名 | string||function(h)|slot | 无 |
 
-## FAQ 
+## FAQ
 
-### 点击 `dropdownRender` 里的内容浮层关闭怎么办？ 
+### 点击 `dropdownRender` 里的内容浮层关闭怎么办？
 
-看下 [dropdownRender 例子](/components/select-cn/#components-select-demo-custom-dropdown) 里的说明。
+看下 [dropdownRender 例子](#/components/select-cn/#components-select-demo-custom-dropdown) 里的说明。

@@ -1,8 +1,8 @@
 <cn>
-#### 联动 
+#### 联动
 
 省市联动是典型的例子。
-推荐使用 [Cascader](/components/cascader-cn/) 组件。
+推荐使用 [Cascader](#/components/cascader-cn/) 组件。
 </cn>
 <us>
 #### Coordinate

@@ -5,15 +5,11 @@ export default {
   multiple: PropTypes.bool,
   defaultActiveFirst: PropTypes.bool,
   visible: PropTypes.bool.def(true),
-  activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  selectedKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-  defaultSelectedKeys: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  ).def([]),
-  defaultOpenKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).def(
-    [],
-  ),
-  openKeys: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+  activeKey: PropTypes.any,
+  selectedKeys: PropTypes.array,
+  defaultSelectedKeys:PropTypes.array,
+  defaultOpenKeys: PropTypes.array,
+  openKeys: PropTypes.array,
   openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   mode: PropTypes.oneOf([
     'horizontal',

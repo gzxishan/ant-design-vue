@@ -1,4 +1,4 @@
-## API 
+## API
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
@@ -19,8 +19,8 @@
 | maskStyle | 遮罩样式 | object | {} |  |
 | okText | 确认按钮文字 | string|slot | 确定 |  |
 | okType | 确认按钮类型 | string | primary |  |
-| okButtonProps | ok 按钮 props, 遵循 jsx[规范](https://github.com/vuejs/babel-plugin-transform-vue-jsx#difference-from-react-jsx) | {props: [ButtonProps](/components/button/#API), on: {}} | - |  |
-| cancelButtonProps | cancel 按钮 props, 遵循 jsx[规范](https://github.com/vuejs/babel-plugin-transform-vue-jsx#difference-from-react-jsx) | {props: [ButtonProps](/components/button/#API), on: {}} | - |  |
+| okButtonProps | ok 按钮 props, 遵循 jsx[规范](https://github.com/vuejs/babel-plugin-transform-vue-jsx#difference-from-react-jsx) | {props: [ButtonProps](#/components/button/#API), on: {}} | - |  |
+| cancelButtonProps | cancel 按钮 props, 遵循 jsx[规范](https://github.com/vuejs/babel-plugin-transform-vue-jsx#difference-from-react-jsx) | {props: [ButtonProps](#/components/button/#API), on: {}} | - |  |
 | title | 标题 | string|slot | 无 |  |
 | visible(v-model) | 对话框是否可见 | boolean | 无 |  |
 | width | 宽度 | string|number | 520 |  |
@@ -29,17 +29,17 @@
 | dialogStyle | 可用于设置浮层的样式，调整浮层位置等 | object | - | 1.6.1 |
 | dialogClass | 可用于设置浮层的类名 | string | - | 1.6.1 |
 
-### 事件 
+### 事件
 
 | 事件名称 | 说明 | 回调参数 |
 | --- | --- | --- |
 | cancel | 点击遮罩层或右上角叉或取消按钮的回调 | function(e) |
 | ok | 点击确定回调 | function(e) |
 
-#### 注意 
+#### 注意
 
 > `<Modal />` 默认关闭后状态不会自动清空, 如果希望每次打开都是新内容，请设置 `destroyOnClose`。
-### Modal.method() 
+### Modal.method()
 
 包括：
 
@@ -66,8 +66,8 @@
 | keyboard | 是否支持键盘 esc 关闭 | boolean | true |  |
 | okText | 确认按钮文字 | string | 确定 |  |
 | okType | 确认按钮类型 | string | primary |  |
-| okButtonProps | ok 按钮 props | [ButtonProps](/components/button) | - |  |
-| cancelButtonProps | cancel 按钮 props | [ButtonProps](/components/button) | - |  |
+| okButtonProps | ok 按钮 props | [ButtonProps](#/components/button) | - |  |
+| cancelButtonProps | cancel 按钮 props | [ButtonProps](#/components/button) | - |  |
 | title | 标题 | string|vNode |function(h) | 无 |  |
 | width | 宽度 | string|number | 416 |  |
 | zIndex | 设置 Modal 的 `z-index` | Number | 1000 |  |

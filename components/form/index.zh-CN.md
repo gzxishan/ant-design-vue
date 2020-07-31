@@ -1,6 +1,6 @@
-## API 
+## API
 
-### Form 
+### Form
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
@@ -8,22 +8,22 @@
 | hideRequiredMark | 隐藏所有表单项的必选标记 | Boolean | false |  |
 | labelAlign | label 标签的文本对齐方式 | 'left' | 'right' | 'right' | 1.5.0 |
 | layout | 表单布局 | 'horizontal'|'vertical'|'inline' | 'horizontal' |  |
-| labelCol | label 标签布局，同 `<Col>` 组件，设置 `span` `offset` 值，如 `{span: 3, offset: 12}` 或 `sm: {span: 3, offset: 12}` | [object](/components/grid-cn/#Col) |  |  |
-| wrapperCol | 需要为输入控件设置布局样式时，使用该属性，用法同 labelCol | [object](/components/grid-cn/#Col) |  |  |
-| selfUpdate | 自定义字段更新逻辑，说明[见下](/components/form-cn/#selfUpdate)，需 1.3.17 版本以上 | boolean | false | 1.3.17 |
+| labelCol | label 标签布局，同 `<Col>` 组件，设置 `span` `offset` 值，如 `{span: 3, offset: 12}` 或 `sm: {span: 3, offset: 12}` | [object](#/components/grid-cn/#Col) |  |  |
+| wrapperCol | 需要为输入控件设置布局样式时，使用该属性，用法同 labelCol | [object](#/components/grid-cn/#Col) |  |  |
+| selfUpdate | 自定义字段更新逻辑，说明[见下](#/components/form-cn/#selfUpdate)，需 1.3.17 版本以上 | boolean | false | 1.3.17 |
 | colon | 配置 Form.Item 的 colon 的默认值 (只有在属性 layout 为 horizontal 时有效) | boolean | true | 1.5.0 |
 
-### 事件 
+### 事件
 
 | 事件名称 | 说明 | 回调参数 |
 | --- | --- | --- |
 | submit | 数据验证成功后回调事件 | Function(e:Event) |
 
-### Form.create(options) | this.$form.createForm(this, options) 
+### Form.create(options) | this.$form.createForm(this, options)
 
 使用方式如下：
 
-#### jsx 使用方式，使用方式和 React 版 antd 一致 
+#### jsx 使用方式，使用方式和 React 版 antd 一致
 
 ```
 const CustomizedForm = {};
@@ -33,7 +33,7 @@ CustomizedForm = Form.create({})(CustomizedForm);
 
 如果需要为包装组件实例维护一个 ref，可以使用`wrappedComponentRef`。
 
-#### 单文件 template 使用方式 
+#### 单文件 template 使用方式
 
 ```
 <template>
@@ -79,7 +79,7 @@ CustomizedForm = Form.create({})(CustomizedForm);
 | validateFields | 校验并获取一组输入域的值与 Error，若 fieldNames 参数为空，则校验全部组件 | Function([fieldNames: string[]], [options: object], callback: Function(errors, values)) |
 | validateFieldsAndScroll | 与 `validateFields` 相似，但校验完后，如果校验不通过的菜单域不在可见范围内，则自动滚动进可见范围 | 参考 `validateFields` |
 
-### validateFields/validateFieldsAndScroll 
+### validateFields/validateFieldsAndScroll
 
 ```
 const {
@@ -103,7 +103,7 @@ validateFields(['field1', 'field2'], options, (errors, values) => {
 | options.force | 对已经校验过的表单域，在 validateTrigger 再次被触发时是否再次校验 | boolean | false |
 | options.scroll | 定义 validateFieldsAndScroll 的滚动行为，详细配置见 [dom-scroll-into-view config](https://github.com/yiminghe/dom-scroll-into-view#function-parameter) | Object | {} |
 
-#### validateFields 的 callback 参数示例 
+#### validateFields 的 callback 参数示例
 
 - `errors`: `{
   "userName": {
@@ -130,11 +130,11 @@ validateFields(['field1', 'field2'], options, (errors, values) => {
 }
 `
 
-### Form.createFormField 
+### Form.createFormField
 
 用于标记 `mapPropsToFields` 返回的表单域数据，[例子](#components-form-demo-global-state)。
 
-### this.form.getFieldDecorator(id, options) 和 v-decorator="[id, options]" 
+### this.form.getFieldDecorator(id, options) 和 v-decorator="[id, options]"
 
 经过 `getFieldDecorator`或`v-decorator` 包装的控件，表单控件会自动添加 `value`（或 `valuePropName` 指定的其他属性） `onChange`（或 `trigger` 指定的其他属性），数据同步将被 Form 接管，这会导致以下结果：
 
@@ -142,12 +142,12 @@ validateFields(['field1', 'field2'], options, (errors, values) => {
 2. 你不能用控件的 `value` `defaultValue` 等属性来设置表单域的值，默认值可以用 `getFieldDecorator` 或 `v-decorator` 里的 `initialValue`。
 3. 你不应该用 `v-model`，可以使用 `this.form.setFieldsValue` 来动态改变表单值。
 
-#### 特别注意 
+#### 特别注意
 
 1. `getFieldDecorator` 和 `v-decorator` 不能用于装饰纯函数组件。
 2. `getFieldDecorator` 和 `v-decorator` 调用不能位于纯函数组件中 [https://cn.vuejs.org/v2/api/#functional](https://cn.vuejs.org/v2/api/#functional)。
 
-#### getFieldDecorator(id, options) 和 v-decorator="[id, options]" 参数 
+#### getFieldDecorator(id, options) 和 v-decorator="[id, options]" 参数
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -162,7 +162,7 @@ validateFields(['field1', 'field2'], options, (errors, values) => {
 | options.validateTrigger | 校验子节点值的时机 | string|string[] | 'change' |
 | options.valuePropName | 子节点的值的属性，如 Switch 的是 'checked' | string | 'value' |
 
-### Form.Item 
+### Form.Item
 
 注意：一个 Form.Item 建议只放一个被 getFieldDecorator 或 v-decorator 装饰过的 child，当有多个被装饰过的 child 时，`help` `required` `validateStatus` 无法自动生成。
 
@@ -174,14 +174,14 @@ validateFields(['field1', 'field2'], options, (errors, values) => {
 | help | 提示信息，如不设置，则会根据校验规则自动生成 | string|slot |  |  |
 | htmlFor | 设置子元素 label `htmlFor` 属性 | string |  | 1.5.0 |
 | label | label 标签的文本 | string|slot |  |  |
-| labelCol | label 标签布局，同 `<Col>` 组件，设置 `span` `offset` 值，如 `{span: 3, offset: 12}` 或 `sm: {span: 3, offset: 12}` | [object](/components/grid-cn/#Col) |  |  |
+| labelCol | label 标签布局，同 `<Col>` 组件，设置 `span` `offset` 值，如 `{span: 3, offset: 12}` 或 `sm: {span: 3, offset: 12}` | [object](#/components/grid-cn/#Col) |  |  |
 | labelAlign | 标签文本对齐方式 | 'left' | 'right' | 'right' | 1.5.0 |
 | required | 是否必填，如不设置，则会根据校验规则自动生成 | boolean | false |  |
 | validateStatus | 校验状态，如不设置，则会根据校验规则自动生成，可选：'success' 'warning' 'error' 'validating' | string |  |  |
-| wrapperCol | 需要为输入控件设置布局样式时，使用该属性，用法同 labelCol | [object](/components/grid-cn/#Col) |  |  |
-| selfUpdate | 自定义字段更新逻辑，你可以通过 Form 的 selfUpdate 进行统一设置。当和 Form 同时设置时，以 Item 为准。 说明[见下](/components/form-cn/#selfUpdate) 需 1.3.17 版本以上 | boolean | false | 1.3.17 |
+| wrapperCol | 需要为输入控件设置布局样式时，使用该属性，用法同 labelCol | [object](#/components/grid-cn/#Col) |  |  |
+| selfUpdate | 自定义字段更新逻辑，你可以通过 Form 的 selfUpdate 进行统一设置。当和 Form 同时设置时，以 Item 为准。 说明[见下](#/components/form-cn/#selfUpdate) 需 1.3.17 版本以上 | boolean | false | 1.3.17 |
 
-### 校验规则 
+### 校验规则
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -199,7 +199,7 @@ validateFields(['field1', 'field2'], options, (errors, values) => {
 
 更多高级用法可研究 [async-validator](https://github.com/yiminghe/async-validator)。
 
-### selfUpdate 
+### selfUpdate
 
 设置 `selfUpdate` 为 `true` 后，`Form` 通过增量方式更新，只更新被修改的字段。大部分场景下，你只需要编写代码即可。而在某些特定场景，例如修改某个字段值后出现新的字段选项、或者纯粹希望表单任意变化都需要进行渲染。你可以通过修改 Form.Item 取消 selfUpdate，或者在 `change` / `onValuesChange` 回调中手动调用 `this.$forceUpdate()` 更新组件。[示例]()
 

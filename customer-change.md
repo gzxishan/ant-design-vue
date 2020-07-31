@@ -18,3 +18,14 @@
 #### `AutoComplete`
 - 增加dropdownClassName属性。
 
+#### `Select`
+- 支持boolean值
+
+#### 接收的类型设置为`PropTypes.any`
+- `eventKey`
+
+#### 接收的类型设置为`PropTypes.array`
+- `selectedKeys`
+- `defaultSelectedKeys`
+- `openKeys`
+- `defaultOpenKeys`

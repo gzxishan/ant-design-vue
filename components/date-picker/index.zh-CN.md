@@ -1,4 +1,4 @@
-## API 
+## API
 
 日期类组件包括以下四种形式。
 
@@ -7,7 +7,7 @@
 - RangePicker
 - WeekPicker
 
-### 国际化配置 
+### 国际化配置
 
 默认配置为 en-US，如果你需要设置其他语言，推荐在入口处使用我们提供的国际化组件，详见：[ConfigProvider 国际化](http://ant.design/components/config-provider-cn/)。
 
@@ -49,7 +49,7 @@
 </script>
 ```
 
-### 共同的 API 
+### 共同的 API
 
 以下 API 为 DatePicker、MonthPicker、RangePicker, WeekPicker 共享的 API。
 
@@ -73,21 +73,21 @@
 | align | 该值将合并到 placement 的配置中，设置参考 [dom-align](https://github.com/yiminghe/dom-align) | Object | 无 | 1.5.4 |
 | valueFormat | 可选，绑定值的格式，对 value、defaultValue、defaultPickerValue 起作用。不指定则绑定值为 moment 对象 | string，[具体格式](https://momentjs.com/docs/#/displaying/format/) | - | 1.5.4 |
 
-### 共有的事件 
+### 共有的事件
 
 | 事件名称 | 说明 | 回调参数 |
 | --- | --- | --- |
 | openChange | 弹出日历和关闭日历的回调 | function(status) |
 | panelChange | 日期面板变化时的回调 | function(value, mode) |
 
-### 共同的方法 
+### 共同的方法
 
 | 名称 | 描述 |
 | --- | --- |
 | blur() | 移除焦点 |
 | focus() | 获取焦点 |
 
-### DatePicker 
+### DatePicker
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -96,19 +96,19 @@
 | disabledTime | 不可选择的时间 | function(date) | 无 |
 | format | 设置日期格式，为数组时支持多格式匹配，展示以第一个为准。配置参考 [moment.js](http://momentjs.com/) | string | string[] | "YYYY-MM-DD" |
 | renderExtraFooter | 在面板中添加额外的页脚 | slot="renderExtraFooter" slot-scope="mode" | - |
-| showTime | 增加时间选择功能 | Object|boolean | [TimePicker Options](/components/time-picker-cn/#API) |
+| showTime | 增加时间选择功能 | Object|boolean | [TimePicker Options](#/components/time-picker-cn/#API) |
 | showTime.defaultValue | 设置用户选择日期时默认的时分秒 | [moment](http://momentjs.com/) | moment() |
 | showToday | 是否展示“今天”按钮 | boolean | true |
 | value(v-model) | 日期 | [moment](http://momentjs.com/) | 无 |
 
-### DatePicker 事件 
+### DatePicker 事件
 
 | 事件名称 | 说明 | 回调参数 |
 | --- | --- | --- |
 | change | 时间发生变化的回调 | function(date: moment | string, dateString: string) |
 | ok | 点击确定按钮的回调 | function() |
 
-### MonthPicker 
+### MonthPicker
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -119,13 +119,13 @@
 | renderExtraFooter | 在面板中添加额外的页脚 | slot="renderExtraFooter" slot-scope="mode" | - |
 | value(v-model) | 日期 | [moment](http://momentjs.com/)\|Number | 无 |
 
-### MonthPicker 事件 
+### MonthPicker 事件
 
 | 事件名称 | 说明 | 回调参数 |
 | --- | --- | --- |
 | change | 时间发生变化的回调，发生在用户选择时间时 | function(date: moment | string, dateString: string) |
 
-### WeekPicker 
+### WeekPicker
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -135,13 +135,13 @@
 | value(v-model) | 日期 | [moment](http://momentjs.com/)\|Number | - |
 | renderExtraFooter | 在面板中添加额外的页脚 | slot="renderExtraFooter" slot-scope="mode" | - |
 
-### WeekPicker 事件 
+### WeekPicker 事件
 
 | 事件名称 | 说明 | 回调参数 |
 | --- | --- | --- |
 | change | 时间发生变化的回调，发生在用户选择时间时 | function(date: moment | string, dateString: string) |
 
-### RangePicker 
+### RangePicker
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
@@ -152,11 +152,11 @@
 | ranges | 预设时间范围快捷选择 | { [range: string]: [moment](http://momentjs.com/)[] } | { [range: string]: () => [moment](http://momentjs.com/)[] } | 无 |  |
 | renderExtraFooter | 在面板中添加额外的页脚 | slot="renderExtraFooter" slot-scope="mode" | - |  |
 | separator | 设置分隔符 | string | '~' | 1.5.0 |
-| showTime | 增加时间选择功能 | Object|boolean | [TimePicker Options](/components/time-picker-cn/#API) |  |
+| showTime | 增加时间选择功能 | Object|boolean | [TimePicker Options](#/components/time-picker-cn/#API) |  |
 | showTime.defaultValue | 设置用户选择日期时默认的时分秒 | [moment](http://momentjs.com/)[] | [moment(), moment()] |  |
 | value(v-model) | 日期 | [moment](http://momentjs.com/)[]\|Number[] | 无 |  |
 
-### RangePicker 事件 
+### RangePicker 事件
 
 | 事件名称 | 说明 | 回调参数 |
 | --- | --- | --- |

@@ -1,4 +1,4 @@
-## API 
+## API
 
 通过设置 Button 的属性来产生不同的按钮样式，推荐顺序为：`type` -> `shape` -> `size` -> `loading` -> `disabled`。
 
@@ -16,7 +16,7 @@
 | type | 设置按钮类型，可选值为 `primary` `dashed` `danger` `link` 或者不设 | string | `default` |  |
 | block | 将按钮宽度调整为其父宽度的选项 | boolean | `false` |  |
 
-### 事件 
+### 事件
 
 | 事件名称 | 说明 | 回调参数 | 版本 |
 | --- | --- | --- | --- |
@@ -24,8 +24,8 @@
 
 支持原生 button 的其他所有属性。
 
-## FAQ 
+## FAQ
 
-### 如何移除 2 个汉字之间的空格 
+### 如何移除 2 个汉字之间的空格
 
-设置 [ConfigProvider](/components/config-provider/#API) 的 `autoInsertSpaceInButton` 为 `false`。
+设置 [ConfigProvider](#/components/config-provider/#API) 的 `autoInsertSpaceInButton` 为 `false`。

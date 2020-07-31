@@ -1,4 +1,4 @@
-## API 
+## API
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
@@ -9,7 +9,7 @@
 | icon | 自定义弹出气泡 Icon 图标 | vNode | <Icon type="exclamation-circle" /> |  |
 | disabled | 点击 Popconfirm 子元素是否弹出气泡确认框 | boolean | false | 1.5.0 |
 
-### 事件 
+### 事件
 
 | 事件名称 | 说明 | 回调参数 |
 | --- | --- | --- |
@@ -17,8 +17,8 @@
 | confirm | 点击确认的回调 | function(e) |
 | visibleChange | 显示隐藏的回调 | function(visible) |
 
-更多属性请参考 [Tooltip](/components/tooltip-cn/#API)。
+更多属性请参考 [Tooltip](#/components/tooltip-cn/#API)。
 
-## 注意 
+## 注意
 
 请确保 `Popconfirm` 的子元素能接受 `mouseenter`、`mouseleave`、`focus`、`click` 事件。
