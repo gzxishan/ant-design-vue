@@ -7,8 +7,8 @@ export default {
   visible: PropTypes.bool.def(true),
   activeKey: PropTypes.any,
   selectedKeys: PropTypes.array,
-  defaultSelectedKeys:PropTypes.array,
-  defaultOpenKeys: PropTypes.array,
+  defaultSelectedKeys:PropTypes.array.def([]),
+  defaultOpenKeys: PropTypes.array.def([]),
   openKeys: PropTypes.array,
   openAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   mode: PropTypes.oneOf([
