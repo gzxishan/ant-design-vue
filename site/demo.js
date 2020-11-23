@@ -348,7 +348,7 @@ export default {
   },
   form: {
     category: 'Components',
-    subtitle: '表单',
+    subtitle: '表单(废弃)',
     type: 'Data Entry',
     title: 'Form',
     cols: 1,
