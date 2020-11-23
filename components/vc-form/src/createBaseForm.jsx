@@ -70,6 +70,7 @@ function createBaseForm(option = {}, mixins = []) {
         this.formItems = {};
         this.renderFields = {};
         this.domFields = {};
+        this.$notSetValues = {};//用于保存未被设置的值，在表单项被渲染时、会进行设置、并从此对象移除
 
         // HACK: https://github.com/ant-design/ant-design/issues/6406
         [
@@ -268,6 +269,17 @@ function createBaseForm(option = {}, mixins = []) {
             );
           }
 
+          if(name in this.$notSetValues){
+            this.$nextTick(()=>{
+              if(name in this.$notSetValues){
+                let value = this.$notSetValues[name];
+                this.setFieldsValue({
+                  [name]:value,
+                });
+              }
+            });
+          }
+
           delete this.clearedFieldMetaCache[name];
 
           const fieldOption = {
@@ -408,6 +420,26 @@ function createBaseForm(option = {}, mixins = []) {
             }
             return acc;
           }, {});
+
+          if(changedValues){
+            const notSetValues = {};
+            for(let name in changedValues){
+              if(!newFields[name] && ! (name in this.$notSetValues)){
+                notSetValues[name]=changedValues[name];
+              }else{
+                delete this.$notSetValues[name];
+              }
+            }
+
+            for(let k in notSetValues){
+              this.$notSetValues={
+                ...this.$notSetValues,
+                ...notSetValues,
+              }
+              break;
+            }
+          }
+
           this.setFields(newFields, callback);
           if (onValuesChange) {
             const allValues = this.fieldsStore.getAllValues();
