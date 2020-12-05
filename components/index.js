@@ -147,6 +147,9 @@ import { default as Result } from './result';
 import { default as Descriptions } from './descriptions';
 import { default as PageHeader } from './page-header';
 
+//引入工具类
+import _util from "./_util/index.js";
+
 const components = [
   Base,
   Affix,
@@ -234,6 +237,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export {
+  _util,
   Base,
   version,
   install,
