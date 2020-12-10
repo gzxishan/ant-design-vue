@@ -212,22 +212,44 @@ export function getDataEvents(child) {
 // https://github.com/vueComponent/ant-design-vue/issues/1705
 export function getListeners(context) {
 
-  function getFuns(listeners1,listeners2){
-    let result = listeners1 || listeners2;
-    
-    if(listeners1 && listeners2){
-      for(let event in listeners2){
-        if(!(event in listeners1)){
-          result[event] = listeners2[event];
+  function wrapperFns(funs){
+    let fun = function(){
+        if(Array.isArray(funs)){
+          if(funs.length==1){
+            return funs[0].apply(this,arguments);
+          }else{
+            for(let i=0;i<funs.length;i++){
+              funs[i].apply(this,arguments);
+            }
+          }
+        }else{
+          return funs.apply(this,arguments);
         }
+     };
+     return fun;
+  }
+
+  function getFuns(listeners,_events){
+    let result = null;
+    for(let event in _events){
+      result = {};
+      break;
+    }
+
+    if(!result){
+      result = listeners;
+    }else{
+      for(let event in _events){
+        result[event]=wrapperFns(_events[event]);
       }
     }
 
     return result;
   }
 
-  return (getFuns(context.$vnode ? context.$vnode.componentOptions.listeners : context.$listeners,context._events)) || {};
+  return getFuns((context.$vnode ? context.$vnode.componentOptions.listeners : context.$listeners) || {},context._events || {});
 }
+
 export function getClass(ele) {
   let data = {};
   if (ele.data) {
