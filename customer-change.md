@@ -31,4 +31,4 @@
 - `defaultOpenKeys`
 
 #### 其他
-- 将_util下的全部导出成`_util`形式。
+- 修改`_util/props-util.js`的`getListeners`函数，通过$onx监听的函数也会返回。

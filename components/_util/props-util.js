@@ -210,7 +210,38 @@ export function getDataEvents(child) {
 // use getListeners instead this.$listeners
 // https://github.com/vueComponent/ant-design-vue/issues/1705
 export function getListeners(context) {
-  return (context.$vnode ? context.$vnode.componentOptions.listeners : context.$listeners) || {};
+
+  function getFuns(){
+    let result={};
+
+    for (let i = 0; i < arguments.length; i++) {
+        let listeners  = arguments[i];
+        for(let event in listeners){
+          let arr = result[event] || (result[event]=[]);
+          let items=listeners[event];
+          if(!Array.isArray(items)){
+            items=[items];
+          }
+
+          for (let k = 0; k < items.length; k++) {
+            let find=false;
+            for (var m = 0; m < arr.length; m++) {
+              if(arr[i]==items[k]){//已经添加了回调函数
+                find=true;
+                break;
+              }
+            }
+            if(!find){
+              arr.push(items[k]);
+            }
+          }
+        }
+    }
+
+    return result;
+  }
+
+  return (getFuns(context.$vnode ? context.$vnode.componentOptions.listeners : context.$listeners,context._events)) || {};
 }
 export function getClass(ele) {
   let data = {};
