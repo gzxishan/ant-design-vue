@@ -207,35 +207,20 @@ export function getDataEvents(child) {
   return { ...events };
 }
 
+
 // use getListeners instead this.$listeners
 // https://github.com/vueComponent/ant-design-vue/issues/1705
 export function getListeners(context) {
 
-  function getFuns(){
-    let result={};
-
-    for (let i = 0; i < arguments.length; i++) {
-        let listeners  = arguments[i];
-        for(let event in listeners){
-          let arr = result[event] || (result[event]=[]);
-          let items=listeners[event];
-          if(!Array.isArray(items)){
-            items=[items];
-          }
-
-          for (let k = 0; k < items.length; k++) {
-            let find=false;
-            for (var m = 0; m < arr.length; m++) {
-              if(arr[i]==items[k]){//已经添加了回调函数
-                find=true;
-                break;
-              }
-            }
-            if(!find){
-              arr.push(items[k]);
-            }
-          }
+  function getFuns(listeners1,listeners2){
+    let result = listeners1 || listeners2;
+    
+    if(listeners1 && listeners2){
+      for(let event in listeners2){
+        if(!(event in listeners1)){
+          result[event] = listeners2[event];
         }
+      }
     }
 
     return result;
