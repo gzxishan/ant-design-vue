@@ -7,6 +7,7 @@ import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 import VueRouter from 'vue-router';
 import VueClipboard from 'vue-clipboard2';
+import routes from './routes';
 import Md from './components/md';
 import Api from './components/api';
 import './components';
@@ -33,8 +34,9 @@ const i18n = new VueI18n({
 });
 
 const router = new VueRouter({
-  mode: 'history',
-  routes: [{ path: '/*', component: Test }],
+ base:`/ant-design-vue/${process.env.VERSION}/`,
+ mode: 'hash',
+ routes,
 });
 
 const store = new Vuex.Store({

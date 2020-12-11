@@ -2,10 +2,12 @@ import PropTypes from '../_util/vue-types';
 import Select from './Select';
 import BaseMixin from '../_util/BaseMixin';
 
-const formatOption = (option, disabledOptions) => {
-  let value = `${option}`;
+const formatOption = (option, disabledOptions,suffix="") => {
+  let value;
   if (option < 10) {
-    value = `0${option}`;
+    value = `0${option}${suffix}`;
+  }else{
+    value = `${option}${suffix}`;
   }
 
   let disabled = false;
@@ -46,6 +48,8 @@ const Combobox = {
     onItemChange(type, itemValue) {
       const { defaultOpenValue, use12Hours, value: propValue, isAM } = this;
       const value = (propValue || defaultOpenValue).clone();
+
+      itemValue = itemValue.substring(0,2);
 
       if (type === 'hour') {
         if (use12Hours) {
@@ -105,7 +109,7 @@ const Combobox = {
       return (
         <Select
           prefixCls={prefixCls}
-          options={hourOptionsAdj.map(option => formatOption(option, disabledOptions))}
+          options={hourOptionsAdj.map(option => formatOption(option, disabledOptions,"时"))}
           selectedIndex={hourOptionsAdj.indexOf(hourAdj)}
           type="hour"
           onSelect={this.onItemChange}
@@ -133,7 +137,7 @@ const Combobox = {
       return (
         <Select
           prefixCls={prefixCls}
-          options={minuteOptions.map(option => formatOption(option, disabledOptions))}
+          options={minuteOptions.map(option => formatOption(option, disabledOptions,"分"))}
           selectedIndex={minuteOptions.indexOf(minute)}
           type="minute"
           onSelect={this.onItemChange}
@@ -161,7 +165,7 @@ const Combobox = {
       return (
         <Select
           prefixCls={prefixCls}
-          options={secondOptions.map(option => formatOption(option, disabledOptions))}
+          options={secondOptions.map(option => formatOption(option, disabledOptions,"秒"))}
           selectedIndex={secondOptions.indexOf(second)}
           type="second"
           onSelect={this.onItemChange}
