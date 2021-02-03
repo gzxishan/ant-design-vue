@@ -1,7 +1,7 @@
 /*!
  * 
- * ant-design-vue v162.0.6
- * build time:Fri Dec 11 2020 18:18:52 GMT+0800 (GMT+08:00)
+ * ant-design-vue v162.0.7
+ * build time:Wed Feb 03 2021 12:52:19 GMT+0800 (GMT+08:00)
  * Copyright 2017-present, ant-design-vue.
  * All rights reserved.
  *       
@@ -7419,8 +7419,7 @@ span.ant-radio + * {
   left: 0;
 }
 :root .ant-tabs-tab-prev {
-  -webkit-filter: none;
-          filter: none;
+  filter: none;
 }
 .ant-tabs-nav-wrap {
   margin-bottom: -1px;

@@ -32,7 +32,7 @@ export function treeTraverse(path = '', tree, isLeafNode, errorMessage, callback
   } else {
     // It's object and not a leaf node
     if (typeof tree !== 'object') {
-      warning(false, errorMessage);
+      //warning(false, errorMessage);
       return;
     }
     Object.keys(tree).forEach(subTreeKey => {
