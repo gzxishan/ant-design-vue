@@ -33,3 +33,4 @@
 #### 其他
 - 修改`_util/props-util.js`的`getListeners`函数，通过$onx监听的函数也会返回。
 - 修改时间选择器，加入“时、分、秒”后缀。
+- 去掉了`vc-form/src/utils.js`中表单设置值时`treeTraverse`的警告内容。
