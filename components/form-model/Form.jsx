@@ -54,6 +54,11 @@ const Form = {
     colon: true,
   }),
   Item: FormItem,
+  beforeCreate(){
+    if(typeof NeedSyncForm !== "undefined"){
+      this.$needSyncForm = new NeedSyncForm(this);
+    }
+  },
   created() {
     this.fields = [];
   },
@@ -103,6 +108,7 @@ const Form = {
       this.fields.forEach(field => {
         field.resetField();
       });
+      this.$needSyncForm && this.$needSyncForm.reset();
     },
     clearValidate(props = []) {
       const fields = props.length
@@ -135,17 +141,29 @@ const Form = {
         callback(true);
       }
       let invalidFields = {};
-      this.fields.forEach(field => {
-        field.validate('', (message, field) => {
-          if (message) {
-            valid = false;
-          }
-          invalidFields = Object.assign({}, invalidFields, field);
-          if (typeof callback === 'function' && ++count === this.fields.length) {
-            callback(valid, invalidFields);
-          }
+
+      let doValidateFun=()=>{
+        this.fields.forEach(field => {
+          field.validate('', (message, field) => {
+            if (message) {
+              valid = false;
+            }
+            invalidFields = Object.assign({}, invalidFields, field);
+            if (typeof callback === 'function' && ++count === this.fields.length) {
+              callback(valid, invalidFields);
+            }
+          });
         });
-      });
+      };
+
+      if(this.$needSyncForm){
+        this.$needSyncForm.sync(() => {
+        	doValidateFun();
+        });
+      }else{
+        doValidateFun();
+      }
+
       if (promise) {
         return promise;
       }
@@ -157,9 +175,20 @@ const Form = {
         warning(false, 'FormModel', 'please pass correct props!');
         return;
       }
-      fields.forEach(field => {
-        field.validate('', cb);
-      });
+      
+      let doValidateFun=()=>{
+        fields.forEach(field => {
+          field.validate('', cb);
+        });
+      };
+      
+      if(this.$needSyncForm){
+        this.$needSyncForm.sync(() => {
+        	doValidateFun();
+        });
+      }else{
+        doValidateFun();
+      }
     },
   },
 
