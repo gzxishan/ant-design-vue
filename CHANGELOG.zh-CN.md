@@ -13,6 +13,8 @@
 - 🐞 完善`Form`.`setFieldsValue`时，如果表单域不存在、则会缓存待设置的对象，待表单域被渲染时、进行自动设置。
 - 🐞 将_util下的全部导出成`_util`形式。
 - 🐞 修改`_util/props-util.js`的`getListeners`函数，通过$onx监听的函数也会返回。
+- `Select`增加`dropdownMenuClass`属性。
+- 去掉`style/core/base.less`里的`::selection`设置。
 
 ## 162.0.3
 - 🐞 完善`DatePicker`，回显支持毫秒时间。

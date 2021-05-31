@@ -20,6 +20,7 @@
 
 #### `Select`
 - 支持boolean值
+- 增加`dropdownMenuClass`属性
 
 #### 接收的类型设置为`PropTypes.any`
 - `eventKey`
@@ -35,3 +36,4 @@
 - 修改时间选择器，加入“时、分、秒”后缀。
 - 去掉了`vc-form/src/utils.js`中表单设置值时`treeTraverse`的警告内容。
 - `form-model/Form.jsx`加入`NeedSyncForm`相关处理；
+- 去掉`style/core/base.less`里的`::selection`设置；

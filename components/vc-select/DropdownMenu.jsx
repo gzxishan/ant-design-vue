@@ -15,6 +15,7 @@ export default {
     defaultActiveFirstOption: PropTypes.bool,
     value: PropTypes.any,
     dropdownMenuStyle: PropTypes.object,
+    dropdownMenuClass: PropTypes.object,
     multiple: PropTypes.bool,
     // onPopupFocus: PropTypes.func,
     // onPopupScroll: PropTypes.func,
@@ -101,6 +102,7 @@ export default {
         inputValue,
         firstActiveValue,
         dropdownMenuStyle,
+        dropdownMenuClass,
         backfillValue,
         visible,
       } = props;
@@ -117,6 +119,7 @@ export default {
           },
           on: {},
           style: dropdownMenuStyle,
+          class: dropdownMenuClass,
           ref: 'menuRef',
           attrs: {
             role: 'listbox',

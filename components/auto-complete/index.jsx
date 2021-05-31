@@ -34,6 +34,7 @@ const AutoCompleteProps = {
   dataSource: PropTypes.array,
   dropdownClassName: PropTypes.string,
   dropdownMenuStyle: PropTypes.object,
+  dropdownMenuClass: PropTypes.object,
   optionLabelProp: String,
   dropdownMatchSelectWidth: PropTypes.bool,
   // onChange?: (value: SelectValue) => void;

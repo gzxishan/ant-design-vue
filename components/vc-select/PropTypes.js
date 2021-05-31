@@ -54,6 +54,7 @@ export const SelectPropTypes = {
   dropdownAlign: PropTypes.any,
   dropdownMatchSelectWidth: PropTypes.bool,
   dropdownMenuStyle: PropTypes.object,
+  dropdownMenuClass: PropTypes.object,
   notFoundContent: PropTypes.oneOfType([String, Number]),
   tabIndex: PropTypes.oneOfType([String, Number]),
 };

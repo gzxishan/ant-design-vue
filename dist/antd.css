@@ -1,7 +1,7 @@
 /*!
  * 
  * ant-design-vue v162.0.8
- * build time:Thu Mar 18 2021 18:45:57 GMT+0800 (GMT+08:00)
+ * build time:Mon May 31 2021 18:18:42 GMT+0800 (GMT+08:00)
  * Copyright 2017-present, ant-design-vue.
  * All rights reserved.
  *       
@@ -315,14 +315,6 @@ template {
 mark {
   padding: 0.2em;
   background-color: #feffe6;
-}
-::-moz-selection {
-  color: #fff;
-  background: #1890ff;
-}
-::selection {
-  color: #fff;
-  background: #1890ff;
 }
 .clearfix {
   zoom: 1;

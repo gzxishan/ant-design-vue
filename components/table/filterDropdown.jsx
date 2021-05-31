@@ -271,6 +271,7 @@ export default {
     const multiple = 'filterMultiple' in column ? column.filterMultiple : true;
     const dropdownMenuClass = classNames({
       [`${dropdownPrefixCls}-menu-without-submenu`]: !this.hasSubMenu(),
+      ...this.dropdownMenuClass
     });
     let { filterDropdown } = column;
     if (filterDropdown instanceof Function) {

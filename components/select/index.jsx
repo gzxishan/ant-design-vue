@@ -30,6 +30,7 @@ const AbstractSelectProps = () => ({
   dropdownClassName: PropTypes.string,
   dropdownStyle: PropTypes.any,
   dropdownMenuStyle: PropTypes.any,
+  dropdownMenuClass: PropTypes.any,
   dropdownMatchSelectWidth: PropTypes.bool,
   // onSearch: (value: string) => any,
   filterOption: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),

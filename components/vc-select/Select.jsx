@@ -94,6 +94,7 @@ const Select = {
     dropdownMatchSelectWidth: PropTypes.bool.def(true),
     dropdownStyle: SelectPropTypes.dropdownStyle.def(() => ({})),
     dropdownMenuStyle: PropTypes.object.def(() => ({})),
+    dropdownMenuClass: PropTypes.object.def(() => ({})),
     optionFilterProp: SelectPropTypes.optionFilterProp.def('value'),
     optionLabelProp: SelectPropTypes.optionLabelProp.def('value'),
     notFoundContent: PropTypes.any.def('Not Found'),
@@ -1642,6 +1643,7 @@ const Select = {
         dropdownMatchSelectWidth={props.dropdownMatchSelectWidth}
         defaultActiveFirstOption={props.defaultActiveFirstOption}
         dropdownMenuStyle={props.dropdownMenuStyle}
+        dropdownMenuClass={props.dropdownMenuClass}
         transitionName={props.transitionName}
         animation={props.animation}
         prefixCls={props.prefixCls}
